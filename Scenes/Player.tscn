@@ -1,0 +1,412 @@
+[gd_scene format=3 uid="uid://wchx5lfbm4rn"]
+
+[ext_resource type="Script" uid="uid://dyiohlxiowoiv" path="res://Scripts/player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://bjtqsf8ixgqj8" path="res://Assets/models/Guns/blaster-e.glb" id="2_5ixxa"]
+[ext_resource type="Script" uid="uid://dvulu3lti1em3" path="res://Scripts/Recoil.gd" id="2_megsn"]
+[ext_resource type="Script" uid="uid://cjfh8bstuf6hb" path="res://Scripts/Guns.gd" id="2_nn08x"]
+[ext_resource type="PackedScene" uid="uid://c81b7yhobvr7u" path="res://Assets/models/Guns/blaster-d.glb" id="3_nn08x"]
+[ext_resource type="PackedScene" uid="uid://djine1qe62b0x" path="res://Assets/models/Guns/blaster-j.glb" id="4_52ee3"]
+[ext_resource type="PackedScene" uid="uid://b5j4rj2dvd1cc" path="res://Assets/models/Guns/blaster-g.glb" id="5_bhhdu"]
+[ext_resource type="Script" uid="uid://bo826kugag5sx" path="res://Scripts/HUD.gd" id="7_52ee3"]
+[ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
+[ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
+
+[sub_resource type="Animation" id="Animation_ksbbd"]
+resource_name = "Blaster Recoil"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Blaster:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0.14032531, -0.20808518, -0.6925007), Vector3(0.14, -0.208, -0.3), Vector3(0.14032531, -0.20808518, -0.6925007)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Blaster:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.5235988, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_yoq75"]
+resource_name = "Glock Recoil"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Glock:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0.14962071, -0.055550218, -0.40853763), Vector3(0.15, -0.056, -0.309), Vector3(0.14962071, -0.055550218, -0.40853763)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Glock:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.17453292, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_miouo"]
+resource_name = "Minigun"
+length = 0.19999999999999998
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Minigun:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0.12247503, -0.27970588, -0.7731428), Vector3(0.122, -0.28, -0.573), Vector3(0.12247503, -0.27970588, -0.7731428)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Minigun:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0.17453292, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bhhdu"]
+resource_name = "Percision Recoil"
+length = 0.19999999999999998
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Percision:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0.055, -0.108, -1), Vector3(0.055000007, -0.08148819, -0.43945825), Vector3(0.055, -0.108, -1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Percision:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0.031415947, 0, 0), Vector3(0.34906584, 0, 0), Vector3(0.031415947, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_megsn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Percision:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.055000007, -0.0670473, -0.90075874)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Percision:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.07868914, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Glock:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.14962071, -0.055550218, -0.40853763)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Glock:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Blaster:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.14032531, -0.20808518, -0.6925007)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Blaster:rotation")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Minigun:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.12247503, -0.27970588, -0.7731428)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("Minigun:rotation")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yoq75"]
+_data = {
+&"Blaster Recoil": SubResource("Animation_ksbbd"),
+&"Glock Recoil": SubResource("Animation_yoq75"),
+&"Minigun Recoil": SubResource("Animation_miouo"),
+&"Percision Recoil": SubResource("Animation_bhhdu"),
+&"RESET": SubResource("Animation_megsn")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pn0ev"]
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kln2b"]
+height = 1.7
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lmyy4"]
+height = 3.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_i1i1d"]
+height = 1.7
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhhdu"]
+properties/0/path = NodePath(".:Health")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:position")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath(".:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Neck:position")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("Neck:rotation")
+properties/4/spawn = true
+properties/4/replication_mode = 1
+properties/5/path = NodePath("Neck/Head:position")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath("Neck/Head:rotation")
+properties/6/spawn = true
+properties/6/replication_mode = 1
+properties/7/path = NodePath("Neck/Head/Eyes:position")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+properties/8/path = NodePath("Neck/Head/Eyes:rotation")
+properties/8/spawn = true
+properties/8/replication_mode = 1
+properties/9/path = NodePath("Neck/Head/Eyes/Camera3D:position")
+properties/9/spawn = true
+properties/9/replication_mode = 1
+properties/10/path = NodePath("Neck/Head/Eyes/Camera3D:rotation")
+properties/10/spawn = true
+properties/10/replication_mode = 1
+properties/11/path = NodePath("Standing Collision Shape:disabled")
+properties/11/spawn = true
+properties/11/replication_mode = 1
+properties/12/path = NodePath("Crouching Collision Shape:disabled")
+properties/12/spawn = true
+properties/12/replication_mode = 1
+properties/13/path = NodePath("Standing Shape:visible")
+properties/13/spawn = true
+properties/13/replication_mode = 1
+properties/14/path = NodePath("Crouching Shape:visible")
+properties/14/spawn = true
+properties/14/replication_mode = 1
+properties/15/path = NodePath("Neck/Head/Eyes/Recoil:position")
+properties/15/spawn = true
+properties/15/replication_mode = 1
+properties/16/path = NodePath("Neck/Head/Eyes/Recoil:rotation")
+properties/16/spawn = true
+properties/16/replication_mode = 1
+
+[sub_resource type="Animation" id="Animation_glx4g"]
+resource_name = "Land"
+length = 0.6
+step = 0.0333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Neck/Head/Eyes/Recoil/Camera3D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(-2, -2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 0.1, 0), Vector3(0, -0.1, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_glx4g"]
+_data = {
+&"Land": SubResource("Animation_glx4g")
+}
+
+[node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
+script = ExtResource("1_rpqav")
+
+[node name="Neck" type="Node3D" parent="." unique_id=698647956]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Head" type="Node3D" parent="Neck" unique_id=2062771864]
+
+[node name="Eyes" type="Node3D" parent="Neck/Head" unique_id=1149240800]
+
+[node name="Recoil" type="Node3D" parent="Neck/Head/Eyes" unique_id=1144209623]
+script = ExtResource("2_megsn")
+
+[node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes/Recoil" unique_id=1778389079]
+
+[node name="Guns" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera3D" unique_id=2008800675]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70443773, -0.15963483, 0)
+script = ExtResource("2_nn08x")
+
+[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=991091972 instance=ExtResource("2_5ixxa")]
+transform = Transform3D(1, 0, 0, 0, 0.9969055, -0.078607954, 0, 0.078607954, 0.9969055, 0.055000007, -0.0670473, -0.90075874)
+
+[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=217729379 instance=ExtResource("3_nn08x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14962071, -0.055550218, -0.40853763)
+visible = false
+
+[node name="Blaster" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=305994673 instance=ExtResource("5_bhhdu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14032531, -0.20808518, -0.6925007)
+visible = false
+
+[node name="Minigun" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=562311047 instance=ExtResource("4_52ee3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12247503, -0.27970588, -0.7731428)
+visible = false
+
+[node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=179384305]
+libraries/ = SubResource("AnimationLibrary_yoq75")
+
+[node name="Standing Collision Shape" type="CollisionShape3D" parent="." unique_id=1787137314]
+shape = SubResource("CapsuleShape3D_pn0ev")
+
+[node name="Crouching Collision Shape" type="CollisionShape3D" parent="." unique_id=124760477]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.42807484, 0)
+shape = SubResource("CapsuleShape3D_kln2b")
+disabled = true
+
+[node name="Crouch Detect" type="RayCast3D" parent="." unique_id=169560052]
+target_position = Vector3(0, 3, 0)
+
+[node name="Standing Shape" type="MeshInstance3D" parent="." unique_id=230382903]
+mesh = SubResource("CapsuleMesh_lmyy4")
+
+[node name="Crouching Shape" type="MeshInstance3D" parent="." unique_id=1529444673]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_i1i1d")
+
+[node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
+layer = -1
+
+[node name="HUD" type="Control" parent="." unique_id=769087656]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("7_52ee3")
+
+[node name="Health Bar" type="ProgressBar" parent="HUD" unique_id=1534856107]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 252.0
+offset_bottom = 55.0
+
+[node name="Health Bar Label" type="Label" parent="HUD" unique_id=1022773815]
+texture_filter = 3
+layout_mode = 0
+offset_right = 248.0
+offset_bottom = 23.766666
+theme_override_font_sizes/font_size = 30
+text = "Health:"
+
+[node name="Crosshair" type="Sprite2D" parent="." unique_id=1921288461]
+texture_filter = 3
+position = Vector2(577, 320)
+scale = Vector2(2, 2)
+texture = ExtResource("8_bhhdu")
+
+[node name="Multiplayer Synchronizer" type="MultiplayerSynchronizer" parent="." unique_id=698011732]
+replication_config = SubResource("SceneReplicationConfig_bhhdu")
+
+[node name="Animations" type="AnimationPlayer" parent="." unique_id=794306069]
+libraries/ = SubResource("AnimationLibrary_glx4g")

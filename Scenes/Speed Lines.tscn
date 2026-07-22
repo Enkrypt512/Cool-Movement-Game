@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://bqe7pi6jcjj5f"]
+
+[ext_resource type="Shader" uid="uid://svfaqwuychnd" path="res://Scripts/Speed Lines.gdshader" id="1_0if71"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmyy4"]
+shader = ExtResource("1_0if71")
+shader_parameter/line_count = 80.0
+shader_parameter/line_density = 0.5
+shader_parameter/inner_radius = 0.3
+shader_parameter/line_speed = 8.0
+shader_parameter/line_color = Color(0, 0, 0, 1)
+
+[node name="Speed Lines" type="CanvasLayer" unique_id=711406124]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1332928641]
+material = SubResource("ShaderMaterial_lmyy4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

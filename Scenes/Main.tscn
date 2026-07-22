@@ -1,0 +1,664 @@
+[gd_scene format=3 uid="uid://babnruyi6xlig"]
+
+[ext_resource type="Texture2D" uid="uid://u0rtaw1n3mvd" path="res://Assets/textures/dev/grids/Dark/texture_07.png" id="1_idj7w"]
+[ext_resource type="Script" uid="uid://we6vmgtri8hk" path="res://Scripts/Main.gd" id="1_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://cgk3qtrirrwte" path="res://Assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="2_kln2b"]
+[ext_resource type="Script" uid="uid://cj2mkbriqyqrj" path="res://Scripts/InGame Menu.gd" id="5_pbw6q"]
+[ext_resource type="PackedScene" uid="uid://wchx5lfbm4rn" path="res://Scenes/Player.tscn" id="6_jw32o"]
+[ext_resource type="Script" uid="uid://cs68i5scaqmkd" path="res://Scripts/Die.gd" id="6_v1gob"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn0ev"]
+albedo_texture = ExtResource("1_idj7w")
+uv1_triplanar = true
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pn0ev"]
+panorama = ExtResource("2_kln2b")
+
+[sub_resource type="Sky" id="Sky_rgh2o"]
+sky_material = SubResource("PanoramaSkyMaterial_pn0ev")
+
+[sub_resource type="Environment" id="Environment_pbw6q"]
+background_mode = 2
+sky = SubResource("Sky_rgh2o")
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" unique_id=349130362]
+script = ExtResource("1_rgh2o")
+
+[node name="Stage" type="Node3D" parent="." unique_id=579654563]
+
+[node name="Floor" type="CSGBox3D" parent="Stage" unique_id=473833924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.43164, 0, 0)
+use_collision = true
+size = Vector3(100000, 1, 100000)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="Crouch Test" type="CSGBox3D" parent="Stage" unique_id=1187210639]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.663, 2.75, 0)
+use_collision = true
+size = Vector3(37.49, 0.689, 33.623)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="env" type="Node3D" parent="." unique_id=2096580127]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="env" unique_id=833949613]
+environment = SubResource("Environment_pbw6q")
+
+[node name="Sun" type="DirectionalLight3D" parent="env" unique_id=1608038465]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="FPS Counter" type="Label" parent="." unique_id=4861372]
+offset_left = 1116.0
+offset_right = 1203.0
+offset_bottom = 31.0
+
+[node name="Control" type="Control" parent="." unique_id=1098213457]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_pbw6q")
+
+[node name="Background" type="ColorRect" parent="Control" unique_id=1122036738]
+layout_mode = 0
+offset_left = -1.0
+offset_right = 1383.0
+offset_bottom = 648.0
+color = Color(0.0871127, 0.08711269, 0.08711269, 1)
+
+[node name="Settings" type="Control" parent="Control" unique_id=2128066149]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Quit" type="Button" parent="Control/Settings" unique_id=1726420477]
+layout_mode = 0
+offset_top = 592.0
+offset_right = 176.0
+offset_bottom = 640.0
+tooltip_text = "Quit The Settings Menu"
+text = "Quit"
+
+[node name="Binds" type="Control" parent="Control/Settings" unique_id=1344302065]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Forward" type="Button" parent="Control/Settings/Binds" unique_id=61207700]
+layout_mode = 0
+offset_left = -1.0
+offset_top = 93.0
+offset_right = 149.0
+offset_bottom = 125.0
+tooltip_text = "Key To Go Forwards"
+focus_mode = 0
+text = "Forward"
+
+[node name="Backward" type="Button" parent="Control/Settings/Binds" unique_id=1370109297]
+layout_mode = 0
+offset_top = 136.0
+offset_right = 145.0
+offset_bottom = 167.0
+tooltip_text = "Key To Go Backwards"
+focus_mode = 0
+text = "Backward"
+
+[node name="Left" type="Button" parent="Control/Settings/Binds" unique_id=1196707718]
+layout_mode = 0
+offset_top = 176.0
+offset_right = 144.0
+offset_bottom = 207.0
+tooltip_text = "Key To Go Left"
+text = "Left"
+
+[node name="Right" type="Button" parent="Control/Settings/Binds" unique_id=714591190]
+layout_mode = 0
+offset_top = 216.0
+offset_right = 144.0
+offset_bottom = 247.0
+tooltip_text = "Key To Go Right"
+text = "Right"
+
+[node name="Sprint" type="Button" parent="Control/Settings/Binds" unique_id=2036957592]
+layout_mode = 0
+offset_top = 263.0
+offset_right = 145.0
+offset_bottom = 294.0
+tooltip_text = "Key To Sprint"
+focus_mode = 0
+text = "Sprint"
+
+[node name="Crouch" type="Button" parent="Control/Settings/Binds" unique_id=860704150]
+layout_mode = 0
+offset_top = 303.0
+offset_right = 144.0
+offset_bottom = 334.0
+tooltip_text = "Key To Crouch"
+text = "Crouch
+"
+
+[node name="Freelook" type="Button" parent="Control/Settings/Binds" unique_id=1281613806]
+layout_mode = 0
+offset_top = 343.0
+offset_right = 144.0
+offset_bottom = 374.0
+tooltip_text = "Key To Freelook"
+text = "Freelook
+"
+
+[node name="Jump" type="Button" parent="Control/Settings/Binds" unique_id=1184554619]
+layout_mode = 0
+offset_top = 391.0
+offset_right = 144.0
+offset_bottom = 422.0
+tooltip_text = "Key To Jump"
+text = "Jump
+"
+
+[node name="Change Gun" type="Button" parent="Control/Settings/Binds" unique_id=1327433430]
+layout_mode = 0
+offset_top = 447.0
+offset_right = 144.0
+offset_bottom = 478.0
+tooltip_text = "Key To Change The Gun"
+text = "Change Weapon
+"
+
+[node name="Shoot" type="Button" parent="Control/Settings/Binds" unique_id=28736187]
+layout_mode = 0
+offset_top = 503.0
+offset_right = 144.0
+offset_bottom = 534.0
+tooltip_text = "Button To Shoot"
+text = "Shoot
+"
+
+[node name="Exit" type="Button" parent="Control/Settings/Binds" unique_id=69561821]
+layout_mode = 0
+offset_top = 559.0
+offset_right = 144.0
+offset_bottom = 590.0
+tooltip_text = "Key To Bring Up The In-Game Menu"
+text = "Exit
+"
+
+[node name="Reset" type="Button" parent="Control/Settings/Binds" unique_id=650866230]
+layout_mode = 0
+offset_left = 193.0
+offset_top = 597.0
+offset_right = 360.0
+offset_bottom = 640.0
+tooltip_text = "Reset Your Bindings"
+focus_mode = 0
+text = "Reset"
+
+[node name="Forward Label" type="Label" parent="Control/Settings/Binds" unique_id=2087700]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 96.0
+offset_right = 447.0
+offset_bottom = 128.0
+tooltip_text = "Binds Set To The Forwards Key"
+mouse_filter = 0
+
+[node name="Backward Label" type="Label" parent="Control/Settings/Binds" unique_id=1997533178]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 136.0
+offset_right = 400.0
+offset_bottom = 168.0
+tooltip_text = "Binds Set To The Backwards Key"
+mouse_filter = 0
+
+[node name="Left Label" type="Label" parent="Control/Settings/Binds" unique_id=427090075]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 176.0
+offset_right = 408.0
+offset_bottom = 208.0
+tooltip_text = "Binds Set To The Left Key"
+mouse_filter = 0
+
+[node name="Right Label" type="Label" parent="Control/Settings/Binds" unique_id=1350323996]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 225.0
+offset_right = 400.0
+offset_bottom = 248.0
+tooltip_text = "Binds Set To The Right Key"
+mouse_filter = 0
+
+[node name="Sprint Label" type="Label" parent="Control/Settings/Binds" unique_id=569818937]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 268.0
+offset_right = 400.0
+offset_bottom = 300.0
+tooltip_text = "Binds Set To Sprint"
+mouse_filter = 0
+
+[node name="Crouch Label" type="Label" parent="Control/Settings/Binds" unique_id=130818765]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 308.0
+offset_right = 408.0
+offset_bottom = 340.0
+tooltip_text = "Binds Set To Crouch"
+mouse_filter = 0
+
+[node name="Freelook Label" type="Label" parent="Control/Settings/Binds" unique_id=693254108]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 357.0
+offset_right = 400.0
+offset_bottom = 380.0
+tooltip_text = "Binds Set To Freelook"
+mouse_filter = 0
+
+[node name="Jump Label" type="Label" parent="Control/Settings/Binds" unique_id=1802782182]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 400.0
+offset_right = 447.0
+offset_bottom = 432.0
+tooltip_text = "Binds Set To Jump"
+mouse_filter = 0
+
+[node name="Change Gun Label" type="Label" parent="Control/Settings/Binds" unique_id=43958555]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 448.0
+offset_right = 447.0
+offset_bottom = 480.0
+tooltip_text = "Binds Set To Change The Gun"
+mouse_filter = 0
+
+[node name="Shoot Label" type="Label" parent="Control/Settings/Binds" unique_id=1538088630]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 512.0
+offset_right = 447.0
+offset_bottom = 544.0
+tooltip_text = "Binds Set To Shoot"
+mouse_filter = 0
+
+[node name="Exit Label" type="Label" parent="Control/Settings/Binds" unique_id=976033506]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 560.0
+offset_right = 447.0
+offset_bottom = 592.0
+tooltip_text = "Binds Set To Toggle The In-Game Menu"
+mouse_filter = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control/Settings/Binds" unique_id=707968268]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 612.0
+offset_right = 640.0
+offset_bottom = 636.0
+
+[node name="Label" type="Label" parent="Control/Settings/Binds/PanelContainer" unique_id=700790871]
+layout_mode = 2
+tooltip_text = "Enter a key......"
+mouse_filter = 0
+text = "Enter a key......"
+
+[node name="Quit" type="Button" parent="Control/Settings/Binds" unique_id=784362349]
+layout_mode = 0
+offset_top = 596.0
+offset_right = 176.0
+offset_bottom = 644.0
+tooltip_text = "Quit The Bindings Menu"
+text = "Quit"
+
+[node name="Main" type="Control" parent="Control/Settings" unique_id=864585042]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Bindings" type="Button" parent="Control/Settings/Main" unique_id=747028282]
+layout_mode = 0
+offset_top = 507.0
+offset_right = 176.0
+offset_bottom = 555.0
+tooltip_text = "Rebind Keys"
+text = "Bind Keys"
+
+[node name="Title" type="Label" parent="Control/Settings/Main" unique_id=1385329401]
+layout_mode = 0
+offset_right = 288.0
+offset_bottom = 64.0
+tooltip_text = "Settings"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 30
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fullscreen" type="Label" parent="Control/Settings/Main" unique_id=1296368548]
+layout_mode = 0
+offset_top = 56.0
+offset_right = 200.0
+offset_bottom = 96.0
+tooltip_text = "Toggle Fullscreen Mode"
+mouse_filter = 0
+text = "Fullscreen:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FPS" type="Label" parent="Control/Settings/Main" unique_id=2115033996]
+layout_mode = 0
+offset_top = 93.0
+offset_right = 200.0
+offset_bottom = 133.0
+tooltip_text = "Toggle The FPS Counter"
+mouse_filter = 0
+text = "FPS Counter:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Volume" type="Label" parent="Control/Settings/Main" unique_id=231568096]
+layout_mode = 0
+offset_top = 130.0
+offset_right = 200.0
+offset_bottom = 170.0
+tooltip_text = "Change SFX Volume"
+mouse_filter = 0
+text = "SFX Volume:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mouse Sentivity" type="Label" parent="Control/Settings/Main" unique_id=163813445]
+layout_mode = 0
+offset_top = 166.0
+offset_right = 200.0
+offset_bottom = 206.0
+tooltip_text = "Sensitivity For The Mouse"
+mouse_filter = 0
+text = "Mouse Sentivity:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Joystick Sentivity" type="Label" parent="Control/Settings/Main" unique_id=1055850638]
+layout_mode = 0
+offset_top = 206.0
+offset_right = 200.0
+offset_bottom = 246.0
+tooltip_text = "Sensitivity For The Joystick"
+mouse_filter = 0
+text = "Joystick Sentivity:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSync" type="Label" parent="Control/Settings/Main" unique_id=1805554771]
+layout_mode = 0
+offset_top = 254.0
+offset_right = 200.0
+offset_bottom = 294.0
+tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
+mouse_filter = 0
+text = "VSync:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FPS Lock" type="Label" parent="Control/Settings/Main" unique_id=1039356328]
+layout_mode = 0
+offset_top = 302.0
+offset_right = 200.0
+offset_bottom = 342.0
+tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
+mouse_filter = 0
+text = "FPS Lock:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Toggle Sprint" type="Label" parent="Control/Settings/Main" unique_id=710195901]
+layout_mode = 0
+offset_top = 342.0
+offset_right = 200.0
+offset_bottom = 382.0
+tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
+mouse_filter = 0
+text = "Toggle Sprint:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Toggle Crouch" type="Label" parent="Control/Settings/Main" unique_id=1075081425]
+layout_mode = 0
+offset_top = 390.0
+offset_right = 200.0
+offset_bottom = 430.0
+tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
+mouse_filter = 0
+text = "Toggle Crouch:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="No Shake" type="Label" parent="Control/Settings/Main" unique_id=1004465808]
+layout_mode = 0
+offset_top = 438.0
+offset_right = 200.0
+offset_bottom = 478.0
+tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
+mouse_filter = 0
+text = "No Shake:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fullscreen Check" type="CheckBox" parent="Control/Settings/Main" unique_id=363133083]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 224.0
+offset_bottom = 96.0
+tooltip_text = "Toggles Fullscreen Mode"
+
+[node name="FPS Check" type="CheckBox" parent="Control/Settings/Main" unique_id=1831724196]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 102.0
+offset_right = 224.0
+offset_bottom = 134.0
+tooltip_text = "Toggle The FPS Counter"
+
+[node name="Volume Slider" type="HSlider" parent="Control/Settings/Main" unique_id=1818104512]
+layout_mode = 0
+offset_left = 165.0
+offset_top = 144.0
+offset_right = 325.0
+offset_bottom = 160.0
+tooltip_text = "Change SFX Volume"
+
+[node name="Mouse Sensitivity Number" type="SpinBox" parent="Control/Settings/Main" unique_id=419394893]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 176.0
+offset_right = 270.5
+offset_bottom = 207.0
+tooltip_text = "Sensitivity For The Mouse"
+min_value = 0.1
+step = 0.1
+value = 0.1
+
+[node name="Joystick Sensitivity Number" type="SpinBox" parent="Control/Settings/Main" unique_id=1394651120]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 216.0
+offset_right = 270.5
+offset_bottom = 247.0
+tooltip_text = "Sensitivity For The Joystick"
+min_value = 0.1
+step = 0.1
+value = 0.1
+
+[node name="VSync Check" type="CheckBox" parent="Control/Settings/Main" unique_id=353595766]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 262.0
+offset_right = 224.0
+offset_bottom = 294.0
+tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
+
+[node name="FPS Lock Number" type="SpinBox" parent="Control/Settings/Main" unique_id=842766843]
+layout_mode = 0
+offset_left = 184.0
+offset_top = 304.0
+offset_right = 270.5
+offset_bottom = 335.0
+tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
+max_value = 999.0
+rounded = true
+
+[node name="Toggle Sprint Check" type="CheckBox" parent="Control/Settings/Main" unique_id=1298353544]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 342.0
+offset_right = 224.0
+offset_bottom = 374.0
+tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
+
+[node name="Toggle Crouch Check" type="CheckBox" parent="Control/Settings/Main" unique_id=1177342201]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 398.0
+offset_right = 224.0
+offset_bottom = 430.0
+tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
+
+[node name="No Shake Check" type="CheckBox" parent="Control/Settings/Main" unique_id=443481279]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 438.0
+offset_right = 224.0
+offset_bottom = 470.0
+tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
+
+[node name="Reset" type="Button" parent="Control/Settings/Main" unique_id=1192571523]
+layout_mode = 0
+offset_left = 985.0
+offset_top = 605.0
+offset_right = 1152.0
+offset_bottom = 648.0
+tooltip_text = "Resets Your Settings"
+focus_mode = 0
+text = "Reset"
+
+[node name="Start" type="Button" parent="Control" unique_id=45654231]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 176.0
+offset_bottom = 168.0
+tooltip_text = "Resume The Game"
+text = "Resume"
+
+[node name="Settings_Button" type="Button" parent="Control" unique_id=1091338797]
+layout_mode = 0
+offset_top = 204.0
+offset_right = 176.0
+offset_bottom = 252.0
+tooltip_text = "Change The Settings"
+text = "Settings"
+
+[node name="Quit" type="Button" parent="Control" unique_id=1410713948]
+layout_mode = 0
+offset_top = 363.0
+offset_right = 176.0
+offset_bottom = 411.0
+tooltip_text = "Quit The Game"
+text = "Quit"
+
+[node name="Back To Menu" type="Button" parent="Control" unique_id=1298330852]
+layout_mode = 0
+offset_top = 283.0
+offset_right = 176.0
+offset_bottom = 331.0
+tooltip_text = "Return Back To The Main Menu"
+text = "Go Back To Menu"
+
+[node name="Died" type="Control" parent="." unique_id=750489517]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("6_v1gob")
+
+[node name="Background" type="ColorRect" parent="Died" unique_id=1712801197]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="Died" unique_id=1461275379]
+layout_mode = 0
+offset_left = 120.0
+offset_top = 140.0
+offset_right = 1000.0
+offset_bottom = 252.0
+tooltip_text = "You Died!"
+mouse_filter = 0
+theme_override_font_sizes/font_size = 100
+text = "You Died!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Return To Menu" type="Button" parent="Died" unique_id=1307202259]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 288.0
+offset_right = 715.0
+offset_bottom = 344.0
+tooltip_text = "Return To The Main Menu"
+theme_override_font_sizes/font_size = 32
+text = "Return To Menu"
+
+[node name="Quit" type="Button" parent="Died" unique_id=2065187930]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 416.0
+offset_right = 715.0
+offset_bottom = 469.0
+tooltip_text = "Quit The Game"
+theme_override_font_sizes/font_size = 32
+text = "Quit"
+
+[node name="Spawn Locations" type="Node3D" parent="." unique_id=1378112405]
+
+[node name="0" type="Node3D" parent="Spawn Locations" unique_id=88648672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="1" type="Node3D" parent="Spawn Locations" unique_id=2082199123]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 0)
+
+[node name="2" type="Node3D" parent="Spawn Locations" unique_id=2097180923]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2, 0)
+
+[node name="3" type="Node3D" parent="Spawn Locations" unique_id=1635040206]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2, 0)
+
+[node name="4" type="Node3D" parent="Spawn Locations" unique_id=1941506700]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2, 0)
+
+[node name="5" type="Node3D" parent="Spawn Locations" unique_id=875017554]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 0)
+
+[node name="6" type="Node3D" parent="Spawn Locations" unique_id=997338321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2, 0)
+
+[node name="Player Spawner" type="MultiplayerSpawner" parent="." unique_id=961948397]
+_spawnable_scenes = PackedStringArray("uid://wchx5lfbm4rn")
+spawn_path = NodePath("../Players")
+
+[node name="Players" type="Node3D" parent="." unique_id=239404730]
+
+[node name="Player" parent="." unique_id=1454171372 instance=ExtResource("6_jw32o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[editable path="Player"]

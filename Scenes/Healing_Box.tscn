@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://ddryw2u01jmwo"]
+
+[ext_resource type="Script" uid="uid://bfwwdxfshr5th" path="res://Scripts/Healing_Box.gd" id="1_ymmso"]
+[ext_resource type="PackedScene" uid="uid://bwnrnv20if403" path="res://Assets/models/Guns/crate-small.glb" id="2_lpioi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ymmso"]
+size = Vector3(1, 0.7, 1.5)
+
+[node name="Healing Box" type="Node3D" unique_id=1474978436]
+script = ExtResource("1_ymmso")
+
+[node name="Model" parent="." unique_id=810333723 instance=ExtResource("2_lpioi")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Collision Detection" type="Area3D" parent="." unique_id=2043163581]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=1520627723]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.33785915, -0.006014526)
+shape = SubResource("BoxShape3D_ymmso")
