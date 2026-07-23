@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dm3r1gkecbeir"]
+
+[ext_resource type="Script" uid="uid://s4lgyoj2col1" path="res://Scripts/Enemy.gd" id="1_m1htj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmyy4"]
+albedo_color = Color(0.79419327, 0.16951677, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lmyy4"]
+material = SubResource("StandardMaterial3D_lmyy4")
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i1i1d"]
+radius = 0.79785156
+height = 3.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1htj"]
+radius = 0.79785156
+height = 3.0
+
+[node name="Enemy" type="CharacterBody3D" unique_id=611555974]
+script = ExtResource("1_m1htj")
+Speed = 15.0
+
+[node name="Shape" type="MeshInstance3D" parent="." unique_id=2035658390]
+mesh = SubResource("CapsuleMesh_lmyy4")
+
+[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1285501161]
+shape = SubResource("CapsuleShape3D_i1i1d")
+
+[node name="Pathfinding" type="NavigationAgent3D" parent="." unique_id=232808568]
+
+[node name="Collision Detection" type="Area3D" parent="." unique_id=1243317213]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=1872614699]
+shape = SubResource("CapsuleShape3D_m1htj")

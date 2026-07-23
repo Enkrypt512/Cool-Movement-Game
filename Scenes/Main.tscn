@@ -6,10 +6,7 @@
 [ext_resource type="Script" uid="uid://cj2mkbriqyqrj" path="res://Scripts/InGame Menu.gd" id="5_pbw6q"]
 [ext_resource type="PackedScene" uid="uid://wchx5lfbm4rn" path="res://Scenes/Player.tscn" id="6_jw32o"]
 [ext_resource type="Script" uid="uid://cs68i5scaqmkd" path="res://Scripts/Die.gd" id="6_v1gob"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn0ev"]
-albedo_texture = ExtResource("1_idj7w")
-uv1_triplanar = true
+[ext_resource type="PackedScene" uid="uid://dm3r1gkecbeir" path="res://Scenes/Enemy.tscn" id="7_jw32o"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pn0ev"]
 panorama = ExtResource("2_kln2b")
@@ -22,22 +19,17 @@ background_mode = 2
 sky = SubResource("Sky_rgh2o")
 glow_enabled = true
 
+[sub_resource type="NavigationMesh" id="NavigationMesh_lmyy4"]
+vertices = PackedVector3Array(-458.56836, 273.19653, 499.87494, -458.56836, 273.19653, 520.37494, -458.06836, 273.19653, 499.62494, 541.93164, 273.19653, 499.62494, 576.43164, 273.19653, 499.62494, 541.68164, 273.19653, 499.12494, 541.68164, 273.19653, -514.62506, 576.43164, 273.19653, -515.12506, 541.93164, 273.19653, -515.12506, -458.81836, 273.19653, -515.12506, -461.31836, 273.19653, -515.12506, -458.56836, 273.19653, -514.62506, -458.31836, 273.19653, -514.62506, -458.06836, 273.19653, -515.12506, -458.56836, 273.19653, -517.12506, -458.56836, 273.19653, 499.12494, -461.31836, 273.19653, 499.37494, 541.43164, 273.19653, 499.12494, 541.18164, 273.19653, 499.62494, 541.43164, 273.19653, 520.37494, -458.31836, 273.19653, 499.12494, 541.43164, 273.19653, -517.12506, 541.18164, 273.19653, -515.12506, 541.43164, 273.19653, -514.62506, -464.06836, 0.9465332, 499.62494, -462.31836, 0.9465332, 499.62494, -462.06836, 0.9465332, 498.37494, -464.06836, 0.9465332, -499.62506, -459.56836, 0.9465332, 498.37494, -459.56836, 0.9465332, -499.62506, -457.31836, 0.9465332, -499.62506, -457.31836, 0.9465332, 498.37494, 534.93164, 0.9465332, 498.37494, 534.93164, 0.9465332, -499.62506)
+polygons = [PackedInt32Array(2, 1, 0), PackedInt32Array(5, 4, 3), PackedInt32Array(8, 7, 6), PackedInt32Array(11, 10, 9), PackedInt32Array(11, 9, 12), PackedInt32Array(12, 9, 13), PackedInt32Array(13, 9, 14), PackedInt32Array(2, 0, 15), PackedInt32Array(15, 0, 16), PackedInt32Array(5, 3, 17), PackedInt32Array(17, 3, 18), PackedInt32Array(18, 3, 19), PackedInt32Array(20, 17, 18), PackedInt32Array(15, 11, 20), PackedInt32Array(20, 11, 12), PackedInt32Array(23, 22, 6), PackedInt32Array(6, 22, 8), PackedInt32Array(8, 22, 21), PackedInt32Array(17, 23, 5), PackedInt32Array(5, 23, 6), PackedInt32Array(22, 23, 13), PackedInt32Array(13, 23, 12), PackedInt32Array(15, 20, 2), PackedInt32Array(2, 20, 18), PackedInt32Array(25, 24, 26), PackedInt32Array(26, 24, 27), PackedInt32Array(28, 26, 29), PackedInt32Array(29, 26, 27), PackedInt32Array(33, 32, 30), PackedInt32Array(30, 32, 31)]
+agent_height = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pn0ev"]
+albedo_texture = ExtResource("1_idj7w")
+uv1_triplanar = true
+
 [node name="Node3D" type="Node3D" unique_id=349130362]
 script = ExtResource("1_rgh2o")
-
-[node name="Stage" type="Node3D" parent="." unique_id=579654563]
-
-[node name="Floor" type="CSGBox3D" parent="Stage" unique_id=473833924]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.43164, 0, 0)
-use_collision = true
-size = Vector3(100000, 1, 100000)
-material = SubResource("StandardMaterial3D_pn0ev")
-
-[node name="Crouch Test" type="CSGBox3D" parent="Stage" unique_id=1187210639]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.663, 2.75, 0)
-use_collision = true
-size = Vector3(37.49, 0.689, 33.623)
-material = SubResource("StandardMaterial3D_pn0ev")
 
 [node name="env" type="Node3D" parent="." unique_id=2096580127]
 
@@ -660,5 +652,41 @@ spawn_path = NodePath("../Players")
 
 [node name="Player" parent="." unique_id=1454171372 instance=ExtResource("6_jw32o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Navigation Region" type="NavigationRegion3D" parent="." unique_id=1942974535]
+navigation_mesh = SubResource("NavigationMesh_lmyy4")
+
+[node name="Floor" type="CSGBox3D" parent="Navigation Region" unique_id=473833924]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.43164, 0, 0)
+use_collision = true
+size = Vector3(1000, 1, 1000)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="First Wall" type="CSGBox3D" parent="Navigation Region" unique_id=569583055]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 495.92847, 126.791016, 1.6167603)
+use_collision = true
+size = Vector3(1038.4836, 1, 292.18896)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="Second Wall" type="CSGBox3D" parent="Navigation Region" unique_id=1002435917]
+transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, -458.3498, 126.791016, 1.6167603)
+use_collision = true
+size = Vector3(1038.4836, 1, 292.18896)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="Third Wall" type="CSGBox3D" parent="Navigation Region" unique_id=1477619441]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 57.618835, 126.791016, -491.2519)
+use_collision = true
+size = Vector3(1038.4836, 1, 292.18896)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="Fourth Wall" type="CSGBox3D" parent="Navigation Region" unique_id=738189866]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 57.618835, 126.791016, 499.51062)
+use_collision = true
+size = Vector3(1038.4836, 1, 292.18896)
+material = SubResource("StandardMaterial3D_pn0ev")
+
+[node name="Enemy" parent="." unique_id=611555974 instance=ExtResource("7_jw32o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -136.68542, 12.452457, 0)
 
 [editable path="Player"]
