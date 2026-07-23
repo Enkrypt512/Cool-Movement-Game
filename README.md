@@ -1,11 +1,9 @@
 # Cool-Movement-Game
-Cool Little WIP FPS Movement ULTRAKILL/CSGO-Inspired Little Thing Made In Godot,With:
+A WIP FPS movement game inspired by ULTRAKILL and CS:GO, made in Godot!​
 
 - Settings
 
 - Rebindable Keys
-
-- Controller Support
 
 - Sprinting
 
