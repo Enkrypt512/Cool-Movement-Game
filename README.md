@@ -19,7 +19,23 @@ A WIP FPS movement game inspired by ULTRAKILL and CS:GO, made in Godot! With:​
 
 - Contoller Support
 
-And More Cooming Soon!
+And More Coming Soon! Like:
+
+- Decals
+
+- Peeking
+
+- Multiplayer
+
+- Reloading Animation
+
+- Stages
+
+- Ledge Grabbing
+
+- Hooks
+
+- Melee Weapons
 
 # Credits:
 
