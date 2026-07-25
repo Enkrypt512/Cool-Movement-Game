@@ -1,0 +1,12 @@
+# Feature List
+- Peeking
+- Multiplayer
+- Reloading Animation
+- Stages
+- Ledge Grabbing
+- Hooks
+- Bunnyslide Chaining
+- Meele Weapon
+- Aim Down Sights
+- Decals
+- Anti Cheat
