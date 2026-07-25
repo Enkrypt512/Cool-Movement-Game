@@ -2,6 +2,7 @@ extends Control
 
 var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
+var Local_Player:CharacterBody3D = null
 
 @onready var Forward: Button = $Settings/Binds/Forward
 @onready var Backward: Button = $Settings/Binds/Backward

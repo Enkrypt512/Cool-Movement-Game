@@ -10,10 +10,11 @@
 [ext_resource type="Script" uid="uid://bo826kugag5sx" path="res://Scripts/HUD.gd" id="7_52ee3"]
 [ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
+[ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
-length = 0.19999999999999998
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -41,7 +42,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_yoq75"]
 resource_name = "Glock Recoil"
-length = 0.19999999999999998
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -69,7 +70,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_miouo"]
 resource_name = "Minigun"
-length = 0.19999999999999998
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -97,7 +98,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_bhhdu"]
 resource_name = "Percision Recoil"
-length = 0.19999999999999998
+length = 0.2
 step = 0.0333333
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -233,10 +234,12 @@ _data = {
 }
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_pn0ev"]
+radius = 0.80566406
 height = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kln2b"]
-height = 1.7
+radius = 0.95410156
+height = 1.9082031
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lmyy4"]
 height = 3.0
@@ -304,7 +307,7 @@ step = 0.0333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Neck/Head/Eyes/Recoil/Camera3D:position")
+tracks/0/path = NodePath("Neck/Head/Eyes/Recoil/Camera:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -332,28 +335,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="Recoil" type="Node3D" parent="Neck/Head/Eyes" unique_id=1144209623]
 script = ExtResource("2_megsn")
 
-[node name="Camera3D" type="Camera3D" parent="Neck/Head/Eyes/Recoil" unique_id=1778389079]
+[node name="Camera" type="Camera3D" parent="Neck/Head/Eyes/Recoil" unique_id=1778389079]
 
-[node name="Guns" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera3D" unique_id=2008800675]
+[node name="Guns" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera" unique_id=2008800675]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70443773, -0.15963483, 0)
 script = ExtResource("2_nn08x")
 
-[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=991091972 instance=ExtResource("2_5ixxa")]
+[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=991091972 instance=ExtResource("2_5ixxa")]
 transform = Transform3D(1, 0, 0, 0, 0.9969055, -0.078607954, 0, 0.078607954, 0.9969055, 0.055000007, -0.0670473, -0.90075874)
 
-[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=217729379 instance=ExtResource("3_nn08x")]
+[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=217729379 instance=ExtResource("3_nn08x")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14962071, -0.055550218, -0.40853763)
 visible = false
 
-[node name="Blaster" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=305994673 instance=ExtResource("5_bhhdu")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14032531, -0.20808518, -0.6925007)
-visible = false
-
-[node name="Minigun" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=562311047 instance=ExtResource("4_52ee3")]
+[node name="Minigun" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=562311047 instance=ExtResource("4_52ee3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12247503, -0.27970588, -0.7731428)
 visible = false
 
-[node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera3D/Guns" unique_id=179384305]
+[node name="Blaster" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=305994673 instance=ExtResource("5_bhhdu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14032531, -0.20808518, -0.6925007)
+visible = false
+
+[node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=179384305]
 libraries/ = SubResource("AnimationLibrary_yoq75")
 
 [node name="Standing Collision Shape" type="CollisionShape3D" parent="." unique_id=1787137314]
@@ -374,9 +377,6 @@ mesh = SubResource("CapsuleMesh_lmyy4")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 visible = false
 mesh = SubResource("CapsuleMesh_i1i1d")
-
-[node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
-layer = -1
 
 [node name="HUD" type="Control" parent="." unique_id=769087656]
 layout_mode = 3
@@ -404,6 +404,12 @@ texture_filter = 3
 position = Vector2(577, 320)
 scale = Vector2(2, 2)
 texture = ExtResource("8_bhhdu")
+
+[node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
+layer = -1
+
+[node name="Aim Down Sight" parent="." unique_id=1922972168 instance=ExtResource("11_ksbbd")]
+visible = false
 
 [node name="Multiplayer Synchronizer" type="MultiplayerSynchronizer" parent="." unique_id=698011732]
 replication_config = SubResource("SceneReplicationConfig_bhhdu")

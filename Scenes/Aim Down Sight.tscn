@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b23jj064p6p7r"]
+
+[ext_resource type="Shader" uid="uid://5g6ukspyfi5j" path="res://Scripts/Aim Down Sight.gdshader" id="1_pe3uq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmyy4"]
+shader = ExtResource("1_pe3uq")
+shader_parameter/Outer_Color = Color(0, 0, 0, 1)
+shader_parameter/Radius = 200.000007125
+shader_parameter/Shadow_Softness = 84.766003551385
+shader_parameter/Inner_Vignette = 0.35
+shader_parameter/Rim_Width = 6.0
+
+[node name="Aim Down Sight" type="CanvasLayer" unique_id=1922972168]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=636416568]
+material = SubResource("ShaderMaterial_lmyy4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

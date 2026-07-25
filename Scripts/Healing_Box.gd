@@ -15,7 +15,7 @@ func _ready() -> void:
 
 func Body_Entered(Body):
 	if Body.name == "Player":
-		if Body.Health >= 99:
+		if Body.Health <= 99:
 			Body.Health += 30
 		else:
 			pass

@@ -11,9 +11,10 @@ config_version=5
 [application]
 
 config/name="Cool Movement Game"
+config/version="0.2"
 run/main_scene="uid://bo4lgf8hrh8b3"
 config/features=PackedStringArray("4.8", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://hfgsgnyrr2af"
 
 [autoload]
 
@@ -304,6 +305,14 @@ Exit={
 "pressure": 0.0,
 "pressed": true,
 "script": null
+), Object(InputEventJoypadButton,
+"resource_local_to_scene": false,
+"resource_name": "",
+"device": -1,
+"button_index": 5,
+"pressure": 0.0,
+"pressed": true,
+"script": null
 )]
 }
 Freelook={
@@ -465,6 +474,36 @@ Shoot={
 "script": null
 )]
 }
+"Aim Down Sight"={
+"deadzone": 0.2,
+"events": [Object(InputEventMouseButton,
+"resource_local_to_scene": false,
+"resource_name": "",
+"device": -1,
+"window_id": 0,
+"alt_pressed": false,
+"shift_pressed": false,
+"ctrl_pressed": false,
+"meta_pressed": false,
+"button_mask": 0,
+"position": Vector2(0, 0),
+"global_position": Vector2(0, 0),
+"factor": 1.0,
+"button_index": 2,
+"canceled": false,
+"pressed": false,
+"double_click": false,
+"script": null
+), Object(InputEventJoypadButton,
+"resource_local_to_scene": false,
+"resource_name": "",
+"device": -1,
+"button_index": 7,
+"pressure": 0.0,
+"pressed": true,
+"script": null
+)]
+}
 
 [physics]
 
@@ -476,6 +515,8 @@ textures/canvas_textures/default_texture_filter=3
 rendering_device/fallback_to_d3d12=false
 textures/vram_compression/import_etc2_astc=true
 viewport/hdr_2d=true
+anti_aliasing/quality/msaa_2d=3
+anti_aliasing/quality/screen_space_aa=2
 
 [xr]
 

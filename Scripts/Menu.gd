@@ -90,7 +90,7 @@ func _process(delta: float) -> void:
 		Raw_Cursor_Y_Position if abs(Raw_Cursor_Y_Position) > Deadzone else 0.0
 	)
 	if Stick_Input != Vector2.ZERO:
-		var Speed:float = GameManager.Joystick_Sensitivity * 1200.0
+		var Speed:float = GameManager.Joystick_Sensitivity * 600.0
 		# Dont Know What Type Viewport_Size Is :p
 		var Viewport_Size = get_viewport().size
 		Virtual_Mouse_Position += Stick_Input * Speed * delta
@@ -127,7 +127,7 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	
-	if (event.is_action("Jump") or event.is_action("jump")) and not event.is_echo():
+	if event.is_action("Jump") and not event.is_echo():
 		if not Current_Button:
 			var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
 			Click_Event.button_index = MOUSE_BUTTON_LEFT

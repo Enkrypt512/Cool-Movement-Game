@@ -13,7 +13,7 @@ script = ExtResource("1_14k46")
 
 [node name="Collision Detection" type="Area3D" parent="." unique_id=1362840925]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Collision Detection" unique_id=2068731000]
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=2068731000]
 transform = Transform3D(1, 0, 0, 0, 0, -1.0000001, 0, 1.0000001, 0, 0, 0, 0.21542369)
 shape = SubResource("CapsuleShape3D_lmyy4")
 

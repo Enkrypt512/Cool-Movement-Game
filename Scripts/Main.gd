@@ -4,6 +4,13 @@ extends Node3D
 @onready var InGame_Menu: Control = $Control
 @onready var Floor: CSGBox3D = $"Navigation Region/Floor"
 @onready var Spawn_Locations: Node3D = $"Spawn Locations"
+@onready var Binds: Control = $Control/Settings/Binds
+@onready var Main_Settings: Control = $Control/Settings/Main
+@onready var Quit_Settings: Button = $Control/Settings/Quit
+@onready var Resume: Button = $Control/Start
+@onready var Settings_button: Button = $Control/Settings_Button
+@onready var Quit_Menu: Button = $Control/Quit
+@onready var Back_To_Menu: Button = $"Control/Back To Menu"
 var Health_Box:PackedScene = preload("res://Scenes/Healing_Box.tscn")
 var Enemey:PackedScene = preload("res://Scenes/Enemy.tscn")
 var Last_Spawn_Time: float = 0.0
@@ -16,6 +23,7 @@ func _ready() -> void:
 	Virtual_Mouse_Position = get_viewport().get_mouse_position()
 	get_tree().node_added.connect(On_Node_Added)
 	Find_Local_Player()
+	Resume.pressed.connect(Resume_Game)
 
 func On_Node_Added(node: Node) -> void:
 	if node.is_in_group("Player"):
@@ -62,7 +70,7 @@ func _process(delta: float) -> void:
 			Raw_Cursor_Y_Position if abs(Raw_Cursor_Y_Position) > Deadzone else 0.0
 		)
 		if Stick_Input != Vector2.ZERO:
-			var Speed:float = GameManager.Joystick_Sensitivity * 1200.0
+			var Speed:float = GameManager.Joystick_Sensitivity * 600.0
 			var Viewport_Size = get_viewport().size
 			Virtual_Mouse_Position += Stick_Input * Speed * delta
 			Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
@@ -98,10 +106,24 @@ func _input(event: InputEvent) -> void:
 			if InGame_Menu.has_method("Save_Game_Settings"):
 				InGame_Menu.Save_Game_Settings()
 			InGame_Menu.visible = false
+			Quit_Settings.visible = false
+			Binds.visible = false
+			Main_Settings.visible = false
+			Resume.visible = true
+			Settings_button.visible = true
+			Quit_Menu.visible = true
+			Back_To_Menu.visible = true
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 			Set_HUD_Visibility(true)
 		else:
 			InGame_Menu.visible = true
+			Quit_Settings.visible = true
+			Binds.visible = false
+			Main_Settings.visible = false
+			Resume.visible = true
+			Settings_button.visible = true
+			Quit_Menu.visible = true
+			Back_To_Menu.visible = true
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			Set_HUD_Visibility(false)
 		return
@@ -136,3 +158,7 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+func Resume_Game():
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Set_HUD_Visibility(true)

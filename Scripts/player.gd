@@ -13,7 +13,7 @@ extends CharacterBody3D
 @onready var Standing_Collision_Shape: CollisionShape3D = $"Standing Collision Shape"
 @onready var Crouching_Collision_Shape: CollisionShape3D = $"Crouching Collision Shape"
 @onready var Neck: Node3D = $Neck
-@onready var Camera: Camera3D = $Neck/Head/Eyes/Recoil/Camera3D
+@onready var Camera: Camera3D = $Neck/Head/Eyes/Recoil/Camera
 @onready var Eyes: Node3D = $Neck/Head/Eyes
 @onready var Standing_Shape: MeshInstance3D = $"Standing Shape"
 @onready var Crouching_Shape: MeshInstance3D = $"Crouching Shape"

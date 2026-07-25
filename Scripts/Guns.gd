@@ -7,34 +7,37 @@ extends Node3D
 @onready var Player: CharacterBody3D = $"../../../../../.."
 @onready var Gun_Animations: AnimationPlayer = $"Gun Animations"
 @onready var Recoil: Node3D = $"../.."
+@onready var Camera: Camera3D = $".."
+@onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
 @export var Guns: Array = []
+@export var Lerp_Speed:int = 10
 var Current_Gun: int = 0
-var Bullet = preload("res://Scenes/Bullet.tscn")
+var Bullet:PackedScene = preload("res://Scenes/Bullet.tscn")
 var Last_Shot_Time: float = 0.0
 var Continuous_Fire_Time: float = 0.0
 
-@export var Gun_Cooldowns = {
+@export var Gun_Cooldowns:Dictionary = {
 	"Percision": 0.3,
 	"Glock": 0.25,
 	"Minigun": 0.05,
 	"Blaster": 0.6
 }
 
-@export var Gun_Damages = {
+@export var Gun_Damages:Dictionary = {
 	"Percision": 50,
 	"Glock": 20,
 	"Minigun": 10,
 	"Blaster": 70
 }
 
-@export var Gun_Recoils = {
+@export var Gun_Recoils:Dictionary = {
 	"Percision": Vector3(12.0, 0.5, 0.5),
 	"Glock": Vector3(3.5, 1.5, 1.0),
 	"Minigun": Vector3(5.0, 3.0, 2.0),
 	"Blaster": Vector3(80.0, 0.2, 3.0)
 }
 
-@export var Gun_Recoil_Speeds = {
+@export var Gun_Recoil_Speeds:Dictionary = {
 	"Percision": Vector2(20.0, 3.0),
 	"Glock":     Vector2(18.0, 4.0),
 	"Minigun":   Vector2(20.0, 2.0),
@@ -71,8 +74,14 @@ func _physics_process(delta: float) -> void:
 				Bullet_Instance.global_transform = Active_Gun.global_transform
 				Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 				Bullet_Instance.Gun_Type = Current_Gun_Name
-				if Gun_Animations.has_animation(str(Guns[Current_Gun].name) + " Recoil"):
-					Gun_Animations.play(str(Guns[Current_Gun].name) + " Recoil")
+				Gun_Animations.play(str(Guns[Current_Gun].name) + " Recoil")
 				var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
 				var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 				Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
+		
+		if Input.is_action_pressed("Aim Down Sight"):
+			Camera.fov = lerp(int(Camera.fov),20,delta * Lerp_Speed)
+			Aim_Down_Sight.visible = true
+		else:
+			Camera.fov = lerp(int(Camera.fov),70,delta * Lerp_Speed)
+			Aim_Down_Sight.visible = false

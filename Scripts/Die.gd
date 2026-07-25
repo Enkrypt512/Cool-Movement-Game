@@ -54,7 +54,7 @@ func _process(delta: float) -> void:
 			Raw_Cursor_Y_Position if abs(Raw_Cursor_Y_Position) > Deadzone else 0.0
 		)
 		if Stick_Input != Vector2.ZERO:
-			var Speed:float = GameManager.Joystick_Sensitivity * 1200.0
+			var Speed:float = GameManager.Joystick_Sensitivity * 600.0
 			# Dont Know What Type Is Viewport_Size Is :p
 			var Viewport_Size = get_viewport().size
 			Virtual_Mouse_Position += Stick_Input * Speed * delta
