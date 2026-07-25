@@ -19,6 +19,8 @@ A WIP FPS movement game inspired by ULTRAKILL,CS:GO And Half-Life, made in Godot
 
 - Controller Support
 
+-  Aim Down Sight
+
 And More Coming Soon! Like:
 
 - Decals
