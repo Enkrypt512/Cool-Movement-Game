@@ -45,6 +45,8 @@ And More Coming Soon! Like:
 
 - Dashing
 
+- Wall Jumping
+  
 # Credits:
 
 [Kenney](kenney.nl): For The Assets
