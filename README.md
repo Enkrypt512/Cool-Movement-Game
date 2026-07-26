@@ -39,6 +39,12 @@ And More Coming Soon! Like:
 
 - Melee Weapons
 
+- Wall Running
+
+- Double Jump
+
+- Wall Running
+
 # Credits:
 
 [Kenney](kenney.nl): For The Assets
