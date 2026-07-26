@@ -39,7 +39,7 @@ And More Coming Soon! Like:
 
 - Melee Weapons
 
-- Wall Running
+- Wall Gliding
 
 - Double Jump
 
