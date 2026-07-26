@@ -1,4 +1,4 @@
-# Feature List
+# Features Coming Soon!
 - Peeking
 - Multiplayer
 - Reloading Animation
@@ -9,3 +9,6 @@
 - Meele Weapon
 - Decals
 - Anti Cheat
+- Wall Gliding
+- Wall Jumping
+- Smoke & Normal Grenades
