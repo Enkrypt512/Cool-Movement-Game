@@ -46,6 +46,8 @@ And More Coming Soon! Like:
 - Wall Gliding
 
 - Wall Jumping
+
+- Smoke & Normal Grenades
   
 # Credits:
 
