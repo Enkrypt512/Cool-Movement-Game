@@ -52,16 +52,17 @@ func _process(delta: float) -> void:
 		Continuous_Fire_Time = move_toward(Continuous_Fire_Time, 0.0, delta * 4.0)
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("Change Gun"):
-		Current_Gun = (Current_Gun + 1) % Guns.size()
-		for Gun in Guns:
-			Gun.visible = false
-		Guns[Current_Gun].visible = true
-		Continuous_Fire_Time = 0.0
+	if is_multiplayer_authority() && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		if event.is_action_pressed("Change Gun"):
+			Current_Gun = (Current_Gun + 1) % Guns.size()
+			for Gun in Guns:
+				Gun.visible = false
+			Guns[Current_Gun].visible = true
+			Continuous_Fire_Time = 0.0
 
 func _physics_process(delta: float) -> void:
 	if Player.is_multiplayer_authority():
-		if Input.is_action_pressed("Shoot"):
+		if Input.is_action_pressed("Shoot") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			var Current_Gun_Name = Guns[Current_Gun].name
 			var Shoot_Cooldown = Gun_Cooldowns.get(Current_Gun_Name, 0.1)
 			var Current_Time = Time.get_ticks_msec() / 1000.0
@@ -78,10 +79,10 @@ func _physics_process(delta: float) -> void:
 				var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
 				var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 				Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
-		
-		if Input.is_action_pressed("Aim Down Sight"):
-			Camera.fov = lerp(int(Camera.fov),20,delta * Lerp_Speed)
-			Aim_Down_Sight.visible = true
-		else:
-			Camera.fov = lerp(int(Camera.fov),70,delta * Lerp_Speed)
-			Aim_Down_Sight.visible = false
+		if is_multiplayer_authority():
+			if Input.is_action_pressed("Aim Down Sight") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+				Camera.fov = lerp(int(Camera.fov),20,delta * Lerp_Speed)
+				Aim_Down_Sight.visible = true
+			else:
+				Camera.fov = lerp(int(Camera.fov),70,delta * Lerp_Speed)
+				Aim_Down_Sight.visible = false

@@ -4,8 +4,8 @@
 [ext_resource type="Script" uid="uid://we6vmgtri8hk" path="res://Scripts/Main.gd" id="1_rgh2o"]
 [ext_resource type="Texture2D" uid="uid://cgk3qtrirrwte" path="res://Assets/hdris/kloofendal_48d_partly_cloudy_puresky_2k.hdr" id="2_kln2b"]
 [ext_resource type="Script" uid="uid://cj2mkbriqyqrj" path="res://Scripts/InGame Menu.gd" id="5_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://wchx5lfbm4rn" path="res://Scenes/Player.tscn" id="6_jw32o"]
 [ext_resource type="Script" uid="uid://cs68i5scaqmkd" path="res://Scripts/Die.gd" id="6_v1gob"]
+[ext_resource type="PackedScene" uid="uid://wchx5lfbm4rn" path="res://Scenes/Player.tscn" id="7_50glp"]
 [ext_resource type="PackedScene" uid="uid://dm3r1gkecbeir" path="res://Scenes/Enemy.tscn" id="7_jw32o"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pn0ev"]
@@ -624,16 +624,16 @@ text = "Quit"
 [node name="Spawn Locations" type="Node3D" parent="." unique_id=1378112405]
 
 [node name="0" type="Node3D" parent="Spawn Locations" unique_id=88648672]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
 
 [node name="1" type="Node3D" parent="Spawn Locations" unique_id=2082199123]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 0)
 
 [node name="2" type="Node3D" parent="Spawn Locations" unique_id=2097180923]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 4, 0)
 
 [node name="3" type="Node3D" parent="Spawn Locations" unique_id=1635040206]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 4, 0)
 
 [node name="4" type="Node3D" parent="Spawn Locations" unique_id=1941506700]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 2, 0)
@@ -644,14 +644,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40, 2, 0)
 [node name="6" type="Node3D" parent="Spawn Locations" unique_id=997338321]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 2, 0)
 
-[node name="Player Spawner" type="MultiplayerSpawner" parent="." unique_id=961948397]
-_spawnable_scenes = PackedStringArray("uid://wchx5lfbm4rn")
-spawn_path = NodePath("../Players")
-
 [node name="Players" type="Node3D" parent="." unique_id=239404730]
-
-[node name="Player" parent="." unique_id=1454171372 instance=ExtResource("6_jw32o")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
 [node name="Navigation Region" type="NavigationRegion3D" parent="." unique_id=1942974535]
 navigation_mesh = SubResource("NavigationMesh_lmyy4")
@@ -689,4 +682,5 @@ material = SubResource("StandardMaterial3D_pn0ev")
 [node name="Enemy" parent="." unique_id=611555974 instance=ExtResource("7_jw32o")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -136.68542, 12.452457, 0)
 
-[editable path="Player"]
+[node name="Player" parent="." unique_id=1454171372 instance=ExtResource("7_50glp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)

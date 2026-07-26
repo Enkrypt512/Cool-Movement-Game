@@ -66,7 +66,7 @@ func _input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		if event is InputEventMouseMotion:
 			Virtual_Mouse_Position = event.position
-	if event.is_action("Jump") and not event.is_echo():
+	if event.is_action("ui_accept") and not event.is_echo():
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
 			Click_Event.button_index = MOUSE_BUTTON_LEFT

@@ -117,7 +117,6 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		Virtual_Mouse_Position = event.position
-	
 	if event is InputEventKey and event.keycode == KEY_F11 and event.pressed:
 		var Is_Fullscreen:bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 		Fullscreen_Check.toggled.disconnect(On_Fullscreen_Toggled)
@@ -125,18 +124,19 @@ func _input(event: InputEvent) -> void:
 		Fullscreen_Check.button_pressed = !Is_Fullscreen
 		Fullscreen_Check.toggled.connect(On_Fullscreen_Toggled)
 		get_viewport().set_input_as_handled()
+		Save_Game_Settings()
 		return
-	
-	if event.is_action("Jump") and not event.is_echo():
-		if not Current_Button:
-			var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
-			Click_Event.button_index = MOUSE_BUTTON_LEFT
-			Click_Event.pressed = event.is_pressed()
-			Click_Event.position = Virtual_Mouse_Position
-			Click_Event.global_position = Virtual_Mouse_Position
-			get_viewport().push_input(Click_Event)
-			accept_event()
-			return
+	if event is InputEventJoypadButton and not event.is_echo():
+		if event.button_index == JOY_BUTTON_A:
+			if not Current_Button:
+				var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
+				Click_Event.button_index = MOUSE_BUTTON_LEFT
+				Click_Event.pressed = event.is_pressed()
+				Click_Event.position = Virtual_Mouse_Position
+				Click_Event.global_position = Virtual_Mouse_Position
+				get_viewport().push_input(Click_Event)
+				accept_event()
+				return
 	
 	if !Current_Button:
 		return

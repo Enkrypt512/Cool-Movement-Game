@@ -274,20 +274,17 @@ func Load_Game_Settings() -> void:
 			if Config.has_section_key("Binds", Action):
 				# Dont Know What Type Is Raw_Data :p
 				var Raw_Data = Config.get_value("Binds", Action)
-				
 				var Actual_Action:String = Action
 				if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
-					
-				InputMap.action_erase_events(Actual_Action)
 				
+				InputMap.action_erase_events(Actual_Action)
 				if Raw_Data is Array:
 					for Event in Raw_Data:
 						if Event is InputEvent:
 							InputMap.action_add_event(Actual_Action, Event)
 				elif Raw_Data is InputEvent:
 					InputMap.action_add_event(Actual_Action, Raw_Data)
-						
 	Apply_Loaded_Settings()
 
 func Apply_Loaded_Settings() -> void:

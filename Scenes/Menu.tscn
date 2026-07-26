@@ -34,9 +34,10 @@ text = "Quit"
 
 [node name="Binds" type="Control" parent="Settings" unique_id=1344302065]
 visible = false
+clip_contents = true
 anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 1384.0
+offset_bottom = 648.0
 
 [node name="Forward" type="Button" parent="Settings/Binds" unique_id=190688487]
 layout_mode = 0

@@ -299,6 +299,51 @@ properties/15/replication_mode = 1
 properties/16/path = NodePath("Neck/Head/Eyes/Recoil:rotation")
 properties/16/spawn = true
 properties/16/replication_mode = 1
+properties/17/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:visible")
+properties/17/spawn = true
+properties/17/replication_mode = 1
+properties/18/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:position")
+properties/18/spawn = true
+properties/18/replication_mode = 1
+properties/19/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:rotation")
+properties/19/spawn = true
+properties/19/replication_mode = 1
+properties/20/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Glock:visible")
+properties/20/spawn = true
+properties/20/replication_mode = 1
+properties/21/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Glock:position")
+properties/21/spawn = true
+properties/21/replication_mode = 1
+properties/22/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Glock:rotation")
+properties/22/spawn = true
+properties/22/replication_mode = 1
+properties/23/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Minigun:position")
+properties/23/spawn = true
+properties/23/replication_mode = 1
+properties/24/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Minigun:rotation")
+properties/24/spawn = true
+properties/24/replication_mode = 1
+properties/25/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Minigun:visible")
+properties/25/spawn = true
+properties/25/replication_mode = 1
+properties/26/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Blaster:position")
+properties/26/spawn = true
+properties/26/replication_mode = 1
+properties/27/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Blaster:rotation")
+properties/27/spawn = true
+properties/27/replication_mode = 1
+properties/28/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Blaster:visible")
+properties/28/spawn = true
+properties/28/replication_mode = 1
+properties/29/path = NodePath("Neck/Head/Eyes/Recoil/Camera:current")
+properties/29/spawn = true
+properties/29/replication_mode = 1
+properties/30/path = NodePath("Neck/Head/Eyes/Recoil/Camera:position")
+properties/30/spawn = true
+properties/30/replication_mode = 1
+properties/31/path = NodePath("Neck/Head/Eyes/Recoil/Camera:rotation")
+properties/31/spawn = true
+properties/31/replication_mode = 1
 
 [sub_resource type="Animation" id="Animation_glx4g"]
 resource_name = "Land"
@@ -413,6 +458,7 @@ visible = false
 
 [node name="Multiplayer Synchronizer" type="MultiplayerSynchronizer" parent="." unique_id=698011732]
 replication_config = SubResource("SceneReplicationConfig_bhhdu")
+visibility_update_mode = 1
 
 [node name="Animations" type="AnimationPlayer" parent="." unique_id=794306069]
 libraries/ = SubResource("AnimationLibrary_glx4g")
