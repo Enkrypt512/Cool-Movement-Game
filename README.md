@@ -43,7 +43,7 @@ And More Coming Soon! Like:
 
 - Double Jump
 
-- Wall Running
+- Dashing
 
 # Credits:
 
