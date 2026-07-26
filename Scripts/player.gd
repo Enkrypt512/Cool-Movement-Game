@@ -5,11 +5,7 @@ extends CharacterBody3D
 @export var Walking_Speed: float = 10.0
 @export var Sprinting_Speed: float = 20.0
 @export var Crouching_Speed: float = 5.0
-@export var Jump_Velocity: float = 4.5
-
-# Double Jump variables
-@export var Max_Jumps: int = 2
-var Jumps_Left: int = 2
+@export var Jump_Velocity: float = 9.0
 
 # Nodes
 @onready var Head: Node3D = $Neck/Head
@@ -42,11 +38,11 @@ var Current_Slide_Speed: float = 0.0
 
 # Dash Variables
 var Dash_Timer: float = 0.0
-@export var Dash_Timer_Max: float = 0.2
+@export var Dash_Timer_Max: float = 0.5
 var Dash_Cooldown_Timer: float = 0.0
-@export var Dash_Cooldown_Max: float = 1.0
+@export var Dash_Cooldown_Max: float = 0.2
 var Dash_Vector: Vector2 = Vector2.ZERO
-@export var Dash_Speed: float = 40.0
+@export var Dash_Speed: float = 60.0
 var Current_Dash_Speed: float = 0.0
 
 # Headbobbing Variables
@@ -73,6 +69,8 @@ var Is_Crouching_Toggled: bool = false
 var Is_Sprinting_Toggled: bool = false
 @export var Camera_Tilt: int = 5 
 var Last_Velocity: Vector3 = Vector3.ZERO
+@export var Max_Jumps: int = 3
+var Jumps_Left: int = 2
 
 func _enter_tree() -> void:
 	if name.is_valid_int():

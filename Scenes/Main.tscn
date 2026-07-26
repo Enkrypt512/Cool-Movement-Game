@@ -683,4 +683,4 @@ material = SubResource("StandardMaterial3D_pn0ev")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -136.68542, 12.452457, 0)
 
 [node name="Player" parent="." unique_id=1454171372 instance=ExtResource("7_50glp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
