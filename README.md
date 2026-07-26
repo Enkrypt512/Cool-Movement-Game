@@ -21,6 +21,10 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 -  Aim Down Sight
 
+- Double Jump
+
+- Dashing
+
 And More Coming Soon! Like:
 
 - Decals
@@ -40,10 +44,6 @@ And More Coming Soon! Like:
 - Melee Weapons
 
 - Wall Gliding
-
-- Double Jump
-
-- Dashing
 
 - Wall Jumping
   
