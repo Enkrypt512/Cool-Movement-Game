@@ -9,8 +9,10 @@ extends Node3D
 @onready var Recoil: Node3D = $"../.."
 @onready var Camera: Camera3D = $".."
 @onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
-@export var Guns: Array = []
+var Guns: Array = []
 @export var Lerp_Speed:int = 10
+var Previous_Mouse_Sensitivity:int
+var Previous_Joystick_Sensitivity:int
 var Current_Gun: int = 0
 var Bullet:PackedScene = preload("res://Scenes/Bullet.tscn")
 var Last_Shot_Time: float = 0.0
@@ -83,6 +85,12 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_pressed("Aim Down Sight") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 				Camera.fov = lerp(int(Camera.fov),20,delta * Lerp_Speed)
 				Aim_Down_Sight.visible = true
+				Previous_Joystick_Sensitivity = GameManager.Joystick_Sensitivity
+				Previous_Mouse_Sensitivity = GameManager.Mouse_Sensitivity
+				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity / 2
+				GameManager.Joystick_Sensitivity = Previous_Joystick_Sensitivity / 2
 			else:
 				Camera.fov = lerp(int(Camera.fov),70,delta * Lerp_Speed)
 				Aim_Down_Sight.visible = false
+				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity
+				GameManager.Joystick_Sensitivity = Previous_Joystick_Sensitivity

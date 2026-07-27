@@ -17,6 +17,6 @@ func Body_Entered(Body):
 	if Body.name == "Player":
 		if Body.Health <= 99:
 			Body.Health += 30
+			queue_free()
 		else:
 			pass
-		queue_free()

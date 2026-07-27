@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
+[ext_resource type="Texture2D" uid="uid://u0rtaw1n3mvd" path="res://Assets/textures/dev/grids/Dark/texture_07.png" id="12_glx4g"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
@@ -367,8 +368,22 @@ _data = {
 &"Land": SubResource("Animation_glx4g")
 }
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ksbbd"]
+albedo_texture = ExtResource("12_glx4g")
+uv1_triplanar = true
+uv2_triplanar = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miouo"]
+albedo_texture = ExtResource("12_glx4g")
+uv1_triplanar = true
+uv2_triplanar = true
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_miouo"]
+
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
+Grapple_Pull_Force = 20.0
+Grapple_Rope_Slack = 2.0
 
 [node name="Neck" type="Node3D" parent="." unique_id=698647956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -403,6 +418,11 @@ visible = false
 
 [node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=179384305]
 libraries/ = SubResource("AnimationLibrary_yoq75")
+
+[node name="Grappling" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera" unique_id=138574741]
+
+[node name="Grapple Ray" type="RayCast3D" parent="Neck/Head/Eyes/Recoil/Camera/Grappling" unique_id=1950061311]
+target_position = Vector3(0, 0, -100)
 
 [node name="Standing Collision Shape" type="CollisionShape3D" parent="." unique_id=1787137314]
 shape = SubResource("CapsuleShape3D_pn0ev")
@@ -462,3 +482,9 @@ visibility_update_mode = 1
 
 [node name="Animations" type="AnimationPlayer" parent="." unique_id=794306069]
 libraries/ = SubResource("AnimationLibrary_glx4g")
+
+[node name="Rope Mesh" type="MeshInstance3D" parent="." unique_id=873274516]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3558221, 0.5582113, -0.51929426)
+material_override = SubResource("StandardMaterial3D_ksbbd")
+material_overlay = SubResource("StandardMaterial3D_miouo")
+mesh = SubResource("ImmediateMesh_miouo")

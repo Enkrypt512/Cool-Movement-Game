@@ -31,7 +31,6 @@ func Find_Local_Player() -> void:
 func _process(delta: float) -> void:
 	if Player == null or not ("Health" in Player):
 		return
-	
 	if Player.Health <= 0:
 		if not Died.visible: 
 			Died.visible = true

@@ -74,17 +74,17 @@ func _process(delta: float) -> void:
 		FPS_Counter.visible = true
 	else:
 		FPS_Counter.visible = false
-	if multiplayer.is_server():
-		var Current_Time: float = Time.get_ticks_msec() / 1000.0
-		var Spawn_Cooldown: float = 10.0
-		if Current_Time - Last_Spawn_Time >= Spawn_Cooldown:
-			Last_Spawn_Time = Current_Time
-			Spawn_Health_Box()
-		var Enemy_Spawn_Cooldown: float = 1.0
-		if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
-			Last_Enemy_Spawn_Time = Current_Time
-			Spawn_Enemy()
-	
+	if not get_tree().paused:
+		if multiplayer.is_server():
+			var Current_Time: float = Time.get_ticks_msec() / 1000.0
+			var Spawn_Cooldown: float = 10.0
+			if Current_Time - Last_Spawn_Time >= Spawn_Cooldown:
+				Last_Spawn_Time = Current_Time
+				Spawn_Health_Box()
+			var Enemy_Spawn_Cooldown: float = 1.0
+			if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
+				Last_Enemy_Spawn_Time = Current_Time
+				Spawn_Enemy()
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		var Raw_Cursor_X_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 		var Raw_Cursor_Y_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
@@ -122,34 +122,6 @@ func _input(event: InputEvent) -> void:
 		On_Fullscreen_Toggled(!Is_Fullscreen)
 		get_viewport().set_input_as_handled()
 		return
-
-	if event.is_action_pressed("Exit") and not event.is_echo():
-		get_viewport().set_input_as_handled()
-		if InGame_Menu.visible:
-			if InGame_Menu.has_method("Save_Game_Settings"):
-				InGame_Menu.Save_Game_Settings()
-			InGame_Menu.visible = false
-			Quit_Settings.visible = false
-			Binds.visible = false
-			Main_Settings.visible = false
-			Resume.visible = true
-			Settings_button.visible = true
-			Quit_Menu.visible = true
-			Back_To_Menu.visible = true
-			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			Set_HUD_Visibility(true)
-		else:
-			InGame_Menu.visible = true
-			Quit_Settings.visible = true
-			Binds.visible = false
-			Main_Settings.visible = false
-			Resume.visible = true
-			Settings_button.visible = true
-			Quit_Menu.visible = true
-			Back_To_Menu.visible = true
-			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-			Set_HUD_Visibility(false)
-		return
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		if event is InputEventMouseMotion:
 			Virtual_Mouse_Position = event.position
@@ -180,6 +152,30 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
+func Pause_Game() -> void:
+	InGame_Menu.visible = true
+	Quit_Settings.visible = true
+	Binds.visible = false
+	Main_Settings.visible = false
+	Resume.visible = true
+	Settings_button.visible = true
+	Quit_Menu.visible = true
+	Back_To_Menu.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	Set_HUD_Visibility(false)
+	get_tree().paused = true
+
 func Resume_Game() -> void:
+	if InGame_Menu.has_method("Save_Game_Settings"):
+		InGame_Menu.Save_Game_Settings()
+	InGame_Menu.visible = false
+	Quit_Settings.visible = false
+	Binds.visible = false
+	Main_Settings.visible = false
+	Resume.visible = true
+	Settings_button.visible = true
+	Quit_Menu.visible = true
+	Back_To_Menu.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Set_HUD_Visibility(true)
+	get_tree().paused = false

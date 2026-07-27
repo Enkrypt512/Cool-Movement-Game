@@ -29,6 +29,7 @@ albedo_texture = ExtResource("1_idj7w")
 uv1_triplanar = true
 
 [node name="Node3D" type="Node3D" unique_id=349130362]
+process_mode = 3
 script = ExtResource("1_rgh2o")
 
 [node name="env" type="Node3D" parent="." unique_id=2096580127]

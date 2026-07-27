@@ -97,7 +97,6 @@ func _process(delta: float) -> void:
 		Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
 		Virtual_Mouse_Position.y = clamp(Virtual_Mouse_Position.y, 0.0, Viewport_Size.y)
 		Input.warp_mouse(Virtual_Mouse_Position)
-	
 	if FPS_Check.button_pressed:
 		GameManager.FPS_Counter = true
 		FPS_Counter.text = ('FPS:' + str(Engine.get_frames_per_second()))
@@ -106,7 +105,6 @@ func _process(delta: float) -> void:
 		GameManager.FPS_Counter = false
 		FPS_Counter.text = ''
 		FPS_Counter.visible = false
-		
 	GameManager.Volume = Volume_Slider.value  
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
 	GameManager.Joystick_Sensitivity = Joystick_Sensitivity_Number.value
@@ -137,30 +135,23 @@ func _input(event: InputEvent) -> void:
 				get_viewport().push_input(Click_Event)
 				accept_event()
 				return
-	
 	if !Current_Button:
 		return
-		
 	if event is InputEventMouseMotion or event is InputEventPanGesture:
 		return
-		
 	get_viewport().set_input_as_handled()
-	
 	var Target_Action : String = Current_Button.name
 	if not InputMap.has_action(Target_Action) and InputMap.has_action(Target_Action.to_lower()):
 		Target_Action = Target_Action.to_lower()
-		
 	for Existing_Event in InputMap.action_get_events(Target_Action):
 		if Existing_Event.is_match(event):
 			Finish_Remapping()
 			return
-	
 	for Action in InputMap.get_actions():
 		if Action != Target_Action:
 			for Action_Event in InputMap.action_get_events(Action):
 				if Action_Event.is_match(event):
 					InputMap.action_erase_event(Action, Action_Event)
-					
 	InputMap.action_add_event(Target_Action, event)
 	Finish_Remapping()
 
@@ -262,7 +253,6 @@ func On_VSync_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	
 	if Settings.visible:
 		Save_Game_Settings()
 
@@ -285,7 +275,6 @@ func Save_Game_Settings() -> void:
 			Actual_Action = Action.to_lower()
 		var Events := InputMap.action_get_events(Actual_Action)
 		Config.set_value("Binds", Action, Events)
-			
 	var error := Config.save(Save_Path)
 	if error != OK:
 		print("Failed to save settings. Error code: ", error)
@@ -359,11 +348,9 @@ func Apply_Loaded_Settings() -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	FPS_Counter.visible = GameManager.FPS_Counter
 	Update_Labels()
-	
 	if GameManager.VSync:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
-	
 	Engine.max_fps = GameManager.Max_FPS

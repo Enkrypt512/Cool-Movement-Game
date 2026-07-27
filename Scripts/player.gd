@@ -1,6 +1,7 @@
 extends CharacterBody3D
 
 # Movement variables
+@export_group("Movment Variables")
 @export var Current_Speed: float = 5.0
 @export var Walking_Speed: float = 10.0
 @export var Sprinting_Speed: float = 20.0
@@ -20,6 +21,8 @@ extends CharacterBody3D
 @onready var Animations: AnimationPlayer = $Animations
 @onready var Multiplayer_Synchronizer: MultiplayerSynchronizer = $"Multiplayer Synchronizer"
 @onready var Speed_Lines: CanvasLayer = $"Speed Lines"
+@onready var Grapple_RayCast: RayCast3D = $"Neck/Head/Eyes/Recoil/Camera/Grappling/Grapple Ray"
+@onready var Grapple_Rope: MeshInstance3D = $"Rope Mesh"
 
 # States
 var Walking: bool = false
@@ -28,8 +31,10 @@ var Crouching: bool = false
 var Freelooking: bool = false
 var Sliding: bool = false
 var Dashing: bool = false
+var Grappling: bool = false
 
 # Sliding Variables
+@export_group("Sliding Variables")
 var Slide_Timer: float = 0.0
 @export var Slide_Timer_Max: float = 2.0
 var Slide_Vector: Vector2 = Vector2.ZERO
@@ -37,6 +42,7 @@ var Slide_Vector: Vector2 = Vector2.ZERO
 var Current_Slide_Speed: float = 0.0
 
 # Dash Variables
+@export_group("Dash Variables")
 var Dash_Timer: float = 0.0
 @export var Dash_Timer_Max: float = 0.5
 var Dash_Cooldown_Timer: float = 0.0
@@ -46,19 +52,28 @@ var Dash_Vector: Vector2 = Vector2.ZERO
 var Current_Dash_Speed: float = 0.0
 
 # Headbobbing Variables
+@export_group("Headbobbing Variables")
 @export var Headbobbing_Sprinting_Speed: float = 22.0
 @export var Headbobbing_Walking_Speed: float = 14.0
 @export var Headbobbing_Crouching_Speed: float = 10.0
-
 @export var Headbobbing_Sprinting_Intensity: float = 0.2
 @export var Headbobbing_Walking_Intensity: float = 0.1
 @export var Headbobbing_Crouching_Intensity: float = 0.05
-
 var Headbobbing_Vector: Vector2 = Vector2.ZERO
 var Headbobbing_Index: float = 0.0
 var Headbobbing_Current_Intensity: float = 0.0
 
+# Grapple Variables
+@export_group("Grapple Variables")
+@export var Grapple_Pull_Force: float = 35.0
+@export var Grapple_Rope_Slack: float = 1.0
+var Grapple_Point: Vector3 = Vector3.ZERO
+var Grapple_Length: float = 0.0
+var Grapple_Total_Angle: float = 0.0
+var Grapple_Last_Dir: Vector3 = Vector3.ZERO
+
 # Misc Variables
+@export_group("Misc Variables")
 @export var Lerp_Speed: float = 10.0
 var Direction: Vector3 = Vector3.ZERO
 @export var Crouching_Depth: float = -0.5
@@ -69,8 +84,8 @@ var Is_Crouching_Toggled: bool = false
 var Is_Sprinting_Toggled: bool = false
 @export var Camera_Tilt: int = 5 
 var Last_Velocity: Vector3 = Vector3.ZERO
-@export var Max_Jumps: int = 3
-var Jumps_Left: int = 2
+@export var Max_Jumps: int = 2
+var Jumps_Left: int
 
 func _enter_tree() -> void:
 	if name.is_valid_int():
@@ -84,10 +99,6 @@ func _ready() -> void:
 	if not is_multiplayer_authority():
 		set_process_unhandled_input(false)
 		set_physics_process(false)
-		
-	Setup_Camera()
-
-func Setup_Camera() -> void:
 	if is_multiplayer_authority():
 		if Camera:
 			Camera.make_current()
@@ -160,14 +171,12 @@ func _physics_process(delta: float) -> void:
 		Crouching_Collision_Shape.disabled = false
 		Standing_Shape.visible = false
 		Crouching_Shape.visible = true
-		
 		# Sliding
-		if Is_Sprinting_Toggled && Input_Direction.y < 0 && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")): 
+		if is_on_floor() && Is_Sprinting_Toggled && Input_Direction.y < 0 && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
 			Sliding = true
 			Freelooking = true
 			Slide_Timer = Slide_Timer_Max
 			Slide_Vector = Vector2(Input_Direction.x, -1.0)
-			
 		Walking = false
 		Sprinting = false
 		Crouching = true
@@ -177,7 +186,6 @@ func _physics_process(delta: float) -> void:
 		Crouching_Collision_Shape.disabled = true
 		Standing_Shape.visible = true
 		Crouching_Shape.visible = false
-		
 		if Should_Sprint:
 			Current_Speed = lerp(Current_Speed, Sprinting_Speed, delta * Lerp_Speed)
 			Walking = false
@@ -197,7 +205,7 @@ func _physics_process(delta: float) -> void:
 		else:
 			Dash_Vector = Vector2(0, -1.0)
 	if Speed_Lines:
-		Speed_Lines.visible = Sliding || Dashing
+		Speed_Lines.visible = Sliding || Dashing || Grappling || (Sprinting && Input_Direction != Vector2.ZERO)
 	# Freelooking camera tilt
 	if Input.is_action_pressed("Freelook") || Sliding:
 		Freelooking = true
@@ -251,21 +259,66 @@ func _physics_process(delta: float) -> void:
 			rotate_y(Yaw_Delta)
 		Head.rotate_x(Pitch_Delta)
 		Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
-	# Jumping
-	if Input.is_action_just_pressed("Jump") and Jumps_Left > 0:
-		velocity.y = Jump_Velocity
-		Jumps_Left -= 1
-		if GameManager.Toggle_Crouch:
-			if Sliding:
-				Crouching = false 
-		Sliding = false
-		Freelooking = false
-		Dashing = false
-	# Direction and acceleration calculations
+	# Grapple
+	if Input.is_action_just_pressed("Grapple") and not Grappling:
+		if Grapple_RayCast and Grapple_RayCast.is_colliding():
+			Grapple_Point = Grapple_RayCast.get_collision_point()
+			Grapple_Length = global_position.distance_to(Grapple_Point)
+			Grapple_Total_Angle = 0.0
+			Grapple_Last_Dir = (global_position - Grapple_Point).normalized()
+			Grappling = true
+	elif not Input.is_action_pressed("Grapple") and Grappling:
+		Grappling = false
+		if Grapple_Rope:
+			Grapple_Rope.mesh = null
+	if Grappling:
+		var Current_Dir := (global_position - Grapple_Point).normalized()
+		var Step_Angle := Grapple_Last_Dir.angle_to(Current_Dir)
+		Grapple_Total_Angle += Step_Angle
+		Grapple_Last_Dir = Current_Dir
+		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
+			Grappling = false
+			if Grapple_Rope:
+				Grapple_Rope.mesh = null
+			if Input.is_action_just_pressed("Jump"):
+				velocity += Vector3.UP * (Jump_Velocity * 0.5)
+		else:
+			var Current_Distance := global_position.distance_to(Grapple_Point)
+			var Rope_Direction := (Grapple_Point - global_position).normalized()
+			if Current_Distance > (Grapple_Length + Grapple_Rope_Slack):
+				var Stretch := Current_Distance - Grapple_Length
+				velocity += Rope_Direction * Stretch * Grapple_Pull_Force * delta
+			Grapple_Length = move_toward(Grapple_Length, 2.0, delta * (Grapple_Pull_Force * 0.2))
+			if Input_Direction != Vector2.ZERO:
+				var Swing_Steering := (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
+				velocity += Swing_Steering * Sprinting_Speed * delta
+			if Grapple_Rope:
+				var Immediate_Mesh: ImmediateMesh
+				if Grapple_Rope.mesh is ImmediateMesh:
+					Immediate_Mesh = Grapple_Rope.mesh as ImmediateMesh
+					Immediate_Mesh.clear_surfaces()
+				else:
+					Immediate_Mesh = ImmediateMesh.new()
+					Grapple_Rope.mesh = Immediate_Mesh
+					
+				Immediate_Mesh.surface_begin(Mesh.PRIMITIVE_LINES)
+				Immediate_Mesh.surface_add_vertex(Grapple_Rope.to_local(global_position))
+				Immediate_Mesh.surface_add_vertex(Grapple_Rope.to_local(Grapple_Point))
+				Immediate_Mesh.surface_end()
+	else:
+		# Jumping
+		if Input.is_action_just_pressed("Jump") and Jumps_Left > 0:
+			velocity.y = Jump_Velocity
+			Jumps_Left -= 1
+			if GameManager.Toggle_Crouch:
+				if Sliding:
+					Crouching = false 
+			Sliding = false
+			Freelooking = false
 	if is_on_floor():
 		Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Lerp_Speed)
 	else:
-		if Input_Direction != Vector2.ZERO:
+		if Input_Direction != Vector2.ZERO and not Grappling:
 			Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Air_Lerp_Speed)
 	if Sliding:
 		Direction = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
@@ -285,12 +338,12 @@ func _physics_process(delta: float) -> void:
 		if Current_Dash_Speed < Walking_Speed:
 			Dashing = false
 			Current_Speed = Walking_Speed
-	# Apply velocities
-	if Direction:
-		velocity.x = Direction.x * Current_Speed
-		velocity.z = Direction.z * Current_Speed
-	else:
-		velocity.x = move_toward(velocity.x, 0, Current_Speed)
-		velocity.z = move_toward(velocity.z, 0, Current_Speed)
+	if not Grappling:
+		if Direction:
+			velocity.x = Direction.x * Current_Speed
+			velocity.z = Direction.z * Current_Speed
+		else:
+			velocity.x = move_toward(velocity.x, 0, Current_Speed)
+			velocity.z = move_toward(velocity.z, 0, Current_Speed)
 	Last_Velocity = velocity
 	move_and_slide()

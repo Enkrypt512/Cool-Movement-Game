@@ -52,6 +52,7 @@ var Local_Player:CharacterBody3D = null
 @onready var Reset_Settings: Button = $Settings/Main/Reset
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	Load_Game_Settings()
 	Forward.pressed.connect(On_Button_Pressed.bind(Forward))
 	Backward.pressed.connect(On_Button_Pressed.bind(Backward))
@@ -73,10 +74,39 @@ func _ready() -> void:
 	Bindings.pressed.connect(Change_To_Bindings)
 	Bindings_Quit.pressed.connect(Quit_From_Bindings)
 	Quit.pressed.connect(func(): get_tree().quit())
-	Start.pressed.connect(func(): Save_Game_Settings(); InGame_Menu.visible = false)
-	Back_To_Menu.pressed.connect(func (): get_tree().change_scene_to_file("res://Scenes/Menu.tscn"))
+	Start.pressed.connect(Resume_Game)
+	Back_To_Menu.pressed.connect(func():
+		get_tree().paused = false
+		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
+	)
 	Update_Labels()
 	Info_Panel.hide()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("Exit") and not event.is_echo():
+		get_viewport().set_input_as_handled()
+		if get_tree().paused:
+			Resume_Game()
+		else:
+			Pause_Game()
+
+func Pause_Game() -> void:
+	Save_Game_Settings()
+	visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var Main_Node = get_tree().current_scene
+	if Main_Node and Main_Node.has_method("Set_HUD_Visibility"):
+		Main_Node.Set_HUD_Visibility(false)
+	get_tree().paused = true
+
+func Resume_Game() -> void:
+	Save_Game_Settings()
+	visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	var Main_Node = get_tree().current_scene
+	if Main_Node and Main_Node.has_method("Set_HUD_Visibility"):
+		Main_Node.Set_HUD_Visibility(true)
+	get_tree().paused = false
 
 func On_Button_Pressed(button: Button) -> void:
 	Current_Button = button
@@ -96,30 +126,23 @@ func _process(_delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if Current_Button == null:
 		return
-
 	if event is InputEventMouseMotion or event is InputEventPanGesture:
 		return
-		
 	if event is InputEventJoypadMotion and abs(event.axis_value) < 0.5:
 		return
-	
 	get_viewport().set_input_as_handled()
-	
 	var Target_Action : String = Current_Button.name
 	if not InputMap.has_action(Target_Action) and InputMap.has_action(Target_Action.to_lower()):
 		Target_Action = Target_Action.to_lower()
-		
 	for Existing_Event in InputMap.action_get_events(Target_Action):
 		if Existing_Event.is_match(event):
 			Finish_Remapping()
 			return
-
 	for Action in InputMap.get_actions():
 		if Action != Target_Action:
 			for Action_Event in InputMap.action_get_events(Action):
 				if Action_Event.is_match(event):
 					InputMap.action_erase_event(Action, Action_Event)
-					
 	InputMap.action_add_event(Target_Action, event)
 	Finish_Remapping()
 
@@ -145,7 +168,6 @@ func Set_Label_Text(label: Label, Action_Name: String) -> void:
 	var Actual_Action:String = Action_Name
 	if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action_Name.to_lower()):
 		Actual_Action = Action_Name.to_lower()
-	
 	var Events : Array[InputEvent] = InputMap.action_get_events(Actual_Action)
 	if !Events.is_empty():
 		var Text_List : Array[String] = []
@@ -171,7 +193,6 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
 	Apply_Loaded_Settings()
-
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
 	InputMap.action_erase_events(Action_Name)
@@ -210,7 +231,6 @@ func Quit_From_Bindings():
 	Settings_Quit.visible = true
 	Engine.max_fps = FPS_Lock_Number.value
 
-
 func Save_Game_Settings() -> void:
 	var Config:ConfigFile = ConfigFile.new()
 	Config.set_value("Settings", "Volume", GameManager.Volume)
@@ -230,7 +250,6 @@ func Save_Game_Settings() -> void:
 			Actual_Action = Action.to_lower()
 		var Events := InputMap.action_get_events(Actual_Action)
 		Config.set_value("Binds", Action, Events)
-			
 	var error := Config.save(Save_Path)
 	if error != OK:
 		print("Failed to save settings. Error code: ", error)
@@ -272,12 +291,10 @@ func Load_Game_Settings() -> void:
 		var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 		for Action in Actions:
 			if Config.has_section_key("Binds", Action):
-				# Dont Know What Type Is Raw_Data :p
 				var Raw_Data = Config.get_value("Binds", Action)
 				var Actual_Action:String = Action
 				if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
-				
 				InputMap.action_erase_events(Actual_Action)
 				if Raw_Data is Array:
 					for Event in Raw_Data:
@@ -303,7 +320,6 @@ func Apply_Loaded_Settings() -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	Update_Labels()
-	
 	if GameManager.VSync:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:

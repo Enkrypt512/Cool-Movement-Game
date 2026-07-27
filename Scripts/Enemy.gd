@@ -25,18 +25,15 @@ func Actor_Setup() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y -= Gravity * delta
-	
 	if not is_instance_valid(Target):
 		Stop_Horizontal_Movement()
 		move_and_slide()
 		return
-	
 	Set_Movement_Target()
 	if Pathfinding.is_navigation_finished():
 		Stop_Horizontal_Movement()
 		move_and_slide()
 		return
-	
 	var Next_Path_Position: Vector3 = Pathfinding.get_next_path_position()
 	var Current_Position: Vector3 = global_position
 	var Direction: Vector3 = Current_Position.direction_to(Next_Path_Position)
