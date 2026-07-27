@@ -25,6 +25,8 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Dashing
 
+- Grapple Hooks
+
 And More Coming Soon! Like:
 
 - Bullet Decals
@@ -38,8 +40,6 @@ And More Coming Soon! Like:
 - Stages
 
 - Ledge Grabbing
-
-- Hooks
 
 - Melee Weapons
 
