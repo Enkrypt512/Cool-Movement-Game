@@ -23,6 +23,10 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Grapple Hooks
 
+- Wall Gliding
+
+- Wall Jumping
+
 And More Coming Soon! Like:
 
 - Bullet Decals
@@ -38,10 +42,6 @@ And More Coming Soon! Like:
 - Ledge Grabbing
 
 - Melee Weapons
-
-- Wall Gliding
-
-- Wall Jumping
 
 - Smoke & Normal Grenades
   
