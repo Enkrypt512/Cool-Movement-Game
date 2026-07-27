@@ -1,10 +1,6 @@
 # Cool-Movement-Game
 A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With:​
 
-- Settings
-
-- Rebindable Keys
-
 - Sprinting
 
 - Crouching
