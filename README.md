@@ -57,4 +57,4 @@ And More Coming Soon! Like:
 
 [Datagoblin](https://datagoblin.itch.io/): For The [Monogram Font](https://datagoblin.itch.io/monogram)
 
-Greg Zaal And Jarod Guest: For The [Sky Texture](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
+[Greg Zaal](https://polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](https://polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
