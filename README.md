@@ -9,7 +9,7 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Freelooking
 
-- Guns
+- 4 Different Guns
 
 - CS:GO-Like Recoil
 
@@ -22,6 +22,10 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 - Dashing
 
 - Grapple Hooks
+
+- Wall Gliding
+
+- Wall Jumping
 
 And More Coming Soon! Like:
 
@@ -38,10 +42,6 @@ And More Coming Soon! Like:
 - Ledge Grabbing
 
 - Melee Weapons
-
-- Wall Gliding
-
-- Wall Jumping
 
 - Smoke & Normal Grenades
   
