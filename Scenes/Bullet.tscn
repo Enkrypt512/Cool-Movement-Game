@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bfabeulnmlr3u"]
 
 [ext_resource type="Script" uid="uid://dc7wef4tc5byo" path="res://Scripts/Bullet.gd" id="1_14k46"]
-[ext_resource type="PackedScene" uid="uid://onp1abcfqsxt" path="res://Assets/models/Guns/bullet-foam-tip-thick.glb" id="2_qvus8"]
+[ext_resource type="PackedScene" uid="uid://dw5eb605d1nh" path="res://Assets/models/Bullet.glb" id="2_qvus8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lmyy4"]
 radius = 0.15429688

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ddryw2u01jmwo"]
 
 [ext_resource type="Script" uid="uid://bfwwdxfshr5th" path="res://Scripts/Healing_Box.gd" id="1_ymmso"]
-[ext_resource type="PackedScene" uid="uid://bwnrnv20if403" path="res://Assets/models/Guns/crate-small.glb" id="2_lpioi"]
+[ext_resource type="PackedScene" uid="uid://bloh03xjm6n35" path="res://Assets/models/Health Box.glb" id="2_lpioi"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ymmso"]
 size = Vector3(1, 0.7, 1.5)

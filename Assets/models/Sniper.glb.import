@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b811p6j0w8m3e"
-path="res://.godot/imported/grenade-b.glb-0f88d70a9c0d7821f6482ccabe958d19.scn"
+uid="uid://dahxqtg31mcan"
+path="res://.godot/imported/Sniper.glb-9b2a82a9da4349915368c78f5aa1a82d.scn"
 
 [deps]
 
-source_file="res://Assets/models/Guns/grenade-b.glb"
-dest_files=["res://.godot/imported/grenade-b.glb-0f88d70a9c0d7821f6482ccabe958d19.scn"]
+source_file="res://Assets/models/Sniper.glb"
+dest_files=["res://.godot/imported/Sniper.glb-9b2a82a9da4349915368c78f5aa1a82d.scn"]
 
 [params]
 
@@ -17,6 +17,7 @@ nodes/root_type=""
 nodes/root_name=""
 nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
+mesh_library/create_categories_from_hierarchy=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0

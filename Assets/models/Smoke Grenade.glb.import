@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://onp1abcfqsxt"
-path="res://.godot/imported/bullet-foam-tip-thick.glb-e25a075814238221be07b792589ac151.scn"
+uid="uid://dj3l56elfqnql"
+path="res://.godot/imported/Smoke Grenade.glb-f281021c89284f2cb5aed52fcab104b6.scn"
 
 [deps]
 
-source_file="res://Assets/models/Guns/bullet-foam-tip-thick.glb"
-dest_files=["res://.godot/imported/bullet-foam-tip-thick.glb-e25a075814238221be07b792589ac151.scn"]
+source_file="res://Assets/models/Smoke Grenade.glb"
+dest_files=["res://.godot/imported/Smoke Grenade.glb-f281021c89284f2cb5aed52fcab104b6.scn"]
 
 [params]
 
@@ -17,6 +17,7 @@ nodes/root_type=""
 nodes/root_name=""
 nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
+mesh_library/create_categories_from_hierarchy=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
 nodes/root_scale=1.0
