@@ -586,7 +586,7 @@ offset_left = 1064.0
 offset_top = 634.0
 offset_right = 1160.0
 offset_bottom = 647.0
-text = "Version  0.3.1"
+text = "Version:0.4"
 
 [node name="Credits" type="Control" parent="." unique_id=565533374]
 visible = false

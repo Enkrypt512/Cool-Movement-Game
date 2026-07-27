@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Cool Movement Game"
-config/version="0.3.1"
+config/version="0.4"
 run/main_scene="uid://bo4lgf8hrh8b3"
 config/features=PackedStringArray("4.8", "Forward Plus")
 config/icon="uid://hfgsgnyrr2af"
