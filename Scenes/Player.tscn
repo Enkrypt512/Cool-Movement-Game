@@ -11,7 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
-[ext_resource type="Texture2D" uid="uid://u0rtaw1n3mvd" path="res://Assets/textures/dev/grids/Dark/texture_07.png" id="12_glx4g"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
@@ -368,22 +367,10 @@ _data = {
 &"Land": SubResource("Animation_glx4g")
 }
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ksbbd"]
-albedo_texture = ExtResource("12_glx4g")
-uv1_triplanar = true
-uv2_triplanar = true
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miouo"]
-albedo_texture = ExtResource("12_glx4g")
-uv1_triplanar = true
-uv2_triplanar = true
-
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_miouo"]
 
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
-Grapple_Pull_Force = 20.0
-Grapple_Rope_Slack = 2.0
 
 [node name="Neck" type="Node3D" parent="." unique_id=698647956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -485,6 +472,4 @@ libraries/ = SubResource("AnimationLibrary_glx4g")
 
 [node name="Rope Mesh" type="MeshInstance3D" parent="." unique_id=873274516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3558221, 0.5582113, -0.51929426)
-material_override = SubResource("StandardMaterial3D_ksbbd")
-material_overlay = SubResource("StandardMaterial3D_miouo")
 mesh = SubResource("ImmediateMesh_miouo")

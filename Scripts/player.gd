@@ -65,12 +65,14 @@ var Headbobbing_Current_Intensity: float = 0.0
 
 # Grapple Variables
 @export_group("Grapple Variables")
-@export var Grapple_Pull_Force: float = 35.0
-@export var Grapple_Rope_Slack: float = 1.0
+@export var Grapple_Pull_Force: float = 20.0
+@export var Grapple_Rope_Slack: float = 2.0
 var Grapple_Point: Vector3 = Vector3.ZERO
 var Grapple_Length: float = 0.0
 var Grapple_Total_Angle: float = 0.0
-var Grapple_Last_Dir: Vector3 = Vector3.ZERO
+var Grapple_Last_Direction: Vector3 = Vector3.ZERO
+@export var Rope_Thickness: float = 0.08
+@export var Rope_Texture:Texture2D = preload("res://Assets/textures/dev/grids/Dark/texture_07.png")
 
 # Misc Variables
 @export_group("Misc Variables")
@@ -265,17 +267,17 @@ func _physics_process(delta: float) -> void:
 			Grapple_Point = Grapple_RayCast.get_collision_point()
 			Grapple_Length = global_position.distance_to(Grapple_Point)
 			Grapple_Total_Angle = 0.0
-			Grapple_Last_Dir = (global_position - Grapple_Point).normalized()
+			Grapple_Last_Direction = (global_position - Grapple_Point).normalized()
 			Grappling = true
 	elif not Input.is_action_pressed("Grapple") and Grappling:
 		Grappling = false
 		if Grapple_Rope:
 			Grapple_Rope.mesh = null
 	if Grappling:
-		var Current_Dir := (global_position - Grapple_Point).normalized()
-		var Step_Angle := Grapple_Last_Dir.angle_to(Current_Dir)
+		var Current_Direction := (global_position - Grapple_Point).normalized()
+		var Step_Angle := Grapple_Last_Direction.angle_to(Current_Direction)
 		Grapple_Total_Angle += Step_Angle
-		Grapple_Last_Dir = Current_Dir
+		Grapple_Last_Direction = Current_Direction
 		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
 			Grappling = false
 			if Grapple_Rope:
@@ -300,10 +302,31 @@ func _physics_process(delta: float) -> void:
 				else:
 					Immediate_Mesh = ImmediateMesh.new()
 					Grapple_Rope.mesh = Immediate_Mesh
-					
-				Immediate_Mesh.surface_begin(Mesh.PRIMITIVE_LINES)
-				Immediate_Mesh.surface_add_vertex(Grapple_Rope.to_local(global_position))
-				Immediate_Mesh.surface_add_vertex(Grapple_Rope.to_local(Grapple_Point))
+				if not Grapple_Rope.material_override:
+					var Rope_Material := StandardMaterial3D.new()
+					Rope_Material.albedo_texture = Rope_Texture
+					Rope_Material.uv1_triplanar = true
+					Rope_Material.uv2_triplanar = true
+					Rope_Material.cull_mode = BaseMaterial3D.CULL_DISABLED
+					Grapple_Rope.material_override = Rope_Material
+				var Start_Position := Grapple_Rope.to_local(global_position)
+				var End_Position := Grapple_Rope.to_local(Grapple_Point)
+				var Mesh_Rope_Direction := (End_Position - Start_Position).normalized()
+				var Camera_Direction := (global_position - Camera.global_position).normalized()
+				var Side_Direction := Mesh_Rope_Direction.cross(Camera_Direction).normalized() * (Rope_Thickness * 0.5)
+				if Side_Direction.length_squared() < 0.001:
+					Side_Direction = Mesh_Rope_Direction.cross(Vector3.UP).normalized() * (Rope_Thickness * 0.5)
+				Immediate_Mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+				var First_Vertex := Start_Position - Side_Direction
+				var Second_Vertex := Start_Position + Side_Direction
+				var Third_Vertex := End_Position + Side_Direction
+				var Fourth_Vertext := End_Position - Side_Direction
+				Immediate_Mesh.surface_add_vertex(First_Vertex)
+				Immediate_Mesh.surface_add_vertex(Second_Vertex)
+				Immediate_Mesh.surface_add_vertex(Third_Vertex)
+				Immediate_Mesh.surface_add_vertex(First_Vertex)
+				Immediate_Mesh.surface_add_vertex(Third_Vertex)
+				Immediate_Mesh.surface_add_vertex(Fourth_Vertext)
 				Immediate_Mesh.surface_end()
 	else:
 		# Jumping

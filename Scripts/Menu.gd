@@ -18,13 +18,15 @@ var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 @onready var Backward_Label: Label = $"Settings/Binds/Backward Label"
 @onready var Left_Label: Label = $"Settings/Binds/Left Label"
 @onready var Right_Label: Label = $"Settings/Binds/Right Label"
-@onready var Settings_Button: Button = $Settings_Button
+@onready var Settings_Button: Button = $'Settings Button'
 @onready var Settings_Quit: Button = $Settings/Quit
 @onready var Info_Panel: PanelContainer = $Settings/Binds/PanelContainer
 @onready var Settings: Control = $Settings
+@onready var Credits: Control = $Credits
 @onready var Binds: Control = $Settings/Binds
 @onready var Bindings_Quit: Button = $Settings/Binds/Quit
 @onready var Start: Button = $Start
+@onready var Credits_Button: Button = $"Credits Button"
 @onready var Quit: Button = $Quit
 @onready var Bindings: Button = $Settings/Main/Bindings
 @onready var Fullscreen_Check: CheckBox = $"Settings/Main/Fullscreen Check"
@@ -50,6 +52,7 @@ var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 @onready var Shoot_Label: Label = $"Settings/Binds/Shoot Label"
 @onready var Exit_Label: Label = $"Settings/Binds/Exit Label"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
+@onready var Quit_Credits: Button = $Credits/Quit
 
 func _ready() -> void:
 	Virtual_Mouse_Position = get_viewport().get_visible_rect().size / 2.0
@@ -75,6 +78,8 @@ func _ready() -> void:
 	Exit.pressed.connect(On_Button_Pressed.bind(Exit))
 	Shoot.pressed.connect(On_Button_Pressed.bind(Shoot))
 	Change_Gun.pressed.connect(On_Button_Pressed.bind(Change_Gun))
+	Credits_Button.pressed.connect(func(): Credits.visible = true)
+	Quit_Credits.pressed.connect(func(): Credits.hide())
 	Update_Labels()
 	Info_Panel.hide()
 

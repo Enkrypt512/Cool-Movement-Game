@@ -507,19 +507,28 @@ offset_bottom = 168.0
 tooltip_text = "Start The Game"
 text = "Start"
 
-[node name="Settings_Button" type="Button" parent="." unique_id=1091338797]
+[node name="Settings Button" type="Button" parent="." unique_id=1091338797]
 layout_mode = 0
-offset_top = 204.0
+offset_top = 180.0
 offset_right = 176.0
-offset_bottom = 252.0
+offset_bottom = 228.0
 tooltip_text = "Change The Settings"
 text = "Settings"
 
+[node name="Credits Button" type="Button" parent="." unique_id=1800972824]
+layout_mode = 0
+offset_top = 243.0
+offset_right = 176.0
+offset_bottom = 291.0
+tooltip_text = "Quit The Game"
+text = "Credits
+"
+
 [node name="Quit" type="Button" parent="." unique_id=1410713948]
 layout_mode = 0
-offset_top = 283.0
+offset_top = 307.0
 offset_right = 176.0
-offset_bottom = 331.0
+offset_bottom = 355.0
 tooltip_text = "Quit The Game"
 text = "Quit"
 
@@ -570,3 +579,55 @@ offset_left = 360.0
 offset_right = 880.0
 offset_bottom = 40.0
 placeholder_text = "Enter Your Username...."
+
+[node name="Version" type="Label" parent="." unique_id=542178762]
+layout_mode = 0
+offset_left = 1064.0
+offset_top = 634.0
+offset_right = 1160.0
+offset_bottom = 647.0
+text = "Version  0.3.1"
+
+[node name="Credits" type="Control" parent="." unique_id=565533374]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Credits" unique_id=730316244]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 28.8
+anchor_bottom = 16.225
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08627451, 0.08627451, 0.08627451, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Credits" type="Label" parent="Credits" unique_id=135020700]
+layout_mode = 0
+offset_right = 253.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 64
+text = "Credits:"
+vertical_alignment = 1
+
+[node name="Text" type="Label" parent="Credits" unique_id=172232235]
+layout_mode = 0
+offset_top = 81.0
+offset_right = 612.0
+offset_bottom = 225.0
+theme_override_font_sizes/font_size = 32
+text = "Kenney: For The Assets
+Lukky:For The Base Movement Code
+Datagoblin:For The Monogram Font
+Greg Zaal And Jarod Guest:For The Sky Texture
+And You! For Playing This Incredibely Buggy Game <3"
+
+[node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 176.0
+offset_bottom = 648.0
+tooltip_text = "Quit The Settings Menu"
+text = "Quit"
