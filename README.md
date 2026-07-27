@@ -9,7 +9,7 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Freelooking
 
-- Guns
+- 4 Different Guns
 
 - CS:GO-Like Recoil
 
