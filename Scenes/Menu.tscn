@@ -586,7 +586,7 @@ offset_left = 1064.0
 offset_top = 634.0
 offset_right = 1160.0
 offset_bottom = 647.0
-text = "Version:0.4"
+text = "Version:0.5"
 
 [node name="Credits" type="Control" parent="." unique_id=565533374]
 visible = false
@@ -604,7 +604,7 @@ grow_vertical = 2
 color = Color(0.08627451, 0.08627451, 0.08627451, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Credits" type="Label" parent="Credits" unique_id=135020700]
+[node name="Title" type="Label" parent="Credits" unique_id=135020700]
 layout_mode = 0
 offset_right = 253.0
 offset_bottom = 64.0
@@ -612,7 +612,7 @@ theme_override_font_sizes/font_size = 64
 text = "Credits:"
 vertical_alignment = 1
 
-[node name="Text" type="Label" parent="Credits" unique_id=172232235]
+[node name="Credits" type="Label" parent="Credits" unique_id=172232235]
 layout_mode = 0
 offset_top = 81.0
 offset_right = 612.0
@@ -622,6 +622,7 @@ text = "Kenney: For The Assets
 Lukky:For The Base Movement Code
 Datagoblin:For The Monogram Font
 Greg Zaal And Jarod Guest:For The Sky Texture
+Pichuliru:For The Smoke Grenade Model
 And You! For Playing This Incredibely Buggy Game <3"
 
 [node name="Quit" type="Button" parent="Credits" unique_id=1239328411]

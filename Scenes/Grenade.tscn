@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dinjbwvut84wb"]
+
+[ext_resource type="PackedScene" uid="uid://cakxbwcl762cd" path="res://Assets/models/Grenade.glb" id="1_be0jk"]
+[ext_resource type="Script" uid="uid://cudej43astjx6" path="res://Scripts/Grenade.gd" id="1_t2ec2"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ksbbd"]
+friction = 0.6
+bounce = 0.45
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_t2ec2"]
+radius = 0.9
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_763og"]
+radius = 15.0
+
+[node name="Grenade" type="RigidBody3D" unique_id=1690137510]
+disable_mode = 2
+physics_material_override = SubResource("PhysicsMaterial_ksbbd")
+script = ExtResource("1_t2ec2")
+
+[node name="Model" parent="." unique_id=2114661516 instance=ExtResource("1_be0jk")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1555526681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7490982, 0)
+shape = SubResource("SphereShape3D_t2ec2")
+
+[node name="Blast Area" type="Area3D" parent="." unique_id=1942996579]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Blast Area" unique_id=1713400547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7490982, 0)
+shape = SubResource("SphereShape3D_763og")

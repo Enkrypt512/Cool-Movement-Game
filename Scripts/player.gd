@@ -95,6 +95,11 @@ var Wall_Jump_Lock_Timer: float = 0.0
 @export var Min_Fall_Velocity: float = 15.0
 @export var Fall_Damage_Multiplier: float = 5.0
 
+# Grenade Variables
+@export_group("Grenade Variables")
+@export var Grenade: PackedScene = preload("res://Scenes/Grenade.tscn")
+@export var Throw_Force: float = 25.0
+
 # Misc Variables
 @export_group("Misc Variables")
 @export var Lerp_Speed: float = 10.0
@@ -228,6 +233,16 @@ func _physics_process(delta: float) -> void:
 			Dash_Vector = Input_Direction
 		else:
 			Dash_Vector = Vector2(0, -1.0)
+	# Throwing Grenades
+	if Input.is_action_just_pressed("Throw Grenade") and Grenade:
+		var Grenade_Instance = Grenade.instantiate() as RigidBody3D
+		get_tree().current_scene.add_child(Grenade_Instance)
+		Grenade_Instance.add_collision_exception_with(self)
+		var Forward_Vector := -Camera.global_transform.basis.z
+		Grenade_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
+		Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
+		var Throw_Right := Camera.global_transform.basis.x
+		Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
 	if Speed_Lines:
 		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO)
 	# Freelooking camera tilt

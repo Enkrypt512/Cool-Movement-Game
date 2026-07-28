@@ -64,3 +64,8 @@ func Body_Detected(Body):
 	if Body.is_in_group("Player") or Body.name == "Player":
 		if "Health" in Body:
 			Body.Health -= 30
+
+func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:
+	Health -= Amount
+	if Knockback != Vector3.ZERO:
+		velocity += Knockback

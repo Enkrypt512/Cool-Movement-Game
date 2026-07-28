@@ -4,9 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://dahxqtg31mcan" path="res://Assets/models/Sniper.glb" id="2_5ixxa"]
 [ext_resource type="Script" uid="uid://dvulu3lti1em3" path="res://Scripts/Recoil.gd" id="2_megsn"]
 [ext_resource type="Script" uid="uid://cjfh8bstuf6hb" path="res://Scripts/Guns.gd" id="2_nn08x"]
-[ext_resource type="PackedScene" path="res://Assets/models/blaster-d.glb" id="3_nn08x"]
 [ext_resource type="PackedScene" uid="uid://jl3gqwfhx8hn" path="res://Assets/models/Minigun.glb" id="4_52ee3"]
 [ext_resource type="PackedScene" uid="uid://doe4sqdgom4lh" path="res://Assets/models/Blaster.glb" id="5_bhhdu"]
+[ext_resource type="PackedScene" uid="uid://btj3wsa1ubjlq" path="res://Assets/models/Glock.glb" id="5_ksbbd"]
 [ext_resource type="Script" uid="uid://bo826kugag5sx" path="res://Scripts/HUD.gd" id="7_52ee3"]
 [ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
@@ -371,6 +371,7 @@ _data = {
 
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
+Throw_Force = 40.0
 
 [node name="Neck" type="Node3D" parent="." unique_id=698647956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -391,7 +392,7 @@ script = ExtResource("2_nn08x")
 [node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=991091972 instance=ExtResource("2_5ixxa")]
 transform = Transform3D(1, 0, 0, 0, 0.9969055, -0.078607954, 0, 0.078607954, 0.9969055, 0.055000007, -0.0670473, -0.90075874)
 
-[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=217729379 instance=ExtResource("3_nn08x")]
+[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=144215002 instance=ExtResource("5_ksbbd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14962071, -0.055550218, -0.40853763)
 visible = false
 

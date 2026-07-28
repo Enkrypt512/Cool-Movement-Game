@@ -5,7 +5,7 @@ extends Control
 @onready var Join: Button = $Join
 @onready var Main: Control = $"."
 @onready var Start: Button = $"../Start"
-@onready var Settings_Button: Button = $"../Settings_Button"
+@onready var Settings_Button: Button = $"../Settings Button"
 @onready var Quit: Button = $"../Quit"
 @onready var Start_Game: Button = $"Start Game"
 @export var Port: int = 8789
