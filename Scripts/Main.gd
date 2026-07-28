@@ -8,7 +8,7 @@ extends Node3D
 @onready var Main_Settings: Control = $Control/Settings/Main
 @onready var Quit_Settings: Button = $Control/Settings/Quit
 @onready var Resume: Button = $Control/Start
-@onready var Settings_button: Button = $Control/Settings_Button
+@onready var Settings_Button: Button = $"Control/Settings Button"
 @onready var Quit_Menu: Button = $Control/Quit
 @onready var Back_To_Menu: Button = $"Control/Back To Menu"
 
@@ -70,7 +70,7 @@ func Find_Local_Player() -> void:
 
 func _process(delta: float) -> void:
 	if GameManager.FPS_Counter:
-		FPS_Counter.text = 'FPS:' + str(Engine.get_frames_per_second())
+		FPS_Counter.text = 'FPS:' + str(round(Engine.get_frames_per_second()))
 		FPS_Counter.visible = true
 	else:
 		FPS_Counter.visible = false
@@ -158,7 +158,7 @@ func Pause_Game() -> void:
 	Binds.visible = false
 	Main_Settings.visible = false
 	Resume.visible = true
-	Settings_button.visible = true
+	Settings_Button.visible = true
 	Quit_Menu.visible = true
 	Back_To_Menu.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -173,7 +173,7 @@ func Resume_Game() -> void:
 	Binds.visible = false
 	Main_Settings.visible = false
 	Resume.visible = true
-	Settings_button.visible = true
+	Settings_Button.visible = true
 	Quit_Menu.visible = true
 	Back_To_Menu.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED

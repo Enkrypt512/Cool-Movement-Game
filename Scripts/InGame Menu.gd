@@ -79,6 +79,7 @@ func _ready() -> void:
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
 	)
+	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
 	Update_Labels()
 	Info_Panel.hide()
 
@@ -119,6 +120,7 @@ func _process(_delta: float) -> void:
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
 	GameManager.Joystick_Sensitivity = Joystick_Sensitivity_Number.value
 	GameManager.VSync = VSync_Check.button_pressed
+	GameManager.Max_FPS = int(FPS_Lock_Number.value)
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
@@ -341,3 +343,7 @@ func On_VSync_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
+func On_Max_FPS_Changed(value: float) -> void:
+	GameManager.Max_FPS = int(value)
+	Engine.max_fps = int(value)

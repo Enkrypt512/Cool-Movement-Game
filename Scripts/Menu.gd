@@ -80,6 +80,7 @@ func _ready() -> void:
 	Change_Gun.pressed.connect(On_Button_Pressed.bind(Change_Gun))
 	Credits_Button.pressed.connect(func(): Credits.visible = true)
 	Quit_Credits.pressed.connect(func(): Credits.hide())
+	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
 	Update_Labels()
 	Info_Panel.hide()
 
@@ -97,22 +98,26 @@ func _process(delta: float) -> void:
 	if Stick_Input != Vector2.ZERO:
 		var Speed:float = GameManager.Joystick_Sensitivity * 600.0
 		# Dont Know What Type Viewport_Size Is :p
-		var Viewport_Size = get_viewport().size
+		var Viewport_Size: Vector2 = get_viewport().size
 		Virtual_Mouse_Position += Stick_Input * Speed * delta
 		Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
 		Virtual_Mouse_Position.y = clamp(Virtual_Mouse_Position.y, 0.0, Viewport_Size.y)
 		Input.warp_mouse(Virtual_Mouse_Position)
 	if FPS_Check.button_pressed:
 		GameManager.FPS_Counter = true
-		FPS_Counter.text = ('FPS:' + str(Engine.get_frames_per_second()))
+		FPS_Counter.text = 'FPS:' + str(round(Engine.get_frames_per_second()))
 		FPS_Counter.visible = true
 	else:
 		GameManager.FPS_Counter = false
 		FPS_Counter.text = ''
 		FPS_Counter.visible = false
+	GameManager.FPS_Counter = FPS_Check.button_pressed
+	GameManager.Fullscreen = Fullscreen_Check.button_pressed
 	GameManager.Volume = Volume_Slider.value  
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
 	GameManager.Joystick_Sensitivity = Joystick_Sensitivity_Number.value
+	GameManager.VSync = VSync_Check.button_pressed
+	GameManager.Max_FPS = int(FPS_Lock_Number.value)
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
@@ -128,6 +133,7 @@ func _input(event: InputEvent) -> void:
 		Fullscreen_Check.toggled.connect(On_Fullscreen_Toggled)
 		get_viewport().set_input_as_handled()
 		Save_Game_Settings()
+		Apply_Loaded_Settings()
 		return
 	if event is InputEventJoypadButton and not event.is_echo():
 		if event.button_index == JOY_BUTTON_A:
@@ -219,14 +225,17 @@ func Change_To_Settings():
 	Start.visible = false
 	Quit.visible = false
 	Settings_Button.visible = false
+	Credits_Button.visible = false
 
 func Quit_From_Settings():
-	Save_Game_Settings()
 	Settings.visible = false
 	Start.visible = true
 	Quit.visible = true
 	Settings_Button.visible = true
-	Engine.max_fps = FPS_Lock_Number.value
+	Credits_Button.visible = true
+	GameManager.Max_FPS = int(FPS_Lock_Number.value)
+	Engine.max_fps = GameManager.Max_FPS
+	Save_Game_Settings()
 
 func Change_To_Bindings():
 	Main.visible = false
@@ -359,3 +368,7 @@ func Apply_Loaded_Settings() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
 	Engine.max_fps = GameManager.Max_FPS
+
+func On_Max_FPS_Changed(Value: float) -> void:
+	GameManager.Max_FPS = int(Value)
+	Engine.max_fps = int(Value)

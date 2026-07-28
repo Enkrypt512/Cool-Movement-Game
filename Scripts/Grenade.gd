@@ -4,12 +4,13 @@ extends RigidBody3D
 @export var Fuse_Time: float = 2.5
 @export var Blast_Force: float = 20.0
 @export var Max_Damage: float = 100.0
+@export var Weight: float = 1.4
 
 @onready var Blast_Area: Area3D = $"Blast Area"
 @onready var Blast_Area_Collision_Shape: CollisionShape3D = $"Blast Area/Collision Shape"
 
 func _ready() -> void:
-	gravity_scale = 1.4
+	gravity_scale = Weight
 	linear_damp = 0.1
 	angular_damp = 0.5
 	get_tree().create_timer(Fuse_Time).timeout.connect(Explode)
