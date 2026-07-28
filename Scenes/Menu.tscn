@@ -12,6 +12,14 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3kf3n")
 
+[node name="Version" type="Label" parent="." unique_id=542178762]
+layout_mode = 0
+offset_left = 1064.0
+offset_top = 634.0
+offset_right = 1160.0
+offset_bottom = 647.0
+text = "Version:0.5.3"
+
 [node name="Settings" type="Control" parent="." unique_id=2128066149]
 visible = false
 anchors_preset = 0
@@ -579,14 +587,6 @@ offset_left = 360.0
 offset_right = 880.0
 offset_bottom = 40.0
 placeholder_text = "Enter Your Username...."
-
-[node name="Version" type="Label" parent="." unique_id=542178762]
-layout_mode = 0
-offset_left = 1064.0
-offset_top = 634.0
-offset_right = 1160.0
-offset_bottom = 647.0
-text = "Version:0.5.2"
 
 [node name="Credits" type="Control" parent="." unique_id=565533374]
 visible = false
