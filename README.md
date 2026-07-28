@@ -47,33 +47,33 @@ And More Coming Soon! Like:
 
 Keys:
 
-WASD/Arrow Keys:Move
+- WASD/Arrow Keys:Move
 
-Mouse:Look Around
+- Mouse:Look Around
 
-LMB:Shoot
+- LMB:Shoot
 
-RMB:Aim Down Sight
+- RMB:Aim Down Sight
 
-Space:Jump
+- Space:Jump
 
-Shift:Sprint
+- Shift:Sprint
 
-Control:Crouch
+- Control:Crouch
 
-Alt:Freelook
+- Alt:Freelook
 
-E:Change Gun
+- E:Change Gun
 
-X:Dash
+- X:Dash
 
-N:Grapple Hook
+- N:Grapple Hook
 
-G:Throw Grenade
+- G:Throw Grenade
 
-Escape:Bring Up The InGame Menu
+- Escape:Bring Up The InGame Menu
 
-F11:Toggle Fullscreen
+- F11:Toggle Fullscreen
 
 # Credits:
 
