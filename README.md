@@ -44,7 +44,37 @@ And More Coming Soon! Like:
 - Melee Weapons
 
 - Smoke & Normal Grenades
-  
+
+Keys:
+
+WASD/Arrow Keys:Move
+
+Mouse:Look Around
+
+LMB:Shoot
+
+RMB:Aim Down Sight
+
+Space:Jump
+
+Shift:Sprint
+
+Control:Crouch
+
+Alt:Freelook
+
+E:Change Gun
+
+X:Dash
+
+N:Grapple Hook
+
+G:Throw Grenade
+
+Escape:Bring Up The InGame Menu
+
+F11:Toggle Fullscreen
+
 # Credits:
 
 [Kenney](kenney.nl): For The Assets
