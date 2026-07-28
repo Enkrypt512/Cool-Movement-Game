@@ -56,3 +56,5 @@ And More Coming Soon! Like:
 [Greg Zaal](https://polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](https://polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
 
 [Pichuliru](https://pichuliru.itch.io/): For The [Smoke Grenade Model](https://pichuliru.itch.io/cc0-flat-grenades)
+
+​[JoyTree Studios](https://joytree-studios.itch.io/)​:  For The [Grenade Texture](https://joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)​
