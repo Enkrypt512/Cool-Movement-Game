@@ -27,6 +27,10 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Wall Jumping
 
+- Grenades
+
+- Fall Damage
+
 And More Coming Soon! Like:
 
 - Bullet Decals
@@ -44,7 +48,37 @@ And More Coming Soon! Like:
 - Melee Weapons
 
 - Smoke & Normal Grenades
-  
+
+Keys:
+
+- WASD/Arrow Keys:Move
+
+- Mouse:Look Around
+
+- LMB:Shoot
+
+- RMB:Aim Down Sight
+
+- Space:Jump
+
+- Shift:Sprint
+
+- Control:Crouch
+
+- Alt:Freelook
+
+- E:Change Gun
+
+- X:Dash
+
+- N:Grapple Hook
+
+- G:Throw Grenade
+
+- Escape:Bring Up The InGame Menu
+
+- F11:Toggle Fullscreen
+
 # Credits:
 
 [Kenney](kenney.nl): For The Assets
