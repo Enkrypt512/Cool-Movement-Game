@@ -70,7 +70,7 @@ func Find_Local_Player() -> void:
 
 func _process(delta: float) -> void:
 	if GameManager.FPS_Counter:
-		FPS_Counter.text = 'FPS:' + str(round(Engine.get_frames_per_second()))
+		FPS_Counter.text = 'FPS:' + str(int(Engine.get_frames_per_second()))
 		FPS_Counter.visible = true
 	else:
 		FPS_Counter.visible = false

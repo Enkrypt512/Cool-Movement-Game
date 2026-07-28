@@ -46,8 +46,8 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="FPS Counter" type="Label" parent="." unique_id=4861372]
-offset_left = 1116.0
-offset_right = 1203.0
+offset_left = 1092.0
+offset_right = 1179.0
 offset_bottom = 31.0
 
 [node name="Control" type="Control" parent="." unique_id=1098213457]

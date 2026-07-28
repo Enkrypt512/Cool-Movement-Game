@@ -14,9 +14,9 @@ script = ExtResource("1_3kf3n")
 
 [node name="Version" type="Label" parent="." unique_id=542178762]
 layout_mode = 0
-offset_left = 1064.0
+offset_left = 1072.0
 offset_top = 634.0
-offset_right = 1160.0
+offset_right = 1168.0
 offset_bottom = 647.0
 text = "Version:0.5.3"
 
@@ -541,10 +541,9 @@ tooltip_text = "Quit The Game"
 text = "Quit"
 
 [node name="FPS Counter" type="Label" parent="." unique_id=1160444725]
-visible = false
 layout_mode = 0
-offset_left = 1114.0
-offset_right = 1234.0
+offset_left = 1109.0
+offset_right = 1229.0
 offset_bottom = 40.0
 
 [node name="Multiplayer" type="Control" parent="." unique_id=1866732488]

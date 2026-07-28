@@ -105,7 +105,7 @@ func _process(delta: float) -> void:
 		Input.warp_mouse(Virtual_Mouse_Position)
 	if FPS_Check.button_pressed:
 		GameManager.FPS_Counter = true
-		FPS_Counter.text = 'FPS:' + str(round(Engine.get_frames_per_second()))
+		FPS_Counter.text = 'FPS:' + str(int(Engine.get_frames_per_second()))
 		FPS_Counter.visible = true
 	else:
 		GameManager.FPS_Counter = false
