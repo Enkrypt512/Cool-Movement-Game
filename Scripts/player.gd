@@ -23,6 +23,7 @@ extends CharacterBody3D
 @onready var Speed_Lines: CanvasLayer = $"Speed Lines"
 @onready var Grapple_RayCast: RayCast3D = $"Neck/Head/Eyes/Recoil/Camera/Grappling/Grapple Ray"
 @onready var Grapple_Rope: MeshInstance3D = $"Rope Mesh"
+@onready var Grenades_Left: Label = $"HUD/Grenades Left"
 
 # States
 var Walking: bool = false
@@ -98,7 +99,9 @@ var Wall_Jump_Lock_Timer: float = 0.0
 # Grenade Variables
 @export_group("Grenade Variables")
 @export var Grenade: PackedScene = preload("res://Scenes/Grenade.tscn")
-@export var Throw_Force: float = 25.0
+@export var Throw_Force: float = 40.0
+@export var Grenade_Cooldown: float = 10.0
+@export var Grenades: int = 15
 
 # Misc Variables
 @export_group("Misc Variables")
@@ -114,6 +117,7 @@ var Is_Sprinting_Toggled: bool = false
 var Last_Velocity: Vector3 = Vector3.ZERO
 @export var Max_Jumps: int = 2
 var Jumps_Left: int
+var Last_Grenade_Throw_Time: float
 
 func _enter_tree() -> void:
 	if name.is_valid_int():
@@ -151,6 +155,7 @@ func _input(event: InputEvent) -> void:
 			Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
+	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if not is_multiplayer_authority():
 		return
 	var Input_Direction := Input.get_vector("Left", "Right", "Forward", "Backward")
@@ -234,15 +239,19 @@ func _physics_process(delta: float) -> void:
 		else:
 			Dash_Vector = Vector2(0, -1.0)
 	# Throwing Grenades
-	if Input.is_action_just_pressed("Throw Grenade") and Grenade:
-		var Grenade_Instance = Grenade.instantiate() as RigidBody3D
-		get_tree().current_scene.add_child(Grenade_Instance)
-		Grenade_Instance.add_collision_exception_with(self)
-		var Forward_Vector := -Camera.global_transform.basis.z
-		Grenade_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
-		Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
-		var Throw_Right := Camera.global_transform.basis.x
-		Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
+	if Input.is_action_just_pressed("Throw Grenade") && Grenade:
+		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
+			if Grenades > 0:
+				Last_Grenade_Throw_Time = Current_Time
+				var Grenade_Instance = Grenade.instantiate() as RigidBody3D
+				get_tree().current_scene.add_child(Grenade_Instance)
+				Grenade_Instance.add_collision_exception_with(self)
+				var Forward_Vector := -Camera.global_transform.basis.z
+				Grenade_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
+				Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
+				var Throw_Right := Camera.global_transform.basis.x
+				Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
+				Grenades -= 1
 	if Speed_Lines:
 		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO)
 	# Freelooking camera tilt
@@ -441,3 +450,6 @@ func _physics_process(delta: float) -> void:
 	if is_on_floor() and Last_Velocity.y < -Min_Fall_Velocity:
 		var Excess_Speed = abs(Last_Velocity.y) - Min_Fall_Velocity
 		Health = max(0, Health - int(Excess_Speed * Fall_Damage_Multiplier))
+
+func _process(delta: float) -> void:
+	Grenades_Left.text = str(Grenades)

@@ -247,6 +247,9 @@ height = 3.0
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i1i1d"]
 height = 1.7
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ksbbd"]
+load_path = "res://.godot/imported/grenade.png-e6d0ed000bfe56e2904130e53a0ac75c.ctex"
+
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhhdu"]
 properties/0/path = NodePath(".:Health")
 properties/0/spawn = true
@@ -371,7 +374,6 @@ _data = {
 
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
-Throw_Force = 40.0
 
 [node name="Neck" type="Node3D" parent="." unique_id=698647956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -438,6 +440,12 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("7_52ee3")
 
+[node name="Crosshair" type="Sprite2D" parent="HUD" unique_id=1921288461]
+texture_filter = 3
+position = Vector2(577, 320)
+scale = Vector2(2, 2)
+texture = ExtResource("8_bhhdu")
+
 [node name="Health Bar" type="ProgressBar" parent="HUD" unique_id=1534856107]
 layout_mode = 0
 offset_top = 28.0
@@ -452,11 +460,19 @@ offset_bottom = 23.766666
 theme_override_font_sizes/font_size = 30
 text = "Health:"
 
-[node name="Crosshair" type="Sprite2D" parent="." unique_id=1921288461]
-texture_filter = 3
-position = Vector2(577, 320)
-scale = Vector2(2, 2)
-texture = ExtResource("8_bhhdu")
+[node name="Grenade" type="Sprite2D" parent="HUD" unique_id=1473283935]
+position = Vector2(1112, 72)
+scale = Vector2(3.471153, 2.4722214)
+texture = SubResource("CompressedTexture2D_ksbbd")
+
+[node name="Grenades Left" type="Label" parent="HUD" unique_id=1248486106]
+layout_mode = 0
+offset_left = 1128.0
+offset_top = 64.0
+offset_right = 1152.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 32
+text = "s"
 
 [node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
 layer = -1
