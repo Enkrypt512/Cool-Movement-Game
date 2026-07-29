@@ -31,6 +31,10 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Fall Damage
 
+- Ground Slamming
+
+- Super Jumping
+
 And More Coming Soon! Like:
 
 - Bullet Decals
