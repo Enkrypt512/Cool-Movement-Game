@@ -18,7 +18,7 @@ offset_left = 1072.0
 offset_top = 634.0
 offset_right = 1168.0
 offset_bottom = 647.0
-text = "Version:0.5.4"
+text = "Version:0.5.5"
 
 [node name="Settings" type="Control" parent="." unique_id=2128066149]
 visible = false
