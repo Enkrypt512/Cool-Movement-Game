@@ -11,6 +11,12 @@ extends Node3D
 @onready var Settings_Button: Button = $"Control/Settings Button"
 @onready var Quit_Menu: Button = $Control/Quit
 @onready var Back_To_Menu: Button = $"Control/Back To Menu"
+@onready var Enemies_Killed: Label = $"Enemies Killed"
+@onready var Score: Label = $Score
+@onready var time: Label = $Time
+@onready var Highscore: Label = $Highscore
+@onready var Best_Time: Label = $"Best Time"
+@onready var Most_Enemies_Killed: Label = $"Most Enemies Killed"
 
 var Health_Box: PackedScene = preload("res://Scenes/Healing_Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
@@ -19,8 +25,11 @@ var Last_Enemy_Spawn_Time: float = 0.0
 var Local_Player: CharacterBody3D = null
 @export var Deadzone: float = 0.2
 var Virtual_Mouse_Position: Vector2 = Vector2.ZERO
+var Elapsed_Time: float = 0.0
 
 func _ready() -> void:
+	GameManager.Enemies_Killed = 0
+	GameManager.time = 0.0
 	Virtual_Mouse_Position = get_viewport().get_mouse_position()
 	get_tree().node_added.connect(On_Node_Added)
 	Find_Local_Player()
@@ -69,6 +78,9 @@ func Find_Local_Player() -> void:
 			break
 
 func _process(delta: float) -> void:
+	if not get_tree().paused:
+		Elapsed_Time += delta
+		GameManager.time = Elapsed_Time
 	if GameManager.FPS_Counter:
 		FPS_Counter.text = 'FPS:' + str(int(Engine.get_frames_per_second()))
 		FPS_Counter.visible = true
@@ -85,6 +97,7 @@ func _process(delta: float) -> void:
 			if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
 				Last_Enemy_Spawn_Time = Current_Time
 				Spawn_Enemy()
+				
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		var Raw_Cursor_X_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 		var Raw_Cursor_Y_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
@@ -99,6 +112,23 @@ func _process(delta: float) -> void:
 			Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
 			Virtual_Mouse_Position.y = clamp(Virtual_Mouse_Position.y, 0.0, Viewport_Size.y)
 			Input.warp_mouse(Virtual_Mouse_Position)
+	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
+	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
+	var Total_Microseconds: int = int(Elapsed_Time * 1_000_000)
+	var Minutes: int = Total_Microseconds / 60_000_000
+	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
+	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
+	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
+	if Highscore:
+		Highscore.text = "Highscore: " + str(GameManager.Highscore)
+	if Most_Enemies_Killed:
+		Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
+	if Best_Time:
+		var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
+		var Best_Mins: int = Best_Microseconds / 60_000_000
+		var Best_Secs: int = (Best_Microseconds / 1_000_000) % 60
+		var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
+		Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Mins, Best_Secs, Best_Ms]
 
 func Spawn_Health_Box() -> void:
 	var Health_Box_Instance: Node = Health_Box.instantiate()
@@ -138,12 +168,12 @@ func _input(event: InputEvent) -> void:
 func Set_HUD_Visibility(Is_Visible: bool) -> void:
 	if not is_instance_valid(Local_Player):
 		return    
-	var HUD = Local_Player.get_node_or_null("HUD")
-	var Crosshair = Local_Player.get_node_or_null("Crosshair")
-	if HUD:
-		HUD.visible = Is_Visible
-	if Crosshair:
-		Crosshair.visible = Is_Visible
+	var HUD_Node = Local_Player.get_node_or_null("HUD")
+	var Crosshair_Node = Local_Player.get_node_or_null("Crosshair")
+	if HUD_Node:
+		HUD_Node.visible = Is_Visible
+	if Crosshair_Node:
+		Crosshair_Node.visible = Is_Visible
 
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	GameManager.Fullscreen = Is_Checked

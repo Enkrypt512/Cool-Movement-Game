@@ -50,6 +50,59 @@ offset_left = 1092.0
 offset_right = 1179.0
 offset_bottom = 31.0
 
+[node name="Enemies Killed" type="Label" parent="." unique_id=1379550460]
+offset_left = -8.0
+offset_top = 104.0
+offset_right = 215.0
+offset_bottom = 140.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="." unique_id=1992110492]
+offset_left = -39.0
+offset_top = 128.0
+offset_right = 184.0
+offset_bottom = 164.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="." unique_id=1166920513]
+offset_top = 152.0
+offset_right = 223.0
+offset_bottom = 188.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Highscore" type="Label" parent="." unique_id=684160424]
+offset_left = -19.0
+offset_top = 176.0
+offset_right = 204.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Best Time" type="Label" parent="." unique_id=906740797]
+offset_left = 1.0
+offset_top = 200.0
+offset_right = 224.0
+offset_bottom = 236.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Most Enemies Killed" type="Label" parent="." unique_id=1721481407]
+offset_left = -31.0
+offset_top = 224.0
+offset_right = 192.0
+offset_bottom = 260.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Control" type="Control" parent="." unique_id=1098213457]
 visible = false
 layout_mode = 3
@@ -625,6 +678,56 @@ offset_bottom = 469.0
 tooltip_text = "Quit The Game"
 theme_override_font_sizes/font_size = 32
 text = "Quit"
+
+[node name="Enemies Killed" type="Label" parent="Died" unique_id=667572050]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 129.0
+offset_right = 648.0
+offset_bottom = 161.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Time" type="Label" parent="Died" unique_id=984830243]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 97.0
+offset_right = 648.0
+offset_bottom = 129.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Died" unique_id=1385640502]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 65.0
+offset_right = 648.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Highscore" type="Label" parent="Died" unique_id=2114127676]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 33.0
+offset_right = 648.0
+offset_bottom = 65.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Most Enemies Killed" type="Label" parent="Died" unique_id=2065355083]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 1.0
+offset_right = 648.0
+offset_bottom = 33.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Spawn Locations" type="Node3D" parent="." unique_id=1378112405]
 

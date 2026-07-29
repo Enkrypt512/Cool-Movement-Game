@@ -17,6 +17,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Health <= 0:
 		queue_free()
+		GameManager.Enemies_Killed += 1
 
 func Actor_Setup() -> void:
 	await get_tree().physics_frame
