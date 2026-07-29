@@ -28,6 +28,10 @@ agent_height = 0.5
 albedo_texture = ExtResource("1_idj7w")
 uv1_triplanar = true
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_50glp"]
+albedo_texture = ExtResource("1_idj7w")
+uv1_triplanar = true
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jw32o"]
 albedo_texture = ExtResource("1_idj7w")
 uv1_triplanar = true
@@ -95,9 +99,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Most Enemies Killed" type="Label" parent="." unique_id=1721481407]
-offset_left = -31.0
+offset_left = 17.0
 offset_top = 224.0
-offset_right = 192.0
+offset_right = 240.0
 offset_bottom = 260.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
@@ -767,7 +771,7 @@ material = SubResource("StandardMaterial3D_pn0ev")
 transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, 495.92847, 126.791016, 12.067505)
 use_collision = true
 size = Vector3(1017.58215, 1, 292.18896)
-material = SubResource("StandardMaterial3D_pn0ev")
+material = SubResource("StandardMaterial3D_50glp")
 
 [node name="Second Wall" type="CSGBox3D" parent="Navigation Region" unique_id=1002435917]
 transform = Transform3D(-4.371139e-08, 1, 4.371139e-08, 0, -4.371139e-08, 1, 1, 4.371139e-08, 1.9106855e-15, -458.3498, 126.791016, 1.6167603)

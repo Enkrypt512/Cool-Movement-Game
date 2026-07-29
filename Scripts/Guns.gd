@@ -50,7 +50,7 @@ func _ready() -> void:
 	Guns = [Percision, Glock, Minigun, Blaster]
 
 func _process(delta: float) -> void:
-	if not Input.is_action_pressed("Shoot"):
+	if !Input.is_action_pressed("Shoot"):
 		Continuous_Fire_Time = move_toward(Continuous_Fire_Time, 0.0, delta * 4.0)
 
 func _input(event: InputEvent) -> void:

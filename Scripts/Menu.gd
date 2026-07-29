@@ -125,7 +125,7 @@ func _process(delta: float) -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		Virtual_Mouse_Position = event.position
-	if event is InputEventKey and event.keycode == KEY_F11 and event.pressed:
+	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
 		var Is_Fullscreen:bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 		Fullscreen_Check.toggled.disconnect(On_Fullscreen_Toggled)
 		On_Fullscreen_Toggled(!Is_Fullscreen)
@@ -135,9 +135,9 @@ func _input(event: InputEvent) -> void:
 		Save_Game_Settings()
 		Apply_Loaded_Settings()
 		return
-	if event is InputEventJoypadButton and not event.is_echo():
+	if event is InputEventJoypadButton && !event.is_echo():
 		if event.button_index == JOY_BUTTON_A:
-			if not Current_Button:
+			if !Current_Button:
 				var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
 				Click_Event.button_index = MOUSE_BUTTON_LEFT
 				Click_Event.pressed = event.is_pressed()
@@ -152,7 +152,7 @@ func _input(event: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	var Target_Action : String = Current_Button.name
-	if not InputMap.has_action(Target_Action) and InputMap.has_action(Target_Action.to_lower()):
+	if !InputMap.has_action(Target_Action) && InputMap.has_action(Target_Action.to_lower()):
 		Target_Action = Target_Action.to_lower()
 	for Existing_Event in InputMap.action_get_events(Target_Action):
 		if Existing_Event.is_match(event):
@@ -186,7 +186,7 @@ func Update_Labels() -> void:
 
 func Set_Label_Text(label: Label, Action_Name: String) -> void:
 	var Actual_Action:String = Action_Name
-	if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action_Name.to_lower()):
+	if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action_Name.to_lower()):
 		Actual_Action = Action_Name.to_lower()
 	var events : Array[InputEvent] = InputMap.action_get_events(Actual_Action)
 	if !events.is_empty():
@@ -285,7 +285,7 @@ func Save_Game_Settings() -> void:
 	var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action:String = Action
-		if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
+		if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 			Actual_Action = Action.to_lower()
 		var Events := InputMap.action_get_events(Actual_Action)
 		Config.set_value("Binds", Action, Events)
@@ -333,7 +333,7 @@ func Load_Game_Settings() -> void:
 				# Dont Know What Type Raw_Data Is :p
 				var Raw_Data = Config.get_value("Binds", Action)
 				var Actual_Action:String = Action
-				if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
+				if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
 				InputMap.action_erase_events(Actual_Action)
 				if Raw_Data is Array:

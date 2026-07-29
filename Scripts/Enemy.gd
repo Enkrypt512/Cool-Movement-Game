@@ -24,9 +24,9 @@ func Actor_Setup() -> void:
 	Set_Movement_Target()
 
 func _physics_process(delta: float) -> void:
-	if not is_on_floor():
+	if !is_on_floor():
 		velocity.y -= Gravity * delta
-	if not is_instance_valid(Target):
+	if !is_instance_valid(Target):
 		Stop_Horizontal_Movement()
 		move_and_slide()
 		return

@@ -25,7 +25,7 @@ func _ready() -> void:
 	Find_Local_Player()
 
 func On_Node_Added(node: Node) -> void:
-	if Player == null and node.is_in_group("Player") and node.is_multiplayer_authority():
+	if Player == null && node.is_in_group("Player") && node.is_multiplayer_authority():
 		Player = node as CharacterBody3D
 
 func Find_Local_Player() -> void:
@@ -38,10 +38,10 @@ func _process(delta: float) -> void:
 	if !visible:
 		Elapsed_Time += delta
 		GameManager.time = Elapsed_Time
-	if Player == null or not ("Health" in Player):
+	if Player == null or !("Health" in Player):
 		return
 	if Player.Health <= 0:
-		if not Died.visible: 
+		if !Died.visible: 
 			Died.visible = true
 			Crosshair.visible = false
 			HUD.visible = false
@@ -59,7 +59,7 @@ func _process(delta: float) -> void:
 			Died.visible = false
 			Crosshair.visible = true
 			HUD.visible = true
-			if not InGame_Menu.visible:
+			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
@@ -88,7 +88,7 @@ func _input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		if event is InputEventMouseMotion:
 			Virtual_Mouse_Position = event.position
-	if event.is_action("ui_accept") and not event.is_echo():
+	if event.is_action("ui_accept") && !event.is_echo():
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			var Click_Event: InputEventMouseButton = InputEventMouseButton.new()
 			Click_Event.button_index = MOUSE_BUTTON_LEFT

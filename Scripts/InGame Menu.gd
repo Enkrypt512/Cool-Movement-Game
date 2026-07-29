@@ -84,7 +84,7 @@ func _ready() -> void:
 	Info_Panel.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Exit") and not event.is_echo():
+	if event.is_action_pressed("Exit") && !event.is_echo():
 		get_viewport().set_input_as_handled()
 		if get_tree().paused:
 			Resume_Game()
@@ -96,7 +96,7 @@ func Pause_Game() -> void:
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var Main_Node = get_tree().current_scene
-	if Main_Node and Main_Node.has_method("Set_HUD_Visibility"):
+	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(false)
 	get_tree().paused = true
 
@@ -105,7 +105,7 @@ func Resume_Game() -> void:
 	visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var Main_Node = get_tree().current_scene
-	if Main_Node and Main_Node.has_method("Set_HUD_Visibility"):
+	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(true)
 	get_tree().paused = false
 
@@ -130,11 +130,11 @@ func _input(event: InputEvent) -> void:
 		return
 	if event is InputEventMouseMotion or event is InputEventPanGesture:
 		return
-	if event is InputEventJoypadMotion and abs(event.axis_value) < 0.5:
+	if event is InputEventJoypadMotion && abs(event.axis_value) < 0.5:
 		return
 	get_viewport().set_input_as_handled()
 	var Target_Action : String = Current_Button.name
-	if not InputMap.has_action(Target_Action) and InputMap.has_action(Target_Action.to_lower()):
+	if !InputMap.has_action(Target_Action) && InputMap.has_action(Target_Action.to_lower()):
 		Target_Action = Target_Action.to_lower()
 	for Existing_Event in InputMap.action_get_events(Target_Action):
 		if Existing_Event.is_match(event):
@@ -168,7 +168,7 @@ func Update_Labels() -> void:
 
 func Set_Label_Text(label: Label, Action_Name: String) -> void:
 	var Actual_Action:String = Action_Name
-	if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action_Name.to_lower()):
+	if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action_Name.to_lower()):
 		Actual_Action = Action_Name.to_lower()
 	var Events : Array[InputEvent] = InputMap.action_get_events(Actual_Action)
 	if !Events.is_empty():
@@ -248,7 +248,7 @@ func Save_Game_Settings() -> void:
 	var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action:String = Action
-		if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
+		if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 			Actual_Action = Action.to_lower()
 		var Events := InputMap.action_get_events(Actual_Action)
 		Config.set_value("Binds", Action, Events)
@@ -295,7 +295,7 @@ func Load_Game_Settings() -> void:
 			if Config.has_section_key("Binds", Action):
 				var Raw_Data = Config.get_value("Binds", Action)
 				var Actual_Action:String = Action
-				if not InputMap.has_action(Actual_Action) and InputMap.has_action(Action.to_lower()):
+				if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
 				InputMap.action_erase_events(Actual_Action)
 				if Raw_Data is Array:

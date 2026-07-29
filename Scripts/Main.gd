@@ -39,14 +39,14 @@ func _ready() -> void:
 		multiplayer.peer_disconnected.connect(Despawn_Player)
 
 func Spawn_All_Players() -> void:
-	if not multiplayer.is_server():
+	if !multiplayer.is_server():
 		return
 	Spawn_Player(1)
 	for Peer_ID in multiplayer.get_peers():
 		Spawn_Player(Peer_ID)
 
 func Spawn_Player(Peer_ID: int) -> void:
-	if not multiplayer.is_server():
+	if !multiplayer.is_server():
 		return
 	if has_node(str(Peer_ID)):
 		return
@@ -54,7 +54,7 @@ func Spawn_Player(Peer_ID: int) -> void:
 	Player_Instance.name = str(Peer_ID)
 	Player_Instance.set_multiplayer_authority(Peer_ID)
 	var Spawn_Position = Vector3(0, 2, 0)
-	if Spawn_Locations and Spawn_Locations.get_child_count() > 0:
+	if Spawn_Locations && Spawn_Locations.get_child_count() > 0:
 		var Spawn_Point = Spawn_Locations.get_children().pick_random()
 		Spawn_Position = Spawn_Point.global_position + Vector3(0, 1.5, 0)
 	Player_Instance.global_position = Spawn_Position
@@ -78,7 +78,7 @@ func Find_Local_Player() -> void:
 			break
 
 func _process(delta: float) -> void:
-	if not get_tree().paused:
+	if !get_tree().paused:
 		Elapsed_Time += delta
 		GameManager.time = Elapsed_Time
 	if GameManager.FPS_Counter:
@@ -86,7 +86,7 @@ func _process(delta: float) -> void:
 		FPS_Counter.visible = true
 	else:
 		FPS_Counter.visible = false
-	if not get_tree().paused:
+	if !get_tree().paused:
 		if multiplayer.is_server():
 			var Current_Time: float = Time.get_ticks_msec() / 1000.0
 			var Spawn_Cooldown: float = 10.0
@@ -147,7 +147,7 @@ func Spawn_Enemy() -> void:
 	add_child(Enemy_Instance, true)
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and event.keycode == KEY_F11 and event.pressed:
+	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
 		var Is_Fullscreen: bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 		On_Fullscreen_Toggled(!Is_Fullscreen)
 		get_viewport().set_input_as_handled()
@@ -155,7 +155,7 @@ func _input(event: InputEvent) -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 		if event is InputEventMouseMotion:
 			Virtual_Mouse_Position = event.position
-	if event.is_action("ui_accept") and not event.is_echo():
+	if event.is_action("ui_accept") && !event.is_echo():
 		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
 			var Click_Event: InputEventMouseButton = InputEventMouseButton.new()
 			Click_Event.button_index = MOUSE_BUTTON_LEFT
@@ -166,7 +166,7 @@ func _input(event: InputEvent) -> void:
 			return
 
 func Set_HUD_Visibility(Is_Visible: bool) -> void:
-	if not is_instance_valid(Local_Player):
+	if !is_instance_valid(Local_Player):
 		return    
 	var HUD_Node = Local_Player.get_node_or_null("HUD")
 	var Crosshair_Node = Local_Player.get_node_or_null("Crosshair")

@@ -19,7 +19,7 @@ func _ready() -> void:
 func Explode() -> void:
 	var Bodies = Blast_Area.get_overlapping_bodies()
 	var Blast_Radius: float = 5.0
-	if Blast_Area_Collision_Shape and Blast_Area_Collision_Shape.shape is SphereShape3D:
+	if Blast_Area_Collision_Shape && Blast_Area_Collision_Shape.shape is SphereShape3D:
 		Blast_Radius = Blast_Area_Collision_Shape.shape.radius
 	for body in Bodies:
 		if body == self:
