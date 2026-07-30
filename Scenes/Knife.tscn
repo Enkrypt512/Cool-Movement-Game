@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://c7i5m0yrmtxsu"]
+
+[ext_resource type="Script" uid="uid://dcthbyy63m762" path="res://Scripts/Knife.gd" id="1_n625q"]
+[ext_resource type="PackedScene" uid="uid://cmo0ts3xkxd6x" path="res://Assets/models/Knife.glb" id="1_yo0mk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lmyy4"]
+size = Vector3(1.6523438, 0.2857666, 0.03479004)
+
+[node name="Knife" type="Node3D" unique_id=811385776]
+transform = Transform3D(0.993786, 0, 0.111307874, 0, 1, 0, -0.111307874, 0, 0.993786, 0, 0, 0)
+script = ExtResource("1_n625q")
+
+[node name="Model" parent="." unique_id=180426173 instance=ExtResource("1_yo0mk")]
+transform = Transform3D(4.2256846, 2.6132371, 0.56088126, -2.414814, 4.182582, -1.2940955, -1.1455415, 0.8228028, 4.79695, 0, 0, 0)
+
+[node name="Body Detection" type="Area3D" parent="." unique_id=1313729241]
+
+[node name="Collision Box" type="CollisionShape3D" parent="Body Detection" unique_id=308591445]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.008014206, 0.03677231, 0.038348593)
+shape = SubResource("BoxShape3D_lmyy4")

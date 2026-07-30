@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://bokvwrf0w8tp0"]
+
+[ext_resource type="Texture2D" uid="uid://dovlkyoch4l42" path="res://Assets/textures/Bullet Decal.png" id="1_fwejc"]
+[ext_resource type="Script" uid="uid://bomwn3inm38ny" path="res://Scripts/Bullet Decal.gd" id="2_u7ph7"]
+
+[node name="Bullet Decal" type="Sprite3D" unique_id=400268932]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+sorting_offset = 1.0
+render_priority = 1
+texture = ExtResource("1_fwejc")
+script = ExtResource("2_u7ph7")
+
+[node name="Timer" type="Timer" parent="." unique_id=608805839]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=2015232194]

@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://btj3wsa1ubjlq" path="res://Assets/models/Glock.glb" id="5_ksbbd"]
 [ext_resource type="Script" uid="uid://bo826kugag5sx" path="res://Scripts/HUD.gd" id="7_52ee3"]
 [ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
+[ext_resource type="PackedScene" uid="uid://c7i5m0yrmtxsu" path="res://Scenes/Knife.tscn" id="8_glx4g"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
 
@@ -66,6 +67,34 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(-2, -2, -2),
 "update": 0,
 "values": [Vector3(0, 0, 0), Vector3(0.17453292, 0, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o3h8g"]
+resource_name = "Knife Recoil"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Knife:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3333333, 0.5),
+"transitions": PackedFloat32Array(-2, -2, -2, -2),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0), Vector3(1.131334e-08, -1.5707964, 0.26179942), Vector3(1.13133405e-08, -1.5707964, 0.26179942), Vector3(0, -1.5707964, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Knife:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.16666667, 0.3333333, 0.5),
+"transitions": PackedFloat32Array(-2, -2, -2, -2),
+"update": 0,
+"values": [Vector3(0, -0.15860629, -0.9004979), Vector3(0, 0.20528054, -0.22403014), Vector3(0, -0.28241372, -1.4388049), Vector3(0, -0.15860629, -0.9004979)]
 }
 
 [sub_resource type="Animation" id="Animation_miouo"]
@@ -223,11 +252,36 @@ tracks/7/keys = {
 "update": 0,
 "values": [Vector3(0, 0, 0)]
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("Knife:rotation")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5707964, 0)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("Knife:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.15860629, -0.9004979)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yoq75"]
 _data = {
 &"Blaster Recoil": SubResource("Animation_ksbbd"),
 &"Glock Recoil": SubResource("Animation_yoq75"),
+&"Knife Recoil": SubResource("Animation_o3h8g"),
 &"Minigun Recoil": SubResource("Animation_miouo"),
 &"Percision Recoil": SubResource("Animation_bhhdu"),
 &"RESET": SubResource("Animation_megsn")
@@ -387,26 +441,30 @@ script = ExtResource("2_megsn")
 
 [node name="Camera" type="Camera3D" parent="Neck/Head/Eyes/Recoil" unique_id=1778389079]
 
-[node name="Guns" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera" unique_id=2008800675]
+[node name="Weapons" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera" unique_id=2008800675]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70443773, -0.15963483, 0)
 script = ExtResource("2_nn08x")
 
-[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=991091972 instance=ExtResource("2_5ixxa")]
+[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=991091972 instance=ExtResource("2_5ixxa")]
 transform = Transform3D(1, 0, 0, 0, 0.9969055, -0.078607954, 0, 0.078607954, 0.9969055, 0.055000007, -0.0670473, -0.90075874)
 
-[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=144215002 instance=ExtResource("5_ksbbd")]
+[node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=144215002 instance=ExtResource("5_ksbbd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14962071, -0.055550218, -0.40853763)
 visible = false
 
-[node name="Minigun" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=562311047 instance=ExtResource("4_52ee3")]
+[node name="Minigun" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=562311047 instance=ExtResource("4_52ee3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.12247503, -0.27970588, -0.7731428)
 visible = false
 
-[node name="Blaster" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=305994673 instance=ExtResource("5_bhhdu")]
+[node name="Blaster" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=305994673 instance=ExtResource("5_bhhdu")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.14032531, -0.20808518, -0.6925007)
 visible = false
 
-[node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera/Guns" unique_id=179384305]
+[node name="Knife" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=811385776 instance=ExtResource("8_glx4g")]
+transform = Transform3D(-4.3711385e-08, 0, -1, 0, 0.9999999, 0, 0.9999999, 0, -4.371139e-08, 0, -0.15860629, -0.9004979)
+visible = false
+
+[node name="Gun Animations" type="AnimationPlayer" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=179384305]
 libraries/ = SubResource("AnimationLibrary_yoq75")
 
 [node name="Grappling" type="Node3D" parent="Neck/Head/Eyes/Recoil/Camera" unique_id=138574741]

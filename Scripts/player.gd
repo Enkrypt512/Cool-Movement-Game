@@ -269,7 +269,7 @@ func _physics_process(delta: float) -> void:
 				Grenades -= 1
 	# Speed Lines
 	if Speed_Lines:
-		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO)
+		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0)
 	# Freelooking camera tilt
 	if Input.is_action_pressed("Freelook") || Sliding:
 		Freelooking = true
