@@ -35,9 +35,11 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Super Jumping
 
-And More Coming Soon! Like:
+- Meele Weapon (Knife)
 
 - Bullet Decals
+​
+And More Coming Soon! Like:
 
 - Peeking
 
@@ -48,8 +50,6 @@ And More Coming Soon! Like:
 - Stages
 
 - Ledge Grabbing
-
-- Melee Weapons
 
 - Smoke & Normal Grenades
 
@@ -95,4 +95,8 @@ Keys:
 
 [Pichuliru](https://pichuliru.itch.io/): For The [Smoke Grenade Model](https://pichuliru.itch.io/cc0-flat-grenades)
 
-​[JoyTree Studios](https://joytree-studios.itch.io/)​:  For The [Grenade Texture](https://joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)​
+​[JoyTree Studios](https://joytree-studios.itch.io/)​:  For The [Grenade Texture](https://joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)
+
+[musdasch](https://opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](https://opengameart.org/content/bullet-decal)​
+
+[plaggy]​(https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​
