@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bokvwrf0w8tp0"]
 
-[ext_resource type="Texture2D" uid="uid://dovlkyoch4l42" path="res://Assets/textures/Bullet Decal.png" id="1_fwejc"]
+[ext_resource type="Texture2D" uid="uid://dovlkyoch4l42" path="res://Assets/Textures/Bullet Decal.png" id="1_fwejc"]
 [ext_resource type="Script" uid="uid://bomwn3inm38ny" path="res://Scripts/Bullet Decal.gd" id="2_u7ph7"]
 
 [node name="Bullet Decal" type="Sprite3D" unique_id=400268932]

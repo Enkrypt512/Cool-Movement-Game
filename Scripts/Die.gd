@@ -3,10 +3,10 @@ extends Control
 var Player: CharacterBody3D = null
 var Elapsed_Time: float
 @onready var Died: Control = $"."
-@onready var Menu: Control = $"../Control"
+@onready var Menu: Control = $"../InGame Menu"
 @onready var Return_To_Menu: Button = $"Return To Menu"
 @onready var Quit: Button = $Quit
-@onready var InGame_Menu: Control = $"../Control"
+@onready var InGame_Menu: Control = $"../InGame Menu"
 @onready var Crosshair: Sprite2D = $"../Player/HUD/Crosshair"
 @onready var HUD: Control = $"../Player/HUD"
 @onready var Enemies_Killed: Label = $"Enemies Killed"

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://jl3gqwfhx8hn"
-path="res://.godot/imported/Minigun.glb-6d4e9cc14f8ac0a22c74fe729664aad3.scn"
+uid="uid://doe4sqdgom4lh"
+path="res://.godot/imported/Blaster.glb-62c2699031614e875ad28122055e911b.scn"
 
 [deps]
 
-source_file="res://Assets/models/Minigun.glb"
-dest_files=["res://.godot/imported/Minigun.glb-6d4e9cc14f8ac0a22c74fe729664aad3.scn"]
+source_file="res://Assets/Models/Blaster.glb"
+dest_files=["res://.godot/imported/Blaster.glb-62c2699031614e875ad28122055e911b.scn"]
 
 [params]
 

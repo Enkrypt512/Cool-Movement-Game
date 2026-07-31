@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://bfabeulnmlr3u"]
 
 [ext_resource type="Script" uid="uid://dc7wef4tc5byo" path="res://Scripts/Bullet.gd" id="1_14k46"]
-[ext_resource type="PackedScene" uid="uid://dw5eb605d1nh" path="res://Assets/models/Bullet.glb" id="2_qvus8"]
+[ext_resource type="PackedScene" uid="uid://dw5eb605d1nh" path="res://Assets/Models/Bullet.glb" id="2_qvus8"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lmyy4"]
 radius = 0.15429688
 height = 0.6503296
 
 [node name="Bullet" type="Node3D" unique_id=1176032753]
-transform = Transform3D(-4.371136e-08, 0, -0.99999994, 0, 0.99999976, 0, 0.99999976, 0, -4.3711374e-08, 0, 0, 0)
+transform = Transform3D(0.99999976, 0, 0, 0, 0.99999976, 0, 0, 0, 0.99999994, 0, 0, 0)
 script = ExtResource("1_14k46")
 
 [node name="Collision Detection" type="Area3D" parent="." unique_id=1362840925]

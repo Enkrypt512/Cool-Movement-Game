@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://u0rtaw1n3mvd"
-path.s3tc="res://.godot/imported/texture_07.png-a33413991f701fabd93e1bbb8bcbb30c.s3tc.ctex"
-path.etc2="res://.godot/imported/texture_07.png-a33413991f701fabd93e1bbb8bcbb30c.etc2.ctex"
+uid="uid://dan1uibc722bw"
+path.s3tc="res://.godot/imported/colormap.png-55c145eede9c6cf8550c3fb330726270.s3tc.ctex"
+path.etc2="res://.godot/imported/colormap.png-55c145eede9c6cf8550c3fb330726270.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/textures/dev/grids/Dark/texture_07.png"
-dest_files=["res://.godot/imported/texture_07.png-a33413991f701fabd93e1bbb8bcbb30c.s3tc.ctex", "res://.godot/imported/texture_07.png-a33413991f701fabd93e1bbb8bcbb30c.etc2.ctex"]
+source_file="res://Assets/Models/Textures/colormap.png"
+dest_files=["res://.godot/imported/colormap.png-55c145eede9c6cf8550c3fb330726270.s3tc.ctex", "res://.godot/imported/colormap.png-55c145eede9c6cf8550c3fb330726270.etc2.ctex"]
 
 [params]
 

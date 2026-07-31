@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xr5r0s3ebr1f"
-path.s3tc="res://.godot/imported/Knife_1.png-cac75f737cde69a24b57c9770aa8bb0c.s3tc.ctex"
-path.etc2="res://.godot/imported/Knife_1.png-cac75f737cde69a24b57c9770aa8bb0c.etc2.ctex"
+uid="uid://bh7gsg5vygeja"
+path.s3tc="res://.godot/imported/Knife_0.png-3e405a7cfe2ed5d57a5f97a39f65f919.s3tc.ctex"
+path.etc2="res://.godot/imported/Knife_0.png-3e405a7cfe2ed5d57a5f97a39f65f919.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "ba87b09f879bcf827aa4f23c587df0fc"
+"md5": "a5cd481f33aa274031e1c7f293497c68"
 }
 
 [deps]
 
-source_file="res://Assets/models/Knife_1.png"
-dest_files=["res://.godot/imported/Knife_1.png-cac75f737cde69a24b57c9770aa8bb0c.s3tc.ctex", "res://.godot/imported/Knife_1.png-cac75f737cde69a24b57c9770aa8bb0c.etc2.ctex"]
+source_file="res://Assets/Models/Knife_0.png"
+dest_files=["res://.godot/imported/Knife_0.png-3e405a7cfe2ed5d57a5f97a39f65f919.s3tc.ctex", "res://.godot/imported/Knife_0.png-3e405a7cfe2ed5d57a5f97a39f65f919.etc2.ctex"]
 
 [params]
 
@@ -31,8 +31,8 @@ compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=8
-roughness/src_normal="res://Assets/models/Knife_2.png"
+roughness/mode=0
+roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

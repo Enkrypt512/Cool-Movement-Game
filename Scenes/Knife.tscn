@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c7i5m0yrmtxsu"]
 
 [ext_resource type="Script" uid="uid://dcthbyy63m762" path="res://Scripts/Knife.gd" id="1_n625q"]
-[ext_resource type="PackedScene" uid="uid://cmo0ts3xkxd6x" path="res://Assets/models/Knife.glb" id="1_yo0mk"]
+[ext_resource type="PackedScene" uid="uid://cmo0ts3xkxd6x" path="res://Assets/Models/Knife.glb" id="1_yo0mk"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_lmyy4"]
 size = Vector3(1.6523438, 0.2857666, 0.03479004)

@@ -74,11 +74,12 @@ func _physics_process(delta: float) -> void:
 			if Current_Time - Last_Shot_Time >= Shoot_Cooldown:
 				Last_Shot_Time = Current_Time
 				Continuous_Fire_Time += Shoot_Cooldown
+				# TODO:Add Explosion VFX In Blaster Gun + Sent Every Player Against The Explosion
 				if Current_Gun_Name != "Knife":
 					var Bullet_Instance = Bullet.instantiate()
-					get_tree().current_scene.add_child(Bullet_Instance)
 					var Active_Gun = Guns[Current_Gun]
 					Bullet_Instance.global_transform = Active_Gun.global_transform
+					get_tree().current_scene.add_child(Bullet_Instance)
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
 					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))

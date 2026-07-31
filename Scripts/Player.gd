@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-# Movement variables
+# Movement Variables
 @export_group("Movment Variables")
 @export var Current_Speed: float = 5.0
 @export var Walking_Speed: float = 10.0
@@ -44,7 +44,7 @@ var Slide_Vector: Vector2 = Vector2.ZERO
 @export var Slide_Speed: int = 30
 var Current_Slide_Speed: float = 0.0
 @export var Slide_Boost: float = 8.0
-@export var Max_Chained_Speed: float = 100.0
+@export var Max_Chained_Speed: float = 2000000000.0
 @export var Speed_Preservation: float = 0.98
 @export var Slide_Jump_Forward_Boost: float = 1.25
 
@@ -79,7 +79,7 @@ var Grapple_Length: float = 0.0
 var Grapple_Total_Angle: float = 0.0
 var Grapple_Last_Direction: Vector3 = Vector3.ZERO
 @export var Rope_Thickness: float = 0.08
-@export var Rope_Texture: Texture2D = preload("res://Assets/textures/dev/grids/Dark/texture_07.png")
+@export var Rope_Texture: Texture2D = preload("res://Assets/Textures/Rope.jpg")
 
 # Wall Jump Variables
 @export_group("Wall Jump Variables")
@@ -126,26 +126,24 @@ var Last_Grenade_Throw_Time: float
 
 func _enter_tree() -> void:
 	if name.is_valid_int():
-		set_multiplayer_authority(name.to_int())
+		var peer_id := name.to_int()
+		set_multiplayer_authority(peer_id)
+		if has_node("Multiplayer Synchronizer"):
+			$"Multiplayer Synchronizer".set_multiplayer_authority(peer_id)
 
 func _ready() -> void:
 	if Grapple_Rope:
 		Grapple_Rope.mesh = null
-	var Peer_ID := name.to_int() if name.is_valid_int() else 1
-	set_multiplayer_authority(Peer_ID)
-	if has_node("Multiplayer Synchronizer"):
-		Multiplayer_Synchronizer.set_multiplayer_authority(Peer_ID)
 	if !is_multiplayer_authority():
 		set_process_unhandled_input(false)
 		set_physics_process(false)
-	if is_multiplayer_authority():
+		if Camera:
+			Camera.current = false
+	else:
 		if Camera:
 			Camera.make_current()
 			Camera.current = true
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	else:
-		if Camera:
-			Camera.current = false
 
 func _input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
@@ -201,10 +199,11 @@ func _physics_process(delta: float) -> void:
 		Dash_Timer -= delta
 		if Dash_Timer <= 0:
 			Dashing = false
-	# State flags
+	# State Flags
 	var Should_Crouch := Is_Crouching_Toggled || Sliding
 	var Should_Sprint := Is_Sprinting_Toggled && !Should_Crouch
 	# Changes The State On What You're Holding/Toggling
+	# TODO:Add Walking/Sprinting/Crouching/Sliding SFX
 	if Should_Crouch:
 		Head.position.y = lerp(Head.position.y, Crouching_Depth, delta * Lerp_Speed)
 		Current_Speed = lerp(Current_Speed, Crouching_Speed, delta * Lerp_Speed)
@@ -270,7 +269,7 @@ func _physics_process(delta: float) -> void:
 	# Speed Lines
 	if Speed_Lines:
 		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0)
-	# Freelooking camera tilt
+	# Freelooking Camera Tilt
 	if Input.is_action_pressed("Freelook") || Sliding:
 		Freelooking = true
 		Camera.rotation.z = -deg_to_rad(Neck.rotation.y * Freelook_Tilt_Amount)
@@ -438,7 +437,7 @@ func _physics_process(delta: float) -> void:
 		var Wall_Slide_Direction := Raw_Direction.slide(Wall_Normal).normalized()
 		Direction = lerp(Direction, Wall_Slide_Direction, delta * Air_Lerp_Speed)
 		Current_Speed = lerp(Current_Speed, Wall_Glide_Speed, delta * Lerp_Speed)
-		# Wall Gliding camera tilt
+		# Wall Gliding Camera Tilt
 		var Wall_Side := transform.basis.x.dot(Wall_Normal)
 		if Wall_Side > 0:
 			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(-Wall_Glide_Tilt_Angle), delta * 10.0)
@@ -487,8 +486,8 @@ func _physics_process(delta: float) -> void:
 	var Was_In_Air := !is_on_floor()
 	Last_Velocity = velocity
 	move_and_slide()
-	if Was_In_Air and is_on_floor():
-		if not Slamming:
+	if Was_In_Air && is_on_floor():
+		if !Slamming:
 			if Last_Velocity.y < -Minimum_Fall_Velocity:
 				var Excess_Speed = abs(Last_Velocity.y) - Minimum_Fall_Velocity
 				var Calculated_Damage = Excess_Speed * Fall_Damage_Multiplier
@@ -497,3 +496,5 @@ func _physics_process(delta: float) -> void:
 
 func _process(delta: float) -> void:
 	Grenades_Left.text = str(Grenades)
+	if Health <= 0:
+		queue_free()

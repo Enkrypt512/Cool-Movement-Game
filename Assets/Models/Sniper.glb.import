@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://btj3wsa1ubjlq"
-path="res://.godot/imported/Glock.glb-6567c8652870659b9ad744bcdb43c103.scn"
+uid="uid://dahxqtg31mcan"
+path="res://.godot/imported/Sniper.glb-6462e399293de97709e567cb25e2e328.scn"
 
 [deps]
 
-source_file="res://Assets/models/Glock.glb"
-dest_files=["res://.godot/imported/Glock.glb-6567c8652870659b9ad744bcdb43c103.scn"]
+source_file="res://Assets/Models/Sniper.glb"
+dest_files=["res://.godot/imported/Sniper.glb-6462e399293de97709e567cb25e2e328.scn"]
 
 [params]
 

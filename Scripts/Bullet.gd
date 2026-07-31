@@ -30,7 +30,7 @@ func On_Bullet_Hit(body: Node) -> void:
 	queue_free()
 
 func _spawn_decal(Target_Body: Node) -> void:
-	if not Decal_Scene or Target_Body.is_in_group("Enemy") or Target_Body.is_in_group("Player"):
+	if !Decal_Scene or Target_Body.is_in_group("Enemy") or Target_Body.is_in_group("Player"):
 		return
 	var Space_state = get_world_3d().direct_space_state
 	var Ray_Start = global_position + global_transform.basis.z * 1.5

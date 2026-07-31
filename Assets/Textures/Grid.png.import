@@ -2,21 +2,18 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bh57yakn64un3"
-path.s3tc="res://.godot/imported/Knife_2.png-d1330377be5631a5f6c7d4c2681ca4df.s3tc.ctex"
-path.etc2="res://.godot/imported/Knife_2.png-d1330377be5631a5f6c7d4c2681ca4df.etc2.ctex"
+uid="uid://u0rtaw1n3mvd"
+path.s3tc="res://.godot/imported/Grid.png-54e0c702458334fc8869daf32cb095cf.s3tc.ctex"
+path.etc2="res://.godot/imported/Grid.png-54e0c702458334fc8869daf32cb095cf.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
-generator_parameters={
-"md5": "d608e148d245ba07d9d692ea0acb58ec"
-}
 
 [deps]
 
-source_file="res://Assets/models/Knife_2.png"
-dest_files=["res://.godot/imported/Knife_2.png-d1330377be5631a5f6c7d4c2681ca4df.s3tc.ctex", "res://.godot/imported/Knife_2.png-d1330377be5631a5f6c7d4c2681ca4df.etc2.ctex"]
+source_file="res://Assets/Textures/Grid.png"
+dest_files=["res://.godot/imported/Grid.png-54e0c702458334fc8869daf32cb095cf.s3tc.ctex", "res://.godot/imported/Grid.png-54e0c702458334fc8869daf32cb095cf.etc2.ctex"]
 
 [params]
 
@@ -27,12 +24,12 @@ compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=1
+compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=1
-roughness/src_normal="res://Assets/models/Knife_2.png"
+roughness/mode=0
+roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1
 process/channel_remap/blue=2

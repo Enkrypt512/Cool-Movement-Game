@@ -18,7 +18,7 @@ offset_left = 1072.0
 offset_top = 634.0
 offset_right = 1168.0
 offset_bottom = 647.0
-text = "Version:0.6"
+text = "Version:0.7"
 
 [node name="Settings" type="Control" parent="." unique_id=2128066149]
 visible = false
@@ -282,9 +282,9 @@ offset_bottom = 40.0
 
 [node name="Bindings" type="Button" parent="Settings/Main" unique_id=11927939]
 layout_mode = 0
-offset_top = 507.0
+offset_top = 539.0
 offset_right = 176.0
-offset_bottom = 555.0
+offset_bottom = 587.0
 tooltip_text = "Rebind Keys"
 text = "Bind Keys"
 
@@ -409,6 +409,18 @@ text = "No Shake:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Speedometer" type="Label" parent="Settings/Main" unique_id=1064702596]
+layout_mode = 0
+offset_top = 486.0
+offset_right = 200.0
+offset_bottom = 526.0
+tooltip_text = "Adds A Speedometer
+"
+mouse_filter = 0
+text = "Speedometer:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fullscreen Check" type="CheckBox" parent="Settings/Main" unique_id=1497556539]
 layout_mode = 0
 offset_left = 192.0
@@ -495,7 +507,15 @@ offset_left = 192.0
 offset_top = 438.0
 offset_right = 224.0
 offset_bottom = 470.0
-tooltip_text = "Disables Headbobbing"
+tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
+
+[node name="Speedometer Check" type="CheckBox" parent="Settings/Main" unique_id=182799088]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 486.0
+offset_right = 224.0
+offset_bottom = 518.0
+tooltip_text = "Adds A Speedometer"
 
 [node name="Reset" type="Button" parent="Settings/Main" unique_id=1400369090]
 layout_mode = 0

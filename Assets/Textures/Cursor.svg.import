@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6pjw3dsprrvi"
-path="res://.godot/imported/grenade.png-e6d0ed000bfe56e2904130e53a0ac75c.ctex"
+uid="uid://dqvkgx7pnx4sb"
+path="res://.godot/imported/Cursor.svg-08587ed5248e29ed319eeda863d8f8d4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/textures/grenade.png"
-dest_files=["res://.godot/imported/grenade.png-e6d0ed000bfe56e2904130e53a0ac75c.ctex"]
+source_file="res://Assets/Textures/Cursor.svg"
+dest_files=["res://.godot/imported/Cursor.svg-08587ed5248e29ed319eeda863d8f8d4.ctex"]
 
 [params]
 
@@ -39,3 +39,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

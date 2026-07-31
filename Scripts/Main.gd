@@ -1,24 +1,24 @@
 extends Node3D
 
-@onready var FPS_Counter: Label = $"FPS Counter"
-@onready var InGame_Menu: Control = $Control
+@onready var FPS_Counter: Label = $"HUD/FPS Counter"
+@onready var InGame_Menu: Control = $"InGame Menu"
 @onready var Floor: CSGBox3D = $"Navigation Region/Floor"
 @onready var Spawn_Locations: Node3D = $"Spawn Locations"
-@onready var Binds: Control = $Control/Settings/Binds
-@onready var Main_Settings: Control = $Control/Settings/Main
-@onready var Quit_Settings: Button = $Control/Settings/Quit
-@onready var Resume: Button = $Control/Start
-@onready var Settings_Button: Button = $"Control/Settings Button"
-@onready var Quit_Menu: Button = $Control/Quit
-@onready var Back_To_Menu: Button = $"Control/Back To Menu"
-@onready var Enemies_Killed: Label = $"Enemies Killed"
-@onready var Score: Label = $Score
-@onready var time: Label = $Time
-@onready var Highscore: Label = $Highscore
-@onready var Best_Time: Label = $"Best Time"
-@onready var Most_Enemies_Killed: Label = $"Most Enemies Killed"
+@onready var Binds: Control = $"InGame Menu/Settings/Binds"
+@onready var Main_Settings: Control = $"InGame Menu/Settings/Main"
+@onready var Quit_Settings: Button = $"InGame Menu/Settings/Quit"
+@onready var Resume: Button = $"InGame Menu/Start"
+@onready var Settings_Button: Button = $"InGame Menu/Settings Button"
+@onready var Quit_Menu: Button = $"InGame Menu/Quit"
+@onready var Back_To_Menu: Button = $"InGame Menu/Back To Menu"
+@onready var Enemies_Killed: Label = $"HUD/Enemies Killed"
+@onready var Score: Label = $HUD/Score
+@onready var time: Label = $HUD/Time
+@onready var Highscore: Label = $HUD/Highscore
+@onready var Best_Time: Label = $"HUD/Best Time"
+@onready var Most_Enemies_Killed: Label = $"HUD/Most Enemies Killed"
 
-var Health_Box: PackedScene = preload("res://Scenes/Healing_Box.tscn")
+var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
 var Last_Spawn_Time: float = 0.0
 var Last_Enemy_Spawn_Time: float = 0.0
@@ -174,6 +174,18 @@ func Set_HUD_Visibility(Is_Visible: bool) -> void:
 		HUD_Node.visible = Is_Visible
 	if Crosshair_Node:
 		Crosshair_Node.visible = Is_Visible
+	if Most_Enemies_Killed:
+		Most_Enemies_Killed.visible = Is_Visible
+	if time:
+		time.visible = Is_Visible
+	if Enemies_Killed:
+		Enemies_Killed.visible = Is_Visible
+	if Score:
+		Score.visible = Is_Visible
+	if Highscore:
+		Highscore.visible = Is_Visible
+	if Best_Time:
+		Best_Time.visible = Is_Visible
 
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	GameManager.Fullscreen = Is_Checked

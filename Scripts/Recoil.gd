@@ -4,7 +4,7 @@ var Current_Rotation: Vector3 = Vector3.ZERO
 var Target_Rotation: Vector3 = Vector3.ZERO
 @export var Snap_Amount: float = 15.0
 @export var Return_Speed: float = 3.0
-@export var Max_Recoil_Angles: Vector3 = Vector3(25.0, 15.0, 15.0) # Prevents infinite rotation stacking
+@export var Max_Recoil_Angles: Vector3 = Vector3(25.0, 15.0, 15.0)
 
 func _process(delta: float) -> void:
 	Target_Rotation = Target_Rotation.lerp(Vector3.ZERO, 1.0 - exp(-Return_Speed * delta))

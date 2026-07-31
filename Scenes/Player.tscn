@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://wchx5lfbm4rn"]
 
-[ext_resource type="Script" uid="uid://dyiohlxiowoiv" path="res://Scripts/player.gd" id="1_rpqav"]
-[ext_resource type="PackedScene" uid="uid://dahxqtg31mcan" path="res://Assets/models/Sniper.glb" id="2_5ixxa"]
+[ext_resource type="Script" uid="uid://dyiohlxiowoiv" path="res://Scripts/Player.gd" id="1_rpqav"]
+[ext_resource type="PackedScene" uid="uid://dahxqtg31mcan" path="res://Assets/Models/Sniper.glb" id="2_5ixxa"]
 [ext_resource type="Script" uid="uid://dvulu3lti1em3" path="res://Scripts/Recoil.gd" id="2_megsn"]
 [ext_resource type="Script" uid="uid://cjfh8bstuf6hb" path="res://Scripts/Guns.gd" id="2_nn08x"]
-[ext_resource type="PackedScene" uid="uid://jl3gqwfhx8hn" path="res://Assets/models/Minigun.glb" id="4_52ee3"]
-[ext_resource type="PackedScene" uid="uid://doe4sqdgom4lh" path="res://Assets/models/Blaster.glb" id="5_bhhdu"]
-[ext_resource type="PackedScene" uid="uid://btj3wsa1ubjlq" path="res://Assets/models/Glock.glb" id="5_ksbbd"]
+[ext_resource type="PackedScene" uid="uid://jl3gqwfhx8hn" path="res://Assets/Models/Minigun.glb" id="4_52ee3"]
+[ext_resource type="PackedScene" uid="uid://doe4sqdgom4lh" path="res://Assets/Models/Blaster.glb" id="5_bhhdu"]
+[ext_resource type="PackedScene" uid="uid://btj3wsa1ubjlq" path="res://Assets/Models/Glock.glb" id="5_ksbbd"]
 [ext_resource type="Script" uid="uid://bo826kugag5sx" path="res://Scripts/HUD.gd" id="7_52ee3"]
-[ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/textures/Crosshair.png" id="8_bhhdu"]
+[ext_resource type="Texture2D" uid="uid://kprms3v75t44" path="res://Assets/Textures/Crosshair.png" id="8_bhhdu"]
 [ext_resource type="PackedScene" uid="uid://c7i5m0yrmtxsu" path="res://Scenes/Knife.tscn" id="8_glx4g"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
@@ -531,6 +531,13 @@ offset_right = 1152.0
 offset_bottom = 90.0
 theme_override_font_sizes/font_size = 32
 text = "s"
+
+[node name="Speedometer" type="Label" parent="HUD" unique_id=581954394]
+layout_mode = 0
+offset_top = 623.0
+offset_right = 128.0
+offset_bottom = 649.0
+theme_override_font_sizes/font_size = 32
 
 [node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
 layer = -1

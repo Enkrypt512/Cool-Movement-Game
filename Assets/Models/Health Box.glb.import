@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://bloh03xjm6n35"
-path="res://.godot/imported/Health Box.glb-03e51662c75ab83e0ccdd839c07b3baf.scn"
+path="res://.godot/imported/Health Box.glb-94ddfc535682de7b35fbf04695e0a693.scn"
 
 [deps]
 
-source_file="res://Assets/models/Health Box.glb"
-dest_files=["res://.godot/imported/Health Box.glb-03e51662c75ab83e0ccdd839c07b3baf.scn"]
+source_file="res://Assets/Models/Health Box.glb"
+dest_files=["res://.godot/imported/Health Box.glb-94ddfc535682de7b35fbf04695e0a693.scn"]
 
 [params]
 

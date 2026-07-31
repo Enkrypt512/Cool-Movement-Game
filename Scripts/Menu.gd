@@ -31,6 +31,7 @@ var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 @onready var Bindings: Button = $Settings/Main/Bindings
 @onready var Fullscreen_Check: CheckBox = $"Settings/Main/Fullscreen Check"
 @onready var FPS_Check: CheckBox = $"Settings/Main/FPS Check"
+@onready var Speedometer_Check: CheckBox = $"Settings/Main/Speedometer Check"
 @onready var FPS_Counter: Label = $"FPS Counter"
 @onready var Mouse_Sensitivity_Number: SpinBox = $"Settings/Main/Mouse Sensitivity Number"
 @onready var Joystick_Sensitivity_Number: SpinBox = $"Settings/Main/Joystick Sensitivity Number"
@@ -97,7 +98,6 @@ func _process(delta: float) -> void:
 	)
 	if Stick_Input != Vector2.ZERO:
 		var Speed:float = GameManager.Joystick_Sensitivity * 600.0
-		# Dont Know What Type Viewport_Size Is :p
 		var Viewport_Size: Vector2 = get_viewport().size
 		Virtual_Mouse_Position += Stick_Input * Speed * delta
 		Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
@@ -121,6 +121,7 @@ func _process(delta: float) -> void:
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
+	GameManager.Speedometer = Speedometer_Check.button_pressed
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
@@ -212,6 +213,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Toggle_Sprint = false
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
+	GameManager.Speedometer = false
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -282,6 +284,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "Toggle Sprint", GameManager.Toggle_Sprint)
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
+	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
 	var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action:String = Action
@@ -308,6 +311,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Sprint = false
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
+		GameManager.Speedometer = false
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -317,6 +321,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Sprint = Config.get_value("Settings","Toggle Sprint",false)
 		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
+		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
 		var Loaded_Mouse_Sensitivity:float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -330,7 +335,6 @@ func Load_Game_Settings() -> void:
 		var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 		for Action in Actions:
 			if Config.has_section_key("Binds", Action):
-				# Dont Know What Type Raw_Data Is :p
 				var Raw_Data = Config.get_value("Binds", Action)
 				var Actual_Action:String = Action
 				if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
@@ -342,7 +346,6 @@ func Load_Game_Settings() -> void:
 							InputMap.action_add_event(Actual_Action, Event)
 				elif Raw_Data is InputEvent:
 					InputMap.action_add_event(Actual_Action, Raw_Data)
-						
 	Apply_Loaded_Settings()
 
 func Apply_Loaded_Settings() -> void:
@@ -356,6 +359,7 @@ func Apply_Loaded_Settings() -> void:
 	Toggle_Sprint_Check.button_pressed = GameManager.Toggle_Sprint
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
+	Speedometer_Check.button_pressed = GameManager.Speedometer
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:

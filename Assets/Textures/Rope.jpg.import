@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kprms3v75t44"
-path="res://.godot/imported/Crosshair.png-6aafd920925fab710d170d418587d53c.ctex"
+uid="uid://c3b6a6ed4lldy"
+path="res://.godot/imported/Rope.jpg-b1c32c9ba577a020f7647ab66156cae1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/textures/Crosshair.png"
-dest_files=["res://.godot/imported/Crosshair.png-6aafd920925fab710d170d418587d53c.ctex"]
+source_file="res://Assets/Textures/Rope.jpg"
+dest_files=["res://.godot/imported/Rope.jpg-b1c32c9ba577a020f7647ab66156cae1.ctex"]
 
 [params]
 

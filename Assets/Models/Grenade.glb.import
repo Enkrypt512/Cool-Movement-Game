@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://iut8eumy83ma"
-path="res://.godot/imported/Smoke Grenade.glb-f281021c89284f2cb5aed52fcab104b6.scn"
+uid="uid://cakxbwcl762cd"
+path="res://.godot/imported/Grenade.glb-4f3f080735421eb668150a78112c8dc8.scn"
 
 [deps]
 
-source_file="res://Assets/models/Smoke Grenade.glb"
-dest_files=["res://.godot/imported/Smoke Grenade.glb-f281021c89284f2cb5aed52fcab104b6.scn"]
+source_file="res://Assets/Models/Grenade.glb"
+dest_files=["res://.godot/imported/Grenade.glb-4f3f080735421eb668150a78112c8dc8.scn"]
 
 [params]
 

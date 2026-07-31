@@ -16,6 +16,7 @@ var time: float = 0.0
 var Highscore: int = 0
 var Most_Enemies_Killed: int = 0
 var Best_Time: float = 0.0
+var Speedometer
 
 func _ready() -> void:
 	Load_Stats()

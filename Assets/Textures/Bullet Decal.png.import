@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dovlkyoch4l42"
-path.s3tc="res://.godot/imported/Bullet Decal.png-9d0910427f3bae2bab7e9e00b2aaa275.s3tc.ctex"
-path.etc2="res://.godot/imported/Bullet Decal.png-9d0910427f3bae2bab7e9e00b2aaa275.etc2.ctex"
+path.s3tc="res://.godot/imported/Bullet Decal.png-14019640fbb459129b949a33d223e731.s3tc.ctex"
+path.etc2="res://.godot/imported/Bullet Decal.png-14019640fbb459129b949a33d223e731.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Assets/textures/Bullet Decal.png"
-dest_files=["res://.godot/imported/Bullet Decal.png-9d0910427f3bae2bab7e9e00b2aaa275.s3tc.ctex", "res://.godot/imported/Bullet Decal.png-9d0910427f3bae2bab7e9e00b2aaa275.etc2.ctex"]
+source_file="res://Assets/Textures/Bullet Decal.png"
+dest_files=["res://.godot/imported/Bullet Decal.png-14019640fbb459129b949a33d223e731.s3tc.ctex", "res://.godot/imported/Bullet Decal.png-14019640fbb459129b949a33d223e731.etc2.ctex"]
 
 [params]
 

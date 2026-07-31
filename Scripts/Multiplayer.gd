@@ -44,12 +44,14 @@ func On_Join_Pressed() -> void:
 
 @rpc("call_local", "authority", "reliable")
 func StartGame() -> void:
-	var Scene_Instance = preload("res://Scenes/Main.tscn").instantiate()
-	Scene_Instance.name = "Main"
-	get_tree().root.add_child(Scene_Instance)
 	Main.hide()
 	Start.hide()
 	Quit.hide()
 	Settings_Button.hide()
+	var Scene_Instance = preload("res://Scenes/Main.tscn").instantiate()
+	Scene_Instance.name = "Main"
+	get_tree().root.add_child(Scene_Instance)
 	if multiplayer.is_server():
-		Scene_Instance.call_deferred("Spawn_All_Players")
+		get_tree().create_timer(0.05).timeout.connect(func():
+			Scene_Instance.Spawn_All_Players()
+		)

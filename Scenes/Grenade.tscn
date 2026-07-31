@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dinjbwvut84wb"]
 
-[ext_resource type="PackedScene" uid="uid://cakxbwcl762cd" path="res://Assets/models/Grenade.glb" id="1_be0jk"]
+[ext_resource type="PackedScene" uid="uid://cakxbwcl762cd" path="res://Assets/Models/Grenade.glb" id="1_be0jk"]
 [ext_resource type="Script" uid="uid://cudej43astjx6" path="res://Scripts/Grenade.gd" id="1_t2ec2"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ksbbd"]

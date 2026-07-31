@@ -47,6 +47,7 @@ var Local_Player:CharacterBody3D = null
 @onready var Toggle_Sprint_Check: CheckBox = $"Settings/Main/Toggle Sprint Check"
 @onready var Toggle_Crouch_Check: CheckBox = $"Settings/Main/Toggle Crouch Check"
 @onready var No_Shake_Check: CheckBox = $"Settings/Main/No Shake Check"
+@onready var Speedometer_Check: CheckBox = $"Settings/Main/Speedometer Check"
 @onready var InGame_Menu: Control = $"."
 @onready var Back_To_Menu: Button = $"Back To Menu"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
@@ -124,6 +125,7 @@ func _process(_delta: float) -> void:
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
+	GameManager.Speedometer = Speedometer_Check.button_pressed
 
 func _input(event: InputEvent) -> void:
 	if Current_Button == null:
@@ -194,6 +196,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Toggle_Sprint = false
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
+	GameManager.Speedometer = false
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -245,6 +248,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "Toggle Sprint", GameManager.Toggle_Sprint)
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
+	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
 	var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action:String = Action
@@ -271,6 +275,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Sprint = false
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
+		GameManager.Speedometer = false
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -317,6 +322,7 @@ func Apply_Loaded_Settings() -> void:
 	Toggle_Sprint_Check.button_pressed = GameManager.Toggle_Sprint
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
+	Speedometer_Check.button_pressed = GameManager.Speedometer
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -327,7 +333,6 @@ func Apply_Loaded_Settings() -> void:
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
-	
 	Engine.max_fps = GameManager.Max_FPS
 
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
