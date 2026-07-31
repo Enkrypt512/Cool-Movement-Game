@@ -99,4 +99,4 @@ Keys:
 
 [musdasch](https://opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](https://opengameart.org/content/bullet-decal)​
 
-[plaggy]​(https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​
+[plaggy]​ (https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​
