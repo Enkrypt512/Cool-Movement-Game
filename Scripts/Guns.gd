@@ -13,7 +13,6 @@ extends Node3D
 var Guns: Array = []
 @export var Lerp_Speed: int = 10
 var Previous_Mouse_Sensitivity: int
-var Previous_Joystick_Sensitivity: int
 var Current_Gun: int = 0
 var Bullet: PackedScene = preload("res://Scenes/Bullet.tscn")
 var Last_Shot_Time: float = 0.0
@@ -68,16 +67,16 @@ func _input(event: InputEvent) -> void:
 func _physics_process(delta: float) -> void:
 	if Player.is_multiplayer_authority():
 		if Input.is_action_pressed("Shoot") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			var Current_Gun_Name = Guns[Current_Gun].name
-			var Shoot_Cooldown = Gun_Cooldowns.get(Current_Gun_Name, 0.1)
-			var Current_Time = Time.get_ticks_msec() / 1000.0
+			var Current_Gun_Name: String = Guns[Current_Gun].name
+			var Shoot_Cooldown: float = Gun_Cooldowns.get(Current_Gun_Name, 0.1)
+			var Current_Time: float = Time.get_ticks_msec() / 1000.0
 			if Current_Time - Last_Shot_Time >= Shoot_Cooldown:
 				Last_Shot_Time = Current_Time
 				Continuous_Fire_Time += Shoot_Cooldown
-				# TODO:Add Explosion VFX In Blaster Gun + Sent Every Player Against The Explosion
+				# TODO:Add Explosion VFX In Blaster Gun + Send Every Player Against The Explosion Here
 				if Current_Gun_Name != "Knife":
-					var Bullet_Instance = Bullet.instantiate()
-					var Active_Gun = Guns[Current_Gun]
+					var Bullet_Instance: Node3D = Bullet.instantiate()
+					var Active_Gun: Node3D = Guns[Current_Gun]
 					Bullet_Instance.global_transform = Active_Gun.global_transform
 					get_tree().current_scene.add_child(Bullet_Instance)
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
@@ -87,16 +86,13 @@ func _physics_process(delta: float) -> void:
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
 				Gun_Animations.play(str(Current_Gun_Name) + " Recoil")
 		if is_multiplayer_authority():
-			var Current_Gun_Name = Guns[Current_Gun].name
+			var Current_Gun_Name: String = Guns[Current_Gun].name
 			if Input.is_action_pressed("Aim Down Sight") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED && Current_Gun_Name != "Knife":
 				Camera.fov = lerp(int(Camera.fov), 20, delta * Lerp_Speed)
 				Aim_Down_Sight.visible = true
-				Previous_Joystick_Sensitivity = GameManager.Joystick_Sensitivity
 				Previous_Mouse_Sensitivity = GameManager.Mouse_Sensitivity
-				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity / 2
-				GameManager.Joystick_Sensitivity = Previous_Joystick_Sensitivity / 2
+				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity / 6
 			else:
 				Camera.fov = lerp(int(Camera.fov), 70, delta * Lerp_Speed)
 				Aim_Down_Sight.visible = false
 				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity
-				GameManager.Joystick_Sensitivity = Previous_Joystick_Sensitivity

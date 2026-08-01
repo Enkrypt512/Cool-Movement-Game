@@ -5,7 +5,7 @@ extends Control
 @onready var Speedometer: Label = $Speedometer
 
 func _ready() -> void:
-	var Style_Box:StyleBoxFlat = StyleBoxFlat.new()
+	var Style_Box: StyleBoxFlat = StyleBoxFlat.new()
 	Style_Box.bg_color = Color(1.0, 0.0, 0.0, 1.0)
 	Health_Bar.add_theme_stylebox_override("fill", Style_Box)
 

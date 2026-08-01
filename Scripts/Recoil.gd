@@ -14,7 +14,7 @@ func _process(delta: float) -> void:
 func Add_Recoil(Recoil_Values: Vector3, Custom_Snap_Amount: float = 15.0, Custom_Return_Speed: float = 3.0) -> void:
 	Snap_Amount = Custom_Snap_Amount
 	Return_Speed = Custom_Return_Speed
-	var Impulse = Vector3(
+	var Impulse: Vector3 = Vector3(
 		abs(Recoil_Values.x),
 		randf_range(-Recoil_Values.y, Recoil_Values.y),
 		randf_range(-Recoil_Values.z, Recoil_Values.z)

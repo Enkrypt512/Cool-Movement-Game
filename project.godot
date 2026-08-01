@@ -18,7 +18,7 @@ config/icon="uid://hfgsgnyrr2af"
 
 [autoload]
 
-GameManager="*res://Scripts/GameManager.gd"
+GameManager="*res://Scripts/Game Manager.gd"
 
 [display]
 

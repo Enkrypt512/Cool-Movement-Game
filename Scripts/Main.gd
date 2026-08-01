@@ -7,7 +7,7 @@ extends Node3D
 @onready var Binds: Control = $"InGame Menu/Settings/Binds"
 @onready var Main_Settings: Control = $"InGame Menu/Settings/Main"
 @onready var Quit_Settings: Button = $"InGame Menu/Settings/Quit"
-@onready var Resume: Button = $"InGame Menu/Start"
+@onready var Resume: Button = $"InGame Menu/Main/Resume"
 @onready var Settings_Button: Button = $"InGame Menu/Settings Button"
 @onready var Quit_Menu: Button = $"InGame Menu/Quit"
 @onready var Back_To_Menu: Button = $"InGame Menu/Back To Menu"
@@ -47,12 +47,12 @@ func Spawn_Player(Peer_ID: int) -> void:
 		return
 	if has_node(str(Peer_ID)):
 		return
-	var Player_Instance = preload("res://Scenes/Player.tscn").instantiate()
+	var Player_Instance:CharacterBody3D = preload("res://Scenes/Player.tscn").instantiate()
 	Player_Instance.name = str(Peer_ID)
 	Player_Instance.set_multiplayer_authority(Peer_ID)
-	var Spawn_Position = Vector3(0, 2, 0)
+	var Spawn_Position: Vector3 = Vector3(0, 2, 0)
 	if Spawn_Locations && Spawn_Locations.get_child_count() > 0:
-		var Spawn_Point = Spawn_Locations.get_children().pick_random()
+		var Spawn_Point: Node3D = Spawn_Locations.get_children().pick_random()
 		Spawn_Position = Spawn_Point.global_position + Vector3(0, 1.5, 0)
 	Player_Instance.global_position = Spawn_Position
 	add_child(Player_Instance, true)
@@ -69,9 +69,9 @@ func On_Node_Added(node: Node) -> void:
 			Local_Player = node as CharacterBody3D
 
 func Find_Local_Player() -> void:
-	for player in get_tree().get_nodes_in_group("Player"):
-		if player.is_multiplayer_authority():
-			Local_Player = player as CharacterBody3D
+	for Player in get_tree().get_nodes_in_group("Player"):
+		if Player.is_multiplayer_authority():
+			Local_Player = Player 
 			break
 
 func _process(delta: float) -> void:
@@ -121,7 +121,7 @@ func Spawn_Health_Box() -> void:
 	add_child(Health_Box_Instance, true)
 
 func Spawn_Enemy() -> void:
-	var Enemy_Instance: Node = Enemey.instantiate()
+	var Enemy_Instance: Node3D = Enemey.instantiate()
 	var Margin: float = 1.0
 	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin, Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
 	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin, Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
@@ -138,8 +138,8 @@ func _input(event: InputEvent) -> void:
 func Set_HUD_Visibility(Is_Visible: bool) -> void:
 	if !is_instance_valid(Local_Player):
 		return    
-	var HUD_Node = Local_Player.get_node_or_null("HUD")
-	var Crosshair_Node = Local_Player.get_node_or_null("Crosshair")
+	var HUD_Node: Control = Local_Player.get_node_or_null("HUD")
+	var Crosshair_Node: Sprite2D = Local_Player.get_node_or_null("Crosshair")
 	if HUD_Node:
 		HUD_Node.visible = Is_Visible
 	if Crosshair_Node:

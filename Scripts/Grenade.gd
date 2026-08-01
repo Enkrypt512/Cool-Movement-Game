@@ -14,27 +14,26 @@ func _ready() -> void:
 	linear_damp = 0.1
 	angular_damp = 0.5
 	get_tree().create_timer(Fuse_Time).timeout.connect(Explode)
-	get_tree().create_timer(Fuse_Time).timeout.connect(Explode)
 
 func Explode() -> void:
-	var Bodies = Blast_Area.get_overlapping_bodies()
+	var Bodies:Array = Blast_Area.get_overlapping_bodies()
 	var Blast_Radius: float = 5.0
 	if Blast_Area_Collision_Shape && Blast_Area_Collision_Shape.shape is SphereShape3D:
 		Blast_Radius = Blast_Area_Collision_Shape.shape.radius
-	for body in Bodies:
-		if body == self:
+	for Body in Bodies:
+		if Body == self:
 			continue
-		var Distance := global_position.distance_to(body.global_position)
-		var Damage_Factor := clampf(1.0 - (Distance / Blast_Radius), 0.1, 1.0)
-		var Damage_To_Apply := int(Max_Damage * Damage_Factor)
-		var Direction = (body.global_position - global_position).normalized()
+		var Distance: float = global_position.distance_to(Body.global_position)
+		var Damage_Factor: float = clampf(1.0 - (Distance / Blast_Radius), 0.1, 1.0)
+		var Damage_To_Apply: int = int(Max_Damage * Damage_Factor)
+		var Direction: Vector3 = (Body.global_position - global_position).normalized()
 		Direction.y += 0.3
-		if body is RigidBody3D:
-			body.apply_central_impulse(Direction * Blast_Force * Damage_Factor)
-		if body.has_method("Take_Damage"):
-			var Knockback_Impulse = Direction * (Blast_Force * Damage_Factor)
-			body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
-		elif "Health" in body:
-			body.Health -= Damage_To_Apply
+		if Body is RigidBody3D:
+			Body.apply_central_impulse(Direction * Blast_Force * Damage_Factor)
+		if Body.has_method("Take_Damage"):
+			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
+			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
+		elif "Health" in Body:
+			Body.Health -= Damage_To_Apply
 	# TODO: Add explosion VFX & SFX here
 	queue_free()

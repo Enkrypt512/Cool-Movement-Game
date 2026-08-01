@@ -317,6 +317,13 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Rank" type="Label" parent="Died" unique_id=1034594831]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 193.0
+offset_bottom = 97.0
+theme_override_font_sizes/font_size = 32
+
 [node name="InGame Menu" type="Control" parent="." unique_id=1098213457]
 visible = false
 layout_mode = 3
@@ -589,9 +596,9 @@ offset_bottom = 40.0
 
 [node name="Bindings" type="Button" parent="InGame Menu/Settings/Main" unique_id=747028282]
 layout_mode = 0
-offset_top = 534.0
+offset_top = 526.0
 offset_right = 176.0
-offset_bottom = 582.0
+offset_bottom = 574.0
 tooltip_text = "Rebind Keys"
 text = "Bind Keys"
 
@@ -650,22 +657,11 @@ text = "Mouse Sentivity:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Joystick Sentivity" type="Label" parent="InGame Menu/Settings/Main" unique_id=1055850638]
-layout_mode = 0
-offset_top = 206.0
-offset_right = 200.0
-offset_bottom = 246.0
-tooltip_text = "Sensitivity For The Joystick"
-mouse_filter = 0
-text = "Joystick Sentivity:"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="VSync" type="Label" parent="InGame Menu/Settings/Main" unique_id=1805554771]
 layout_mode = 0
-offset_top = 254.0
+offset_top = 214.0
 offset_right = 200.0
-offset_bottom = 294.0
+offset_bottom = 254.0
 tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
 mouse_filter = 0
 text = "VSync:"
@@ -674,9 +670,9 @@ vertical_alignment = 1
 
 [node name="FPS Lock" type="Label" parent="InGame Menu/Settings/Main" unique_id=1039356328]
 layout_mode = 0
-offset_top = 302.0
+offset_top = 262.0
 offset_right = 200.0
-offset_bottom = 342.0
+offset_bottom = 302.0
 tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
 mouse_filter = 0
 text = "FPS Lock:"
@@ -685,9 +681,9 @@ vertical_alignment = 1
 
 [node name="Toggle Sprint" type="Label" parent="InGame Menu/Settings/Main" unique_id=710195901]
 layout_mode = 0
-offset_top = 342.0
+offset_top = 302.0
 offset_right = 200.0
-offset_bottom = 382.0
+offset_bottom = 342.0
 tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
 mouse_filter = 0
 text = "Toggle Sprint:"
@@ -696,9 +692,9 @@ vertical_alignment = 1
 
 [node name="Toggle Crouch" type="Label" parent="InGame Menu/Settings/Main" unique_id=1075081425]
 layout_mode = 0
-offset_top = 390.0
+offset_top = 350.0
 offset_right = 200.0
-offset_bottom = 430.0
+offset_bottom = 390.0
 tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
 mouse_filter = 0
 text = "Toggle Crouch:"
@@ -707,9 +703,9 @@ vertical_alignment = 1
 
 [node name="No Shake" type="Label" parent="InGame Menu/Settings/Main" unique_id=1004465808]
 layout_mode = 0
-offset_top = 438.0
+offset_top = 398.0
 offset_right = 200.0
-offset_bottom = 478.0
+offset_bottom = 438.0
 tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
 mouse_filter = 0
 text = "No Shake:"
@@ -718,9 +714,9 @@ vertical_alignment = 1
 
 [node name="Speedometer" type="Label" parent="InGame Menu/Settings/Main" unique_id=526223978]
 layout_mode = 0
-offset_top = 486.0
+offset_top = 446.0
 offset_right = 200.0
-offset_bottom = 526.0
+offset_bottom = 486.0
 tooltip_text = "Adds A Speedometer
 "
 mouse_filter = 0
@@ -763,31 +759,20 @@ min_value = 0.1
 step = 0.1
 value = 0.1
 
-[node name="Joystick Sensitivity Number" type="SpinBox" parent="InGame Menu/Settings/Main" unique_id=1394651120]
-layout_mode = 0
-offset_left = 184.0
-offset_top = 216.0
-offset_right = 270.5
-offset_bottom = 247.0
-tooltip_text = "Sensitivity For The Joystick"
-min_value = 0.1
-step = 0.1
-value = 0.1
-
 [node name="VSync Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=353595766]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 262.0
+offset_top = 222.0
 offset_right = 224.0
-offset_bottom = 294.0
+offset_bottom = 254.0
 tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
 
 [node name="FPS Lock Number" type="SpinBox" parent="InGame Menu/Settings/Main" unique_id=842766843]
 layout_mode = 0
 offset_left = 184.0
-offset_top = 304.0
+offset_top = 264.0
 offset_right = 270.5
-offset_bottom = 335.0
+offset_bottom = 295.0
 tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
 max_value = 999.0
 rounded = true
@@ -795,33 +780,33 @@ rounded = true
 [node name="Toggle Sprint Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=1298353544]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 342.0
+offset_top = 302.0
 offset_right = 224.0
-offset_bottom = 374.0
+offset_bottom = 334.0
 tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
 
 [node name="Toggle Crouch Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=1177342201]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 398.0
+offset_top = 358.0
 offset_right = 224.0
-offset_bottom = 430.0
+offset_bottom = 390.0
 tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
 
 [node name="No Shake Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=443481279]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 438.0
+offset_top = 398.0
 offset_right = 224.0
-offset_bottom = 470.0
+offset_bottom = 430.0
 tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
 
 [node name="Speedometer Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=812076023]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 486.0
+offset_top = 446.0
 offset_right = 224.0
-offset_bottom = 518.0
+offset_bottom = 478.0
 tooltip_text = "Adds A Speedometer"
 
 [node name="Reset" type="Button" parent="InGame Menu/Settings/Main" unique_id=1192571523]
@@ -834,7 +819,12 @@ tooltip_text = "Resets Your Settings"
 focus_mode = 0
 text = "Reset"
 
-[node name="Start" type="Button" parent="InGame Menu" unique_id=45654231]
+[node name="Main" type="Control" parent="InGame Menu" unique_id=574135055]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Resume" type="Button" parent="InGame Menu/Main" unique_id=45654231]
 layout_mode = 0
 offset_top = 120.0
 offset_right = 176.0
@@ -842,7 +832,7 @@ offset_bottom = 168.0
 tooltip_text = "Resume The Game"
 text = "Resume"
 
-[node name="Settings Button" type="Button" parent="InGame Menu" unique_id=1091338797]
+[node name="Settings Button" type="Button" parent="InGame Menu/Main" unique_id=1091338797]
 layout_mode = 0
 offset_top = 204.0
 offset_right = 176.0
@@ -850,7 +840,7 @@ offset_bottom = 252.0
 tooltip_text = "Change The Settings"
 text = "Settings"
 
-[node name="Quit" type="Button" parent="InGame Menu" unique_id=1410713948]
+[node name="Quit" type="Button" parent="InGame Menu/Main" unique_id=1410713948]
 layout_mode = 0
 offset_top = 363.0
 offset_right = 176.0
@@ -858,7 +848,7 @@ offset_bottom = 411.0
 tooltip_text = "Quit The Game"
 text = "Quit"
 
-[node name="Back To Menu" type="Button" parent="InGame Menu" unique_id=1298330852]
+[node name="Back To Menu" type="Button" parent="InGame Menu/Main" unique_id=1298330852]
 layout_mode = 0
 offset_top = 283.0
 offset_right = 176.0

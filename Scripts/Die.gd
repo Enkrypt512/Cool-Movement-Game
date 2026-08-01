@@ -14,6 +14,14 @@ var Elapsed_Time: float
 @onready var Score: Label = $Score
 @onready var Highscore: Label = $Highscore 
 @onready var Most_Enemies_Killed: Label = $"Most Enemies Killed"
+@onready var Rank_Label: Label = $Rank
+
+enum Rank { D, C, B, A, S, SS, SS_Plus, SS_Double_Plus, P }
+
+@export var S_Threshold_Kills_Per_Minute: float = 20.0
+@export var SS_Threshold_Kills_Per_Minute: float = 30.0
+@export var SS_Plus_Threshold_Kills_Per_Minute: float = 40.0
+@export var Minimum_Time_For_Top_Ranks: float = 300.0
 
 func _ready() -> void:
 	Return_To_Menu.pressed.connect(func(): get_tree().change_scene_to_file("res://Scenes/Menu.tscn"))
@@ -51,6 +59,8 @@ func _process(delta: float) -> void:
 					Highscore.text = "New Highscore!"
 				else:
 					Highscore.text = "Highscore: " + str(GameManager.Highscore)
+			var Rank_Data: Dictionary = Calculate_Final_Rank(GameManager.Enemies_Killed, Elapsed_Time)
+			Update_Rank_UI(Rank_Data)
 	else:
 		if Died.visible:
 			Died.visible = false
@@ -58,7 +68,6 @@ func _process(delta: float) -> void:
 			HUD.visible = true
 			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-				
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(Elapsed_Time * 1_000_000)
@@ -66,3 +75,61 @@ func _process(delta: float) -> void:
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
 	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
+
+func Calculate_Final_Rank(Kills: int, Total_Seconds: float) -> Dictionary:
+	if Total_Seconds <= 0:
+		return {"Tier": Rank.D, "String": "D"}
+	var Minutes: float = Total_Seconds / 60.0
+	var Kills_Per_Minute: float = float(Kills) / Minutes
+	var Final_Tier: Rank = Rank.D
+	if Kills_Per_Minute >= SS_Plus_Threshold_Kills_Per_Minute:
+		Final_Tier = Rank.SS_Plus
+	elif Kills_Per_Minute >= SS_Threshold_Kills_Per_Minute:
+		Final_Tier = Rank.SS
+	elif Kills_Per_Minute >= S_Threshold_Kills_Per_Minute:
+		Final_Tier = Rank.S
+	elif Kills_Per_Minute >= 14.0:
+		Final_Tier = Rank.A
+	elif Kills_Per_Minute >= 8.0:
+		Final_Tier = Rank.B
+	elif Kills_Per_Minute >= 4.0:
+		Final_Tier = Rank.C
+	else:
+		Final_Tier = Rank.D
+	var Player_Damage_Taken: int = 0 
+	var Qualifies_For_SS_Double_Plus: bool = (Final_Tier >= Rank.SS_Plus) and (Total_Seconds >= Minimum_Time_For_Top_Ranks) && (Player_Damage_Taken == 0)
+	if Qualifies_For_SS_Double_Plus:
+		Final_Tier = Rank.SS_Double_Plus
+	var Qualifies_For_P_Rank: bool = (Final_Tier == Rank.SS_Double_Plus) and (Kills_Per_Minute >= 50.0)
+	if Qualifies_For_P_Rank:
+		Final_Tier = Rank.P
+	var Rank_String: String = "D"
+	match Final_Tier:
+		Rank.D: Rank_String = "D"
+		Rank.C: Rank_String = "C"
+		Rank.B: Rank_String = "B"
+		Rank.A: Rank_String = "A"
+		Rank.S: Rank_String = "S"
+		Rank.SS: Rank_String = "SS"
+		Rank.SS_Plus: Rank_String = "SS+"
+		Rank.SS_Double_Plus: Rank_String = "SS++"
+		Rank.P: Rank_String = "P"
+	return {"Tier": Final_Tier, "String": Rank_String}
+
+func Update_Rank_UI(Rank_Data: Dictionary) -> void:
+	if not Rank_Label:
+		return
+	Rank_Label.text = "Rank:" + Rank_Data["String"]
+	match Rank_Data["Tier"]:
+		Rank.P:
+			Rank_Label.add_theme_color_override("font_color", Color(0.6, 0.1, 0.9))
+		Rank.SS_Double_Plus:
+			Rank_Label.add_theme_color_override("font_color", Color(0.0, 1.0, 1.0))
+		Rank.SS_Plus:
+			Rank_Label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0))
+		Rank.SS:
+			Rank_Label.add_theme_color_override("font_color", Color(1.0, 0.5, 0.0))
+		Rank.S:
+			Rank_Label.add_theme_color_override("font_color", Color(0.85, 0.0, 0.0))
+		_:
+			Rank_Label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.9))

@@ -17,11 +17,11 @@ func Swing_Knife() -> void:
 func On_Body_Entered(Body: Node) -> void:
 	if !visible:
 		return
-	var Local_Player = get_multiplayer_authority()
+	var Local_Player: int = get_multiplayer_authority()
 	if Body.is_multiplayer_authority() && Body.name == owner.name:
 		return
 	if Body.is_in_group("Player") or Body.is_in_group("Enemy") or Body.name == "Enemy":
 		if "Health" in Body:
 			Body.Health -= Knife_Damage
-		elif Body.has_method("take_damage"):
-			Body.take_damage(Knife_Damage)
+		elif Body.has_method("Take_Damage"):
+			Body.Take_Damage(Knife_Damage)

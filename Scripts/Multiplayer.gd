@@ -9,7 +9,7 @@ extends Control
 @onready var Quit: Button = $"../Quit"
 @onready var Start_Game: Button = $"Start Game"
 @export var Port: int = 8789
-var Peer = ENetMultiplayerPeer.new()
+var Peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
 func _ready() -> void:
 	multiplayer.peer_connected.connect(Player_Connected)
@@ -48,7 +48,7 @@ func StartGame() -> void:
 	Start.hide()
 	Quit.hide()
 	Settings_Button.hide()
-	var Scene_Instance = preload("res://Scenes/Main.tscn").instantiate()
+	var Scene_Instance: Node3D = preload("res://Scenes/Main.tscn").instantiate()
 	Scene_Instance.name = "Main"
 	get_tree().root.add_child(Scene_Instance)
 	if multiplayer.is_server():

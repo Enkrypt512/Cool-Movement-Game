@@ -2,7 +2,7 @@ extends Control
 
 var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
-var Local_Player:CharacterBody3D = null
+var Local_Player: CharacterBody3D = null
 
 @onready var Forward: Button = $Settings/Binds/Forward
 @onready var Backward: Button = $Settings/Binds/Backward
@@ -27,21 +27,20 @@ var Local_Player:CharacterBody3D = null
 @onready var Change_Weapon_Label: Label = $"Settings/Binds/Change Gun Label"
 @onready var Shoot_Label: Label = $"Settings/Binds/Shoot Label"
 @onready var Exit_Label: Label = $"Settings/Binds/Exit Label"
-@onready var Settings_Button: Button = $'Settings Button'
+@onready var Settings_Button: Button = $'Main/Settings Button'
 @onready var Settings_Quit: Button = $Settings/Quit
 @onready var Info_Panel: PanelContainer = $Settings/Binds/PanelContainer
 @onready var Settings: Control = $Settings
-@onready var Main: Control = $Settings/Main
+@onready var Main_Settings: Control = $Settings/Main
 @onready var Binds: Control = $Settings/Binds
 @onready var Bindings_Quit: Button = $Settings/Binds/Quit
-@onready var Start: Button = $Start
-@onready var Quit: Button = $Quit
+@onready var Resume: Button = $Main/Resume
+@onready var Quit: Button = $Main/Quit
 @onready var Bindings: Button = $Settings/Main/Bindings
 @onready var Fullscreen_Check: CheckBox = $"Settings/Main/Fullscreen Check"
 @onready var FPS_Check: CheckBox = $"Settings/Main/FPS Check"
 @onready var Volume_Slider: HSlider = $"Settings/Main/Volume Slider"
 @onready var Mouse_Sensitivity_Number: SpinBox = $"Settings/Main/Mouse Sensitivity Number"
-@onready var Joystick_Sensitivity_Number: SpinBox = $"Settings/Main/Joystick Sensitivity Number"
 @onready var VSync_Check: CheckBox = $"Settings/Main/VSync Check"
 @onready var FPS_Lock_Number: SpinBox = $"Settings/Main/FPS Lock Number"
 @onready var Toggle_Sprint_Check: CheckBox = $"Settings/Main/Toggle Sprint Check"
@@ -49,7 +48,7 @@ var Local_Player:CharacterBody3D = null
 @onready var No_Shake_Check: CheckBox = $"Settings/Main/No Shake Check"
 @onready var Speedometer_Check: CheckBox = $"Settings/Main/Speedometer Check"
 @onready var InGame_Menu: Control = $"."
-@onready var Back_To_Menu: Button = $"Back To Menu"
+@onready var Back_To_Menu: Button = $"Main/Back To Menu"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
 @onready var Died: Control = $"../Died"
 
@@ -76,7 +75,7 @@ func _ready() -> void:
 	Bindings.pressed.connect(Change_To_Bindings)
 	Bindings_Quit.pressed.connect(Quit_From_Bindings)
 	Quit.pressed.connect(func(): get_tree().quit())
-	Start.pressed.connect(Resume_Game)
+	Resume.pressed.connect(Resume_Game)
 	Back_To_Menu.pressed.connect(func():
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
@@ -97,7 +96,7 @@ func Pause_Game() -> void:
 	Save_Game_Settings()
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	var Main_Node = get_tree().current_scene
+	var Main_Node: Node3D = get_tree().current_scene
 	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(false)
 	get_tree().paused = true
@@ -106,7 +105,7 @@ func Resume_Game() -> void:
 	Save_Game_Settings()
 	visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	var Main_Node = get_tree().current_scene
+	var Main_Node: Node3D = get_tree().current_scene
 	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(true)
 	get_tree().paused = false
@@ -120,7 +119,6 @@ func _process(_delta: float) -> void:
 	GameManager.Fullscreen = Fullscreen_Check.button_pressed
 	GameManager.Volume = Volume_Slider.value  
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
-	GameManager.Joystick_Sensitivity = Joystick_Sensitivity_Number.value
 	GameManager.VSync = VSync_Check.button_pressed
 	GameManager.Max_FPS = int(FPS_Lock_Number.value)
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
@@ -128,27 +126,25 @@ func _process(_delta: float) -> void:
 	GameManager.No_Shake = No_Shake_Check.button_pressed
 	GameManager.Speedometer = Speedometer_Check.button_pressed
 
-func _input(event: InputEvent) -> void:
+func _input(Event: InputEvent) -> void:
 	if Current_Button == null:
 		return
-	if event is InputEventMouseMotion or event is InputEventPanGesture:
-		return
-	if event is InputEventJoypadMotion && abs(event.axis_value) < 0.5:
+	if Event is InputEventMouseMotion or Event is InputEventPanGesture:
 		return
 	get_viewport().set_input_as_handled()
-	var Target_Action : String = Current_Button.name
+	var Target_Action: String = Current_Button.name
 	if !InputMap.has_action(Target_Action) && InputMap.has_action(Target_Action.to_lower()):
 		Target_Action = Target_Action.to_lower()
 	for Existing_Event in InputMap.action_get_events(Target_Action):
-		if Existing_Event.is_match(event):
+		if Existing_Event.is_match(Event):
 			Finish_Remapping()
 			return
 	for Action in InputMap.get_actions():
 		if Action != Target_Action:
 			for Action_Event in InputMap.action_get_events(Action):
-				if Action_Event.is_match(event):
+				if Action_Event.is_match(Event):
 					InputMap.action_erase_event(Action, Action_Event)
-	InputMap.action_add_event(Target_Action, event)
+	InputMap.action_add_event(Target_Action, Event)
 	Finish_Remapping()
 
 func Finish_Remapping() -> void:
@@ -170,12 +166,12 @@ func Update_Labels() -> void:
 	Set_Label_Text(Exit_Label,"Exit")
 
 func Set_Label_Text(label: Label, Action_Name: String) -> void:
-	var Actual_Action:String = Action_Name
+	var Actual_Action: String = Action_Name
 	if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action_Name.to_lower()):
 		Actual_Action = Action_Name.to_lower()
-	var Events : Array[InputEvent] = InputMap.action_get_events(Actual_Action)
+	var Events : Array = InputMap.action_get_events(Actual_Action)
 	if !Events.is_empty():
-		var Text_List : Array[String] = []
+		var Text_List : Array = []
 		for Event in Events:
 			Text_List.append(Event.as_text())
 		label.text = " | ".join(Text_List)
@@ -192,7 +188,6 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.FPS_Counter = false
 	GameManager.VSync = true
 	GameManager.Mouse_Sensitivity = 0.5
-	GameManager.Joystick_Sensitivity = 3.0
 	GameManager.Max_FPS = 0
 	GameManager.Toggle_Sprint = false
 	GameManager.Toggle_Crouch = false
@@ -206,9 +201,9 @@ func Clear_Action_Inputs(Action_Name: String) -> void:
 
 func Change_To_Settings():
 	Settings.visible = true
-	Main.visible = true
+	Main_Settings.visible = true
 	Binds.visible = false
-	Start.visible = false
+	Resume.visible = false
 	Quit.visible = false
 	Settings_Button.visible = false
 	Back_To_Menu.visible = false
@@ -216,54 +211,53 @@ func Change_To_Settings():
 func Quit_From_Settings():
 	Save_Game_Settings()
 	Settings.visible = false
-	Start.visible = true
+	Resume.visible = true
 	Quit.visible = true
 	Settings_Button.visible = true
 	Back_To_Menu.visible = true
 
 func Change_To_Bindings():
-	Main.visible = false
+	Main_Settings.visible = false
 	Settings_Quit.visible = false
 	Binds.visible = true
 
 func Quit_From_Bindings():
 	Save_Game_Settings()
 	Settings.visible = true
-	Main.visible = true
+	Main_Settings.visible = true
 	Binds.visible = false
-	Start.visible = false
+	Resume.visible = false
 	Quit.visible = false
 	Settings_Button.visible = false
 	Settings_Quit.visible = true
 	Engine.max_fps = FPS_Lock_Number.value
 
 func Save_Game_Settings() -> void:
-	var Config:ConfigFile = ConfigFile.new()
+	var Config: ConfigFile = ConfigFile.new()
 	Config.set_value("Settings", "Volume", GameManager.Volume)
 	Config.set_value("Settings", "Fullscreen", GameManager.Fullscreen)
 	Config.set_value("Settings", "FPS Counter", GameManager.FPS_Counter)
 	Config.set_value("Settings", "Mouse Senstivity", GameManager.Mouse_Sensitivity)
-	Config.set_value("Settings", "Joystick Senstivity", GameManager.Joystick_Sensitivity)
 	Config.set_value("Settings", "VSync", GameManager.VSync)
 	Config.set_value("Settings", "Max FPS", GameManager.Max_FPS)
 	Config.set_value("Settings", "Toggle Sprint", GameManager.Toggle_Sprint)
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
-	var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
+	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
-		var Actual_Action:String = Action
+		var Actual_Action: String = Action
 		if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 			Actual_Action = Action.to_lower()
-		var Events := InputMap.action_get_events(Actual_Action)
+		var Events: Array = InputMap.action_get_events(Actual_Action)
 		Config.set_value("Binds", Action, Events)
-	var error := Config.save(Save_Path)
+	var error: Error = Config.save(Save_Path)
 	if error != OK:
 		print("Failed to save settings. Error code: ", error)
 
 func Load_Game_Settings() -> void:
-	var Config:ConfigFile = ConfigFile.new()
-	var error = Config.load(Save_Path)
+	var Config: ConfigFile = ConfigFile.new()
+	var error: Error = Config.load(Save_Path)
 	if error != OK:
 		print("No save file found. Using default values.")
 		GameManager.Volume = 100.0
@@ -271,7 +265,6 @@ func Load_Game_Settings() -> void:
 		GameManager.FPS_Counter = false
 		GameManager.VSync = true
 		GameManager.Mouse_Sensitivity = 0.5
-		GameManager.Joystick_Sensitivity = 3.0
 		GameManager.Max_FPS = 0
 		GameManager.Toggle_Sprint = false
 		GameManager.Toggle_Crouch = false
@@ -286,21 +279,16 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Sprint = Config.get_value("Settings","Toggle Sprint",false)
 		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
-		var Loaded_Mouse_Sensitivity:float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
+		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
 		else:
 			GameManager.Mouse_Sensitivity = Loaded_Mouse_Sensitivity
-		var Loaded_Joystick_Sensitivity:float = Config.get_value("Settings", "Joystick Senstivity", 3.0)
-		if Loaded_Joystick_Sensitivity == null:
-			GameManager.Joystick_Sensitivity = 3.0
-		else:
-			GameManager.Joystick_Sensitivity = Loaded_Joystick_Sensitivity
-		var Actions:Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
+		var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 		for Action in Actions:
 			if Config.has_section_key("Binds", Action):
 				var Raw_Data = Config.get_value("Binds", Action)
-				var Actual_Action:String = Action
+				var Actual_Action: String = Action
 				if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
 				InputMap.action_erase_events(Actual_Action)
@@ -317,7 +305,6 @@ func Apply_Loaded_Settings() -> void:
 	Fullscreen_Check.button_pressed = GameManager.Fullscreen
 	FPS_Check.button_pressed = GameManager.FPS_Counter
 	Mouse_Sensitivity_Number.value = GameManager.Mouse_Sensitivity
-	Joystick_Sensitivity_Number.value = GameManager.Joystick_Sensitivity
 	VSync_Check.button_pressed = GameManager.VSync
 	FPS_Lock_Number.value = GameManager.Max_FPS
 	Toggle_Sprint_Check.button_pressed = GameManager.Toggle_Sprint

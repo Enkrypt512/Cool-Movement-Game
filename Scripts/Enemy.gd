@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 	velocity.x = Direction.x * Speed
 	velocity.z = Direction.z * Speed
 	if Direction.length_squared() > 0.01:
-		var Look_Target := Vector3(Next_Path_Position.x, global_position.y, Next_Path_Position.z)
+		var Look_Target: Vector3 = Vector3(Next_Path_Position.x, global_position.y, Next_Path_Position.z)
 		look_at(Look_Target, Vector3.UP)
 	move_and_slide()
 

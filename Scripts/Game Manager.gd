@@ -4,7 +4,6 @@ var Fullscreen: bool
 var FPS_Counter: bool
 var Volume: int
 var Mouse_Sensitivity: float
-var Joystick_Sensitivity: float
 var VSync: bool
 var Max_FPS: int
 var Toggle_Sprint: bool
@@ -16,7 +15,7 @@ var time: float = 0.0
 var Highscore: int = 0
 var Most_Enemies_Killed: int = 0
 var Best_Time: float = 0.0
-var Speedometer
+var Speedometer: bool
 
 func _ready() -> void:
 	Load_Stats()
@@ -43,7 +42,7 @@ func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float)
 	}
 
 func Save_Stats() -> void:
-	var Config := ConfigFile.new()
+	var Config: ConfigFile = ConfigFile.new()
 	Config.load("user://Settings.cfg") 
 	Config.set_value("Stats", "Highscore", Highscore)
 	Config.set_value("Stats", "Most Enemies Killed", Most_Enemies_Killed)
@@ -53,7 +52,7 @@ func Save_Stats() -> void:
 		print("Failed to save stats. Error code: ", error)
 
 func Load_Stats() -> void:
-	var Config := ConfigFile.new()
+	var Config: ConfigFile = ConfigFile.new()
 	if Config.load("user://Settings.cfg") == OK:
 		Highscore = Config.get_value("Stats", "Highscore", 0)
 		Most_Enemies_Killed = Config.get_value("Stats", "Most Enemies Killed", 0)

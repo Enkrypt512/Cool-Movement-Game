@@ -126,10 +126,10 @@ var Last_Grenade_Throw_Time: float
 
 func _enter_tree() -> void:
 	if name.is_valid_int():
-		var peer_id := name.to_int()
-		set_multiplayer_authority(peer_id)
+		var Peer_ID: int = name.to_int()
+		set_multiplayer_authority(Peer_ID)
 		if has_node("Multiplayer Synchronizer"):
-			$"Multiplayer Synchronizer".set_multiplayer_authority(peer_id)
+			$"Multiplayer Synchronizer".set_multiplayer_authority(Peer_ID)
 
 func _ready() -> void:
 	if Grapple_Rope:
@@ -149,8 +149,8 @@ func _input(event: InputEvent) -> void:
 	if is_multiplayer_authority():
 		# Mouse Look Logic
 		if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			var Yaw_Delta := deg_to_rad(-event.relative.x * GameManager.Mouse_Sensitivity)
-			var Pitch_delta := deg_to_rad(-event.relative.y * GameManager.Mouse_Sensitivity)
+			var Yaw_Delta: float = deg_to_rad(-event.relative.x * GameManager.Mouse_Sensitivity)
+			var Pitch_delta: float = deg_to_rad(-event.relative.y * GameManager.Mouse_Sensitivity)
 			if Freelooking:
 				Neck.rotate_y(Yaw_Delta)
 				Neck.rotation.y = clamp(Neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
@@ -163,8 +163,8 @@ func _physics_process(delta: float) -> void:
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if !is_multiplayer_authority():
 		return
-	var Input_Direction := Input.get_vector("Left", "Right", "Forward", "Backward")
-	var Crouch_Just_Pressed := Input.is_action_just_pressed("Crouch")
+	var Input_Direction: Vector2 = Input.get_vector("Left", "Right", "Forward", "Backward")
+	var Crouch_Just_Pressed: bool = Input.is_action_just_pressed("Crouch")
 	# Reset Jumps When Grounded
 	if is_on_floor():
 		Jumps_Left = Max_Jumps
@@ -200,8 +200,8 @@ func _physics_process(delta: float) -> void:
 		if Dash_Timer <= 0:
 			Dashing = false
 	# State Flags
-	var Should_Crouch := Is_Crouching_Toggled || Sliding
-	var Should_Sprint := Is_Sprinting_Toggled && !Should_Crouch
+	var Should_Crouch: bool = Is_Crouching_Toggled || Sliding
+	var Should_Sprint: bool = Is_Sprinting_Toggled && !Should_Crouch
 	# Changes The State On What You're Holding/Toggling
 	# TODO:Add Walking/Sprinting/Crouching/Sliding SFX
 	if Should_Crouch:
@@ -213,16 +213,16 @@ func _physics_process(delta: float) -> void:
 		Crouching_Shape.visible = true
 		# Sliding
 		if is_on_floor() && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
-			var Horizontal_Velocity := Vector3(velocity.x, 0, velocity.z)
-			var Current_Horizontal_Speed := Horizontal_Velocity.length()
+			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
+			var Current_Horizontal_Speed: float = Horizontal_Velocity.length()
 			if Current_Horizontal_Speed > Walking_Speed or Is_Sprinting_Toggled or Slamming:
 				Sliding = true
 				Freelooking = true
 				Slide_Timer = Slide_Timer_Max
 				Slide_Vector = Vector2(Input_Direction.x, -1.0) if Input_Direction != Vector2.ZERO else Vector2(0, -1.0)
-				var Added_Boost := Slam_Slide_Boost if Slamming else Slide_Boost
-				var New_Speed = min(Current_Horizontal_Speed + Added_Boost, Max_Chained_Speed)
-				var Slide_Direction := (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
+				var Added_Boost: float = Slam_Slide_Boost if Slamming else Slide_Boost
+				var New_Speed: float = min(Current_Horizontal_Speed + Added_Boost, Max_Chained_Speed)
+				var Slide_Direction: Vector3 = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
 				velocity.x = Slide_Direction.x * New_Speed
 				velocity.z = Slide_Direction.z * New_Speed
 		Walking = false
@@ -257,13 +257,13 @@ func _physics_process(delta: float) -> void:
 		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
 			if Grenades > 0:
 				Last_Grenade_Throw_Time = Current_Time
-				var Grenade_Instance = Grenade.instantiate() as RigidBody3D
+				var Grenade_Instance: RigidBody3D = Grenade.instantiate()
 				get_tree().current_scene.add_child(Grenade_Instance)
 				Grenade_Instance.add_collision_exception_with(self)
-				var Forward_Vector := -Camera.global_transform.basis.z
+				var Forward_Vector: Vector3 = -Camera.global_transform.basis.z
 				Grenade_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
 				Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
-				var Throw_Right := Camera.global_transform.basis.x
+				var Throw_Right: Vector3 = Camera.global_transform.basis.x
 				Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
 				Grenades -= 1
 	# Speed Lines
@@ -314,18 +314,6 @@ func _physics_process(delta: float) -> void:
 			velocity.y = Air_Slam_Velocity
 		elif !Slamming:
 			velocity += get_gravity() * delta
-	# Joystick/Controller Look Logic
-	var Look_Direction := Input.get_vector("Camera Joystick Left", "Camera Joystick Right", "Camera Joystick Up", "Camera Joystick Down")
-	if Look_Direction != Vector2.ZERO:
-		var Yaw_Delta := deg_to_rad(-Look_Direction.x * GameManager.Joystick_Sensitivity * delta * 60)
-		var Pitch_Delta := deg_to_rad(-Look_Direction.y * GameManager.Joystick_Sensitivity * delta * 60)
-		if Freelooking:
-			Neck.rotate_y(Yaw_Delta)
-			Neck.rotation.y = clamp(Neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
-		else:
-			rotate_y(Yaw_Delta)
-		Head.rotate_x(Pitch_Delta)
-		Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(-89))
 	# Grapple
 	if Input.is_action_just_pressed("Grapple") && !Grappling:
 		if Grapple_Ray && Grapple_Ray.is_colliding():
@@ -339,8 +327,8 @@ func _physics_process(delta: float) -> void:
 		if Grapple_Rope:
 			Grapple_Rope.mesh = null
 	if Grappling:
-		var Current_Direction := (global_position - Grapple_Point).normalized()
-		var Step_Angle := Grapple_Last_Direction.angle_to(Current_Direction)
+		var Current_Direction: Vector3 = (global_position - Grapple_Point).normalized()
+		var Step_Angle: float = Grapple_Last_Direction.angle_to(Current_Direction)
 		Grapple_Total_Angle += Step_Angle
 		Grapple_Last_Direction = Current_Direction
 		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
@@ -350,14 +338,14 @@ func _physics_process(delta: float) -> void:
 			if Input.is_action_just_pressed("Jump"):
 				velocity += Vector3.UP * (Jump_Velocity * 0.5)
 		else:
-			var Current_Distance := global_position.distance_to(Grapple_Point)
-			var Rope_Direction := (Grapple_Point - global_position).normalized()
+			var Current_Distance: float = global_position.distance_to(Grapple_Point)
+			var Rope_Direction: Vector3 = (Grapple_Point - global_position).normalized()
 			if Current_Distance > (Grapple_Length + Grapple_Rope_Slack):
-				var Stretch := Current_Distance - Grapple_Length
+				var Stretch: float = Current_Distance - Grapple_Length
 				velocity += Rope_Direction * Stretch * Grapple_Pull_Force * delta
 			Grapple_Length = move_toward(Grapple_Length, 2.0, delta * (Grapple_Pull_Force * 0.2))
 			if Input_Direction != Vector2.ZERO:
-				var Swing_Steering := (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
+				var Swing_Steering: Vector3 = (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
 				velocity += Swing_Steering * Sprinting_Speed * delta
 			if Grapple_Rope:
 				var Immediate_Mesh: ImmediateMesh
@@ -368,24 +356,24 @@ func _physics_process(delta: float) -> void:
 					Immediate_Mesh = ImmediateMesh.new()
 					Grapple_Rope.mesh = Immediate_Mesh
 				if !Grapple_Rope.material_override:
-					var Rope_Material := StandardMaterial3D.new()
+					var Rope_Material: StandardMaterial3D = StandardMaterial3D.new()
 					Rope_Material.albedo_texture = Rope_Texture
 					Rope_Material.uv1_triplanar = true
 					Rope_Material.uv2_triplanar = true
 					Rope_Material.cull_mode = BaseMaterial3D.CULL_DISABLED
 					Grapple_Rope.material_override = Rope_Material
-				var Start_Position := Grapple_Rope.to_local(global_position)
-				var End_Position := Grapple_Rope.to_local(Grapple_Point)
-				var Mesh_Rope_Direction := (End_Position - Start_Position).normalized()
-				var Camera_Direction := (global_position - Camera.global_position).normalized()
-				var Side_Direction := Mesh_Rope_Direction.cross(Camera_Direction).normalized() * (Rope_Thickness * 0.5)
+				var Start_Position: Vector3 = Grapple_Rope.to_local(global_position)
+				var End_Position: Vector3 = Grapple_Rope.to_local(Grapple_Point)
+				var Mesh_Rope_Direction: Vector3 = (End_Position - Start_Position).normalized()
+				var Camera_Direction: Vector3 = (global_position - Camera.global_position).normalized()
+				var Side_Direction: Vector3 = Mesh_Rope_Direction.cross(Camera_Direction).normalized() * (Rope_Thickness * 0.5)
 				if Side_Direction.length_squared() < 0.001:
 					Side_Direction = Mesh_Rope_Direction.cross(Vector3.UP).normalized() * (Rope_Thickness * 0.5)
 				Immediate_Mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
-				var First_Vertex := Start_Position - Side_Direction
-				var Second_Vertex := Start_Position + Side_Direction
-				var Third_Vertex := End_Position + Side_Direction
-				var Fourth_Vertext := End_Position - Side_Direction
+				var First_Vertex: Vector3 = Start_Position - Side_Direction
+				var Second_Vertex: Vector3 = Start_Position + Side_Direction
+				var Third_Vertex: Vector3 = End_Position + Side_Direction
+				var Fourth_Vertext: Vector3 = End_Position - Side_Direction
 				Immediate_Mesh.surface_add_vertex(First_Vertex)
 				Immediate_Mesh.surface_add_vertex(Second_Vertex)
 				Immediate_Mesh.surface_add_vertex(Third_Vertex)
@@ -397,7 +385,7 @@ func _physics_process(delta: float) -> void:
 		# Jumping & Wall Jumping
 		if Input.is_action_just_pressed("Jump"):
 			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0:
-				var Wall_Normal := get_wall_normal()
+				var Wall_Normal: Vector3 = get_wall_normal()
 				velocity.y = Wall_Jump_Velocity
 				velocity.x = Wall_Normal.x * Wall_Push_Force
 				velocity.z = Wall_Normal.z * Wall_Push_Force
@@ -414,9 +402,9 @@ func _physics_process(delta: float) -> void:
 				Jumps_Left -= 1
 				# Bunnyslide Chaining & Super Jumping
 				if Sliding:
-					var Forward_Direction := -transform.basis.z.normalized()
-					var Current_Horizontal_Speed := Vector3(velocity.x, 0, velocity.z).length()
-					var Boosted_Speed = min(Current_Horizontal_Speed * Slide_Jump_Forward_Boost, Max_Chained_Speed)
+					var Forward_Direction: Vector3 = -transform.basis.z.normalized()
+					var Current_Horizontal_Speed: float = Vector3(velocity.x, 0, velocity.z).length()
+					var Boosted_Speed : float = min(Current_Horizontal_Speed * Slide_Jump_Forward_Boost, Max_Chained_Speed)
 					velocity.x = Forward_Direction.x * Boosted_Speed
 					velocity.z = Forward_Direction.z * Boosted_Speed
 				if GameManager.Toggle_Crouch && Sliding:
@@ -426,19 +414,19 @@ func _physics_process(delta: float) -> void:
 	if Wall_Jump_Lock_Timer > 0:
 		Wall_Jump_Lock_Timer -= delta
 	# Wall Gliding
-	var Wall_Normal := get_wall_normal() if is_on_wall() else Vector3.ZERO
+	var Wall_Normal: Vector3 = get_wall_normal() if is_on_wall() else Vector3.ZERO
 	Wall_Gliding = is_on_wall() && !is_on_floor() && velocity.y < 0 && Input_Direction != Vector2.ZERO
 	if is_on_floor():
 		Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Lerp_Speed)
 	elif Wall_Gliding:
 		if velocity.y < Wall_Glide_Fall_Speed:
 			velocity.y = lerp(velocity.y, Wall_Glide_Fall_Speed, delta * 10.0)
-		var Raw_Direction := (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
-		var Wall_Slide_Direction := Raw_Direction.slide(Wall_Normal).normalized()
+		var Raw_Direction: Vector3 = (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
+		var Wall_Slide_Direction: Vector3 = Raw_Direction.slide(Wall_Normal).normalized()
 		Direction = lerp(Direction, Wall_Slide_Direction, delta * Air_Lerp_Speed)
 		Current_Speed = lerp(Current_Speed, Wall_Glide_Speed, delta * Lerp_Speed)
 		# Wall Gliding Camera Tilt
-		var Wall_Side := transform.basis.x.dot(Wall_Normal)
+		var Wall_Side: float = transform.basis.x.dot(Wall_Normal)
 		if Wall_Side > 0:
 			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(-Wall_Glide_Tilt_Angle), delta * 10.0)
 		else:
@@ -448,7 +436,7 @@ func _physics_process(delta: float) -> void:
 			Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Air_Lerp_Speed)
 	if !Grappling:
 		if Sliding:
-			var Horizontal_Velocity := Vector3(velocity.x, 0, velocity.z)
+			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			Horizontal_Velocity *= Speed_Preservation
 			velocity.x = Horizontal_Velocity.x
 			velocity.z = Horizontal_Velocity.z
@@ -458,14 +446,14 @@ func _physics_process(delta: float) -> void:
 		elif Dashing:
 			Direction = (transform.basis * Vector3(Dash_Vector.x, 0, Dash_Vector.y)).normalized()
 			Current_Speed = (Dash_Timer + 0.1) * Dash_Speed
-			var Horizontal_Velocity := Vector3(velocity.x, 0, velocity.z)
+			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			Current_Dash_Speed = Horizontal_Velocity.length()
 			if Current_Dash_Speed < Walking_Speed:
 				Dashing = false
 				Current_Speed = Walking_Speed
 		else:
-			var Horizontal_Velocity := Vector3(velocity.x, 0, velocity.z)
-			var Horizontal_Speed := Horizontal_Velocity.length()
+			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
+			var Horizontal_Speed: float = Horizontal_Velocity.length()
 			if is_on_floor():
 				if Horizontal_Speed > Current_Speed:
 					Horizontal_Velocity = Horizontal_Velocity.move_toward(Direction * Current_Speed, delta * Lerp_Speed * 2.0)
@@ -479,18 +467,18 @@ func _physics_process(delta: float) -> void:
 					velocity.z = move_toward(velocity.z, 0, Current_Speed)
 			else:
 				if Direction != Vector3.ZERO:
-					var Target_Velocity = Direction * max(Horizontal_Speed, Current_Speed)
+					var Target_Velocity: Vector3 = Direction * max(Horizontal_Speed, Current_Speed)
 					Horizontal_Velocity = Horizontal_Velocity.lerp(Target_Velocity, delta * Air_Lerp_Speed)
 					velocity.x = Horizontal_Velocity.x
 					velocity.z = Horizontal_Velocity.z
-	var Was_In_Air := !is_on_floor()
+	var Was_In_Air: bool = !is_on_floor()
 	Last_Velocity = velocity
 	move_and_slide()
 	if Was_In_Air && is_on_floor():
 		if !Slamming:
 			if Last_Velocity.y < -Minimum_Fall_Velocity:
-				var Excess_Speed = abs(Last_Velocity.y) - Minimum_Fall_Velocity
-				var Calculated_Damage = Excess_Speed * Fall_Damage_Multiplier
+				var Excess_Speed: float = abs(Last_Velocity.y) - Minimum_Fall_Velocity
+				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier
 				Health = max(0, Health - int(Calculated_Damage))
 		Slamming = false
 

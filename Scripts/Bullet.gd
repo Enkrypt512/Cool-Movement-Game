@@ -19,29 +19,29 @@ func _physics_process(delta: float) -> void:
 	if Time_Alive >= Lifetime:
 		queue_free()
 
-func On_Bullet_Hit(body: Node) -> void:
-	if body.is_in_group("Player") or body.name == "Player":
-		if body.is_multiplayer_authority():
+func On_Bullet_Hit(Body: Node) -> void:
+	if Body.is_in_group("Player") or Body.name == "Player":
+		if Body.is_multiplayer_authority():
 			return
-	if "Health" in body:
-		body.Health -= Damage
+	if "Health" in Body:
+		Body.Health -= Damage
 	else:
-		_spawn_decal(body)
+		Spawn_Decal(Body)
 	queue_free()
 
-func _spawn_decal(Target_Body: Node) -> void:
+func Spawn_Decal(Target_Body: Node) -> void:
 	if !Decal_Scene or Target_Body.is_in_group("Enemy") or Target_Body.is_in_group("Player"):
 		return
-	var Space_state = get_world_3d().direct_space_state
-	var Ray_Start = global_position + global_transform.basis.z * 1.5
-	var Ray_End = global_position - global_transform.basis.z * 1.5
-	var Ray_Query = PhysicsRayQueryParameters3D.create(Ray_Start, Ray_End)
-	var Result = Space_state.intersect_ray(Ray_Query)
+	var Space_State: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
+	var Ray_Start: Vector3 = global_position + global_transform.basis.z * 1.5
+	var Ray_End: Vector3 = global_position - global_transform.basis.z * 1.5
+	var Ray_Query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(Ray_Start, Ray_End)
+	var Result: Dictionary = Space_State.intersect_ray(Ray_Query)
 	if Result:
-		var decal = Decal_Scene.instantiate() as Node3D
-		Target_Body.add_child(decal)
+		var decal_Instance: Node3D = Decal_Scene.instantiate()
+		Target_Body.add_child(decal_Instance)
 		var Offset_Distance: float = 0.005
-		decal.global_position = Result.position + (Result.normal * Offset_Distance)
-		var Normal = Result.normal
-		var Up_Vector = Vector3.UP if abs(Normal.dot(Vector3.UP)) < 0.99 else Vector3.FORWARD
-		decal.look_at(decal.global_position + Normal, Up_Vector)
+		decal_Instance.global_position = Result.position + (Result.normal * Offset_Distance)
+		var Normal: Vector3 = Result.normal
+		var Up_Vector: Vector3 = Vector3.UP if abs(Normal.dot(Vector3.UP)) < 0.99 else Vector3.FORWARD
+		decal_Instance.look_at(decal_Instance.global_position + Normal, Up_Vector)
