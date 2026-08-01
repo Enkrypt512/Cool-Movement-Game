@@ -83,8 +83,8 @@ var Grapple_Last_Direction: Vector3 = Vector3.ZERO
 
 # Wall Jump Variables
 @export_group("Wall Jump Variables")
-@export var Wall_Jump_Velocity: float = 10.0
-@export var Wall_Push_Force: float = -500.0
+@export var Wall_Jump_Velocity: float = 15.0
+@export var Wall_Push_Force: float = 1.0
 @export var Max_Wall_Jumps: int = 3
 var Wall_Jumps_Left: int = 3
 @export var Wall_Jump_Lock_Time: float = 0.2
@@ -215,7 +215,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor() && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			var Current_Horizontal_Speed: float = Horizontal_Velocity.length()
-			if Current_Horizontal_Speed > Walking_Speed or Is_Sprinting_Toggled or Slamming:
+			if Current_Horizontal_Speed > Walking_Speed || Is_Sprinting_Toggled || Slamming:
 				Sliding = true
 				Freelooking = true
 				Slide_Timer = Slide_Timer_Max
@@ -331,7 +331,7 @@ func _physics_process(delta: float) -> void:
 		var Step_Angle: float = Grapple_Last_Direction.angle_to(Current_Direction)
 		Grapple_Total_Angle += Step_Angle
 		Grapple_Last_Direction = Current_Direction
-		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
+		if Grapple_Total_Angle >= PI || Input.is_action_just_pressed("Jump"):
 			Grappling = false
 			if Grapple_Rope:
 				Grapple_Rope.mesh = null
@@ -386,11 +386,18 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("Jump"):
 			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0:
 				var Wall_Normal: Vector3 = get_wall_normal()
+				velocity = velocity.slide(Wall_Normal)
 				velocity.y = Wall_Jump_Velocity
-				velocity.x = Wall_Normal.x * Wall_Push_Force
-				velocity.z = Wall_Normal.z * Wall_Push_Force
+				var Wall_Push_Direction: Vector3 = Vector3(Wall_Normal.x, 0, Wall_Normal.z).normalized()
+				velocity.x = Wall_Push_Direction.x * 15.0
+				velocity.z = Wall_Push_Direction.z * 15.0
+				var Horizontal_Check = Vector3(velocity.x, 0, velocity.z)
+				if Horizontal_Check.length() > Sprinting_Speed:
+					Horizontal_Check = Horizontal_Check.normalized() * Sprinting_Speed
+					velocity.x = Horizontal_Check.x
+					velocity.z = Horizontal_Check.z
 				Wall_Jump_Lock_Timer = Wall_Jump_Lock_Time
-				Direction = Vector3(Wall_Normal.x, 0, Wall_Normal.z).normalized()
+				Direction = Wall_Push_Direction
 				Wall_Jumps_Left -= 1
 				Jumps_Left = Max_Jumps - 1
 				if GameManager.Toggle_Crouch && Sliding:

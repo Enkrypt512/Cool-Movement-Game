@@ -66,7 +66,7 @@ func On_Node_Added(node: Node) -> void:
 		if node.name.is_valid_int():
 			node.set_multiplayer_authority(node.name.to_int())
 		if node.is_multiplayer_authority():
-			Local_Player = node as CharacterBody3D
+			Local_Player = node
 
 func Find_Local_Player() -> void:
 	for Player in get_tree().get_nodes_in_group("Player"):

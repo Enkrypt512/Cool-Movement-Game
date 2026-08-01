@@ -58,11 +58,11 @@ func Stop_Horizontal_Movement() -> void:
 func Find_Local_Player():
 	for target in get_tree().get_nodes_in_group("Player"):
 		if target.is_multiplayer_authority():
-			Target = target as CharacterBody3D
+			Target = target
 			break
 
 func Body_Detected(Body):
-	if Body.is_in_group("Player") or Body.name == "Player":
+	if Body.is_in_group("Player") || Body.name == "Player":
 		if "Health" in Body:
 			Body.Health -= 30
 			GameManager.Times_Hit += 1

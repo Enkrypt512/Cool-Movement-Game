@@ -30,16 +30,16 @@ func _ready() -> void:
 
 func On_Node_Added(node: Node) -> void:
 	if Player == null && node.is_in_group("Player") && node.is_multiplayer_authority():
-		Player = node as CharacterBody3D
+		Player = node
 
 func Find_Local_Player() -> void:
 	for player in get_tree().get_nodes_in_group("Player"):
 		if player.is_multiplayer_authority():
-			Player = player as CharacterBody3D
+			Player = player 
 			break
 
 func _process(delta: float) -> void:
-	if Player == null or !("Health" in Player):
+	if Player == null || !("Health" in Player):
 		return
 	if Player.Health <= 0:
 		if !Died.visible: 

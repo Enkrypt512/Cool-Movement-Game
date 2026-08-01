@@ -129,7 +129,7 @@ func _process(_delta: float) -> void:
 func _input(Event: InputEvent) -> void:
 	if Current_Button == null:
 		return
-	if Event is InputEventMouseMotion or Event is InputEventPanGesture:
+	if Event is InputEventMouseMotion || Event is InputEventPanGesture:
 		return
 	get_viewport().set_input_as_handled()
 	var Target_Action: String = Current_Button.name

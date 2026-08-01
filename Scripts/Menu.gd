@@ -125,7 +125,7 @@ func _input(event: InputEvent) -> void:
 		return
 	if !Current_Button:
 		return
-	if event is InputEventMouseMotion or event is InputEventPanGesture:
+	if event is InputEventMouseMotion || event is InputEventPanGesture:
 		return
 	get_viewport().set_input_as_handled()
 	var Target_Action: String = Current_Button.name

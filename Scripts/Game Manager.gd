@@ -36,7 +36,7 @@ func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float)
 	if Current_Time > Best_Time:
 		Best_Time = Current_Time
 		New_Best_Time_Set = true
-	if New_Highscore_Set or New_Most_Kills_Set or New_Best_Time_Set:
+	if New_Highscore_Set || New_Most_Kills_Set || New_Best_Time_Set:
 		Save_Stats()
 	return {
 		"Is_New_Score": New_Highscore_Set,

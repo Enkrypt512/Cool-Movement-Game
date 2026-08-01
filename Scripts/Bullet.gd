@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func On_Bullet_Hit(Body: Node) -> void:
-	if Body.is_in_group("Player") or Body.name == "Player":
+	if Body.is_in_group("Player") || Body.name == "Player":
 		if Body.is_multiplayer_authority():
 			return
 	if "Health" in Body:
@@ -30,7 +30,7 @@ func On_Bullet_Hit(Body: Node) -> void:
 	queue_free()
 
 func Spawn_Decal(Target_Body: Node) -> void:
-	if !Decal_Scene or Target_Body.is_in_group("Enemy") or Target_Body.is_in_group("Player"):
+	if !Decal_Scene || Target_Body.is_in_group("Enemy") || Target_Body.is_in_group("Player"):
 		return
 	var Space_State: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
 	var Ray_Start: Vector3 = global_position + global_transform.basis.z * 1.5
