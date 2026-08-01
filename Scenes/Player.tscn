@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://c7i5m0yrmtxsu" path="res://Scenes/Knife.tscn" id="8_glx4g"]
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
+[ext_resource type="Texture2D" uid="uid://b6pjw3dsprrvi" path="res://Assets/Textures/Grenade.png" id="11_miouo"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
@@ -301,9 +302,6 @@ height = 3.0
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i1i1d"]
 height = 1.7
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ksbbd"]
-load_path = "res://.godot/imported/grenade.png-e6d0ed000bfe56e2904130e53a0ac75c.ctex"
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_bhhdu"]
 properties/0/path = NodePath(".:Health")
 properties/0/spawn = true
@@ -521,7 +519,7 @@ text = "Health:"
 [node name="Grenade" type="Sprite2D" parent="HUD" unique_id=1473283935]
 position = Vector2(1112, 72)
 scale = Vector2(3.471153, 2.4722214)
-texture = SubResource("CompressedTexture2D_ksbbd")
+texture = ExtResource("11_miouo")
 
 [node name="Grenades Left" type="Label" parent="HUD" unique_id=1248486106]
 layout_mode = 0
