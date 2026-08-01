@@ -94,6 +94,7 @@ func _process(delta: float) -> void:
 			if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
 				Last_Enemy_Spawn_Time = Current_Time
 				Spawn_Enemy()
+				GameManager.Enemies_Spawned += 1
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(Elapsed_Time * 1_000_000)

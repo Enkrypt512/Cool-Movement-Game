@@ -6,7 +6,7 @@ extends Node3D
 
 func _process(delta: float) -> void:
 	if position.y > Floor_Y_Position:
-		position.y -= Gravity * delta * 2	
+		position.y -= Gravity * delta * 2
 		if position.y < Floor_Y_Position:
 			position.y = Floor_Y_Position
 
@@ -17,6 +17,7 @@ func Body_Entered(Body):
 	if Body.name == "Player":
 		if Body.Health <= 99:
 			Body.Health += 30
+			GameManager.Healt_Boxes_Used += 1
 			queue_free()
 		else:
 			pass

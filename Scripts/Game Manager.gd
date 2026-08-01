@@ -16,6 +16,9 @@ var Highscore: int = 0
 var Most_Enemies_Killed: int = 0
 var Best_Time: float = 0.0
 var Speedometer: bool
+var Enemies_Spawned: int
+var Healt_Boxes_Used: int
+var Times_Hit: int
 
 func _ready() -> void:
 	Load_Stats()
