@@ -14,11 +14,8 @@ var Elapsed_Time: float
 @onready var Score: Label = $Score
 @onready var Highscore: Label = $Highscore 
 @onready var Most_Enemies_Killed: Label = $"Most Enemies Killed"
-@export var Deadzone: float = 0.2
-var Virtual_Mouse_Position: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
-	Virtual_Mouse_Position = get_viewport().get_mouse_position()
 	Return_To_Menu.pressed.connect(func(): get_tree().change_scene_to_file("res://Scenes/Menu.tscn"))
 	Quit.pressed.connect(func(): get_tree().quit())
 	get_tree().node_added.connect(On_Node_Added)
@@ -62,20 +59,6 @@ func _process(delta: float) -> void:
 			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 				
-	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-		var Raw_Cursor_X_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-		var Raw_Cursor_Y_Position: float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-		var Stick_Input: Vector2 = Vector2(
-			Raw_Cursor_X_Position if abs(Raw_Cursor_X_Position) > Deadzone else 0.0,
-			Raw_Cursor_Y_Position if abs(Raw_Cursor_Y_Position) > Deadzone else 0.0
-		)
-		if Stick_Input != Vector2.ZERO:
-			var Speed: float = GameManager.Joystick_Sensitivity * 600.0
-			var Viewport_Size: Vector2 = get_viewport().size
-			Virtual_Mouse_Position += Stick_Input * Speed * delta
-			Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
-			Virtual_Mouse_Position.y = clamp(Virtual_Mouse_Position.y, 0.0, Viewport_Size.y)
-			Input.warp_mouse(Virtual_Mouse_Position)
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(Elapsed_Time * 1_000_000)
@@ -83,17 +66,3 @@ func _process(delta: float) -> void:
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
 	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
-
-func _input(event: InputEvent) -> void:
-	if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-		if event is InputEventMouseMotion:
-			Virtual_Mouse_Position = event.position
-	if event.is_action("ui_accept") && !event.is_echo():
-		if Input.mouse_mode == Input.MOUSE_MODE_VISIBLE:
-			var Click_Event: InputEventMouseButton = InputEventMouseButton.new()
-			Click_Event.button_index = MOUSE_BUTTON_LEFT
-			Click_Event.pressed = event.is_pressed()
-			Click_Event.position = Virtual_Mouse_Position
-			Click_Event.global_position = Virtual_Mouse_Position
-			get_viewport().push_input(Click_Event)
-			return

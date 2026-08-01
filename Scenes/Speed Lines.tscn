@@ -4,14 +4,16 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lmyy4"]
 shader = ExtResource("1_0if71")
-shader_parameter/line_count = 80.0
-shader_parameter/line_density = 0.5
-shader_parameter/inner_radius = 0.3
-shader_parameter/line_speed = 8.0
-shader_parameter/line_color = Color(0, 0, 0, 1)
+shader_parameter/Line_Count = 220.0
+shader_parameter/Line_Density = 0.5
+shader_parameter/Line_Sharpness = 0.3
+shader_parameter/Inner_Radius = 0.4
+shader_parameter/Line_Speed = 12.0
+shader_parameter/Rotation_Speed = 2.0
+shader_parameter/Line_Alpha = 0.7
+shader_parameter/Line_Color = Color(0, 0, 0, 1)
 
 [node name="Speed Lines" type="CanvasLayer" unique_id=711406124]
-visible = false
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=1332928641]
 material = SubResource("ShaderMaterial_lmyy4")

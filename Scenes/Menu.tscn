@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dqywirb45cafe" path="res://Scripts/Menu.gd" id="1_3kf3n"]
 [ext_resource type="Script" uid="uid://dd5dmeacrppe8" path="res://Scripts/Multiplayer.gd" id="2_6pedr"]
 
-[node name="Control" type="Control" unique_id=1098213457]
+[node name="Menu" type="Control" unique_id=1098213457]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,13 +12,205 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_3kf3n")
 
-[node name="Version" type="Label" parent="." unique_id=542178762]
+[node name="Main" type="Control" parent="." unique_id=1949768172]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Version" type="Label" parent="Main" unique_id=542178762]
 layout_mode = 0
 offset_left = 1072.0
 offset_top = 634.0
 offset_right = 1168.0
 offset_bottom = 647.0
-text = "Version:0.7"
+
+[node name="Start" type="Button" parent="Main" unique_id=45654231]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 176.0
+offset_bottom = 168.0
+tooltip_text = "Start The Game"
+text = "Start"
+
+[node name="Settings Button" type="Button" parent="Main" unique_id=1091338797]
+layout_mode = 0
+offset_top = 180.0
+offset_right = 176.0
+offset_bottom = 228.0
+tooltip_text = "Change The Settings"
+text = "Settings"
+
+[node name="Credits Button" type="Button" parent="Main" unique_id=1800972824]
+layout_mode = 0
+offset_top = 243.0
+offset_right = 176.0
+offset_bottom = 291.0
+tooltip_text = "Quit The Game"
+text = "Credits
+"
+
+[node name="Keys Button" type="Button" parent="Main" unique_id=1910658138]
+layout_mode = 0
+offset_top = 299.0
+offset_right = 176.0
+offset_bottom = 347.0
+tooltip_text = "Quit The Game"
+text = "Keys"
+
+[node name="Quit" type="Button" parent="Main" unique_id=1410713948]
+layout_mode = 0
+offset_top = 355.0
+offset_right = 176.0
+offset_bottom = 403.0
+tooltip_text = "Quit The Game"
+text = "Quit"
+
+[node name="FPS Counter" type="Label" parent="Main" unique_id=1160444725]
+layout_mode = 0
+offset_left = 1109.0
+offset_right = 1229.0
+offset_bottom = 40.0
+
+[node name="Multiplayer" type="Control" parent="." unique_id=1866732488]
+visible = false
+anchors_preset = 0
+offset_top = 1.0
+offset_right = 40.0
+offset_bottom = 41.0
+script = ExtResource("2_6pedr")
+
+[node name="ColorRect" type="ColorRect" parent="Multiplayer" unique_id=1906324769]
+layout_mode = 0
+offset_right = 1336.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="Host" type="Button" parent="Multiplayer" unique_id=676262168]
+layout_mode = 0
+offset_right = 288.0
+offset_bottom = 72.0
+text = "Host A Game"
+
+[node name="Join" type="Button" parent="Multiplayer" unique_id=2037537452]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 288.0
+offset_bottom = 216.0
+text = "Join A Game"
+
+[node name="Start Game" type="Button" parent="Multiplayer" unique_id=1849373933]
+layout_mode = 0
+offset_top = 264.0
+offset_right = 288.0
+offset_bottom = 336.0
+text = "Start The Game"
+
+[node name="Username" type="LineEdit" parent="Multiplayer" unique_id=670042289]
+layout_mode = 0
+offset_left = 360.0
+offset_right = 880.0
+offset_bottom = 40.0
+placeholder_text = "Enter Your Username...."
+
+[node name="Credits" type="Control" parent="." unique_id=565533374]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Credits" unique_id=730316244]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 28.8
+anchor_bottom = 16.225
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08627451, 0.08627451, 0.08627451, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="Credits" unique_id=135020700]
+layout_mode = 0
+offset_right = 253.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 64
+text = "Credits:"
+vertical_alignment = 1
+
+[node name="Credits" type="Label" parent="Credits" unique_id=172232235]
+layout_mode = 0
+offset_top = 81.0
+offset_right = 612.0
+offset_bottom = 225.0
+theme_override_font_sizes/font_size = 32
+text = "Kenney: For The Assets
+Lukky:For The Base Movement Code
+Datagoblin:For The Monogram Font
+Greg Zaal And Jarod Guest:For The Sky Texture
+Pichuliru:For The Smoke Grenade Model
+JoyTree Studios: For The Grenade Texture
+musdasch:For The Bullet Decal Texture
+plaggy:For The Knife Model
+And You! For Playing This Incredibely Buggy Game <3"
+
+[node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 176.0
+offset_bottom = 648.0
+tooltip_text = "Quit The Settings Menu"
+text = "Quit"
+
+[node name="Keys" type="Control" parent="." unique_id=732458445]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Background" type="ColorRect" parent="Keys" unique_id=1846048970]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 28.8
+anchor_bottom = 16.225
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08627451, 0.08627451, 0.08627451, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="Keys" unique_id=1110542697]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 13.0
+theme_override_font_sizes/font_size = 128
+text = "Keys"
+
+[node name="Keys" type="Label" parent="Keys" unique_id=1844187327]
+layout_mode = 0
+offset_top = 120.0
+offset_right = 48.0
+offset_bottom = 146.0
+theme_override_font_sizes/font_size = 32
+text = "WASD/Arrow Keys:Move
+Mouse:Look Around
+LMB:Shoot
+RMB:Aim Down Sight
+Space:Jump
+Shift:Sprint
+Control:Crouch
+Alt:Freelook
+E:Change Gun
+X:Dash
+N:Grapple Hook
+G:Throw Grenade
+Escape:Bring Up The InGame Menu
+F11:Toggle Fullscreen"
+
+[node name="Quit" type="Button" parent="Keys" unique_id=164897926]
+layout_mode = 0
+offset_top = 600.0
+offset_right = 176.0
+offset_bottom = 648.0
+tooltip_text = "Quit The Settings Menu"
+text = "Quit"
 
 [node name="Settings" type="Control" parent="." unique_id=2128066149]
 visible = false
@@ -38,241 +230,6 @@ offset_top = 600.0
 offset_right = 176.0
 offset_bottom = 648.0
 tooltip_text = "Quit The Settings Menu"
-text = "Quit"
-
-[node name="Binds" type="Control" parent="Settings" unique_id=1344302065]
-visible = false
-clip_contents = true
-anchors_preset = 0
-offset_right = 1384.0
-offset_bottom = 648.0
-
-[node name="Forward" type="Button" parent="Settings/Binds" unique_id=190688487]
-layout_mode = 0
-offset_left = -1.0
-offset_top = 93.0
-offset_right = 149.0
-offset_bottom = 125.0
-tooltip_text = "Key To Go Forwards"
-focus_mode = 0
-text = "Forward"
-
-[node name="Backward" type="Button" parent="Settings/Binds" unique_id=1145259071]
-layout_mode = 0
-offset_top = 136.0
-offset_right = 145.0
-offset_bottom = 167.0
-tooltip_text = "Key To Go Backwards"
-focus_mode = 0
-text = "Backward"
-
-[node name="Left" type="Button" parent="Settings/Binds" unique_id=1607280638]
-layout_mode = 0
-offset_top = 176.0
-offset_right = 144.0
-offset_bottom = 207.0
-tooltip_text = "Key To Go Left"
-text = "Left"
-
-[node name="Right" type="Button" parent="Settings/Binds" unique_id=1515153924]
-layout_mode = 0
-offset_top = 216.0
-offset_right = 144.0
-offset_bottom = 247.0
-tooltip_text = "Key To Go Right"
-text = "Right"
-
-[node name="Sprint" type="Button" parent="Settings/Binds" unique_id=1395131579]
-layout_mode = 0
-offset_top = 263.0
-offset_right = 145.0
-offset_bottom = 294.0
-tooltip_text = "Key To Sprint"
-focus_mode = 0
-text = "Sprint"
-
-[node name="Crouch" type="Button" parent="Settings/Binds" unique_id=721196373]
-layout_mode = 0
-offset_top = 303.0
-offset_right = 144.0
-offset_bottom = 334.0
-tooltip_text = "Key To Crouch"
-text = "Crouch
-"
-
-[node name="Freelook" type="Button" parent="Settings/Binds" unique_id=698427877]
-layout_mode = 0
-offset_top = 343.0
-offset_right = 144.0
-offset_bottom = 374.0
-tooltip_text = "Key To Freelook"
-text = "Freelook
-"
-
-[node name="Jump" type="Button" parent="Settings/Binds" unique_id=644686874]
-layout_mode = 0
-offset_top = 391.0
-offset_right = 144.0
-offset_bottom = 422.0
-tooltip_text = "Key To Jump"
-text = "Jump
-"
-
-[node name="Change Gun" type="Button" parent="Settings/Binds" unique_id=496390064]
-layout_mode = 0
-offset_top = 447.0
-offset_right = 144.0
-offset_bottom = 478.0
-tooltip_text = "Key To Change The Gun"
-text = "Change Weapon
-"
-
-[node name="Shoot" type="Button" parent="Settings/Binds" unique_id=1449838251]
-layout_mode = 0
-offset_top = 503.0
-offset_right = 144.0
-offset_bottom = 534.0
-tooltip_text = "Button To Shoot"
-text = "Shoot
-"
-
-[node name="Exit" type="Button" parent="Settings/Binds" unique_id=1130508926]
-layout_mode = 0
-offset_top = 559.0
-offset_right = 144.0
-offset_bottom = 590.0
-tooltip_text = "Key To Bring Up The In-Game Menu"
-text = "Exit
-"
-
-[node name="Reset" type="Button" parent="Settings/Binds" unique_id=236807662]
-layout_mode = 0
-offset_left = 193.0
-offset_top = 597.0
-offset_right = 360.0
-offset_bottom = 640.0
-tooltip_text = "Reset Your Bindings"
-focus_mode = 0
-text = "Reset"
-
-[node name="Forward Label" type="Label" parent="Settings/Binds" unique_id=1732014698]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 96.0
-offset_right = 447.0
-offset_bottom = 128.0
-tooltip_text = "Binds Set To The Forwards Key"
-mouse_filter = 0
-
-[node name="Backward Label" type="Label" parent="Settings/Binds" unique_id=34563308]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 136.0
-offset_right = 400.0
-offset_bottom = 168.0
-tooltip_text = "Binds Set To The Backwards Key"
-mouse_filter = 0
-
-[node name="Left Label" type="Label" parent="Settings/Binds" unique_id=194630576]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 176.0
-offset_right = 408.0
-offset_bottom = 208.0
-tooltip_text = "Binds Set To The Left Key"
-mouse_filter = 0
-
-[node name="Right Label" type="Label" parent="Settings/Binds" unique_id=711294625]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 225.0
-offset_right = 400.0
-offset_bottom = 248.0
-tooltip_text = "Binds Set To The Right Key"
-mouse_filter = 0
-
-[node name="Sprint Label" type="Label" parent="Settings/Binds" unique_id=2105832663]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 268.0
-offset_right = 400.0
-offset_bottom = 300.0
-tooltip_text = "Binds Set To Sprint"
-mouse_filter = 0
-
-[node name="Crouch Label" type="Label" parent="Settings/Binds" unique_id=1742655661]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 308.0
-offset_right = 408.0
-offset_bottom = 340.0
-tooltip_text = "Binds Set To Crouch"
-mouse_filter = 0
-
-[node name="Freelook Label" type="Label" parent="Settings/Binds" unique_id=190211659]
-layout_mode = 0
-offset_left = 160.0
-offset_top = 357.0
-offset_right = 400.0
-offset_bottom = 380.0
-tooltip_text = "Binds Set To Freelook"
-mouse_filter = 0
-
-[node name="Jump Label" type="Label" parent="Settings/Binds" unique_id=1369900227]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 400.0
-offset_right = 447.0
-offset_bottom = 432.0
-tooltip_text = "Binds Set To Jump"
-mouse_filter = 0
-
-[node name="Change Gun Label" type="Label" parent="Settings/Binds" unique_id=636419439]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 448.0
-offset_right = 447.0
-offset_bottom = 480.0
-tooltip_text = "Binds Set To Change The Gun"
-mouse_filter = 0
-
-[node name="Shoot Label" type="Label" parent="Settings/Binds" unique_id=703470066]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 512.0
-offset_right = 447.0
-offset_bottom = 544.0
-tooltip_text = "Binds Set To Shoot"
-mouse_filter = 0
-
-[node name="Exit Label" type="Label" parent="Settings/Binds" unique_id=577441956]
-layout_mode = 0
-offset_left = 168.0
-offset_top = 560.0
-offset_right = 447.0
-offset_bottom = 592.0
-tooltip_text = "Binds Set To Toggle The In-Game Menu"
-mouse_filter = 0
-
-[node name="PanelContainer" type="PanelContainer" parent="Settings/Binds" unique_id=1341006646]
-layout_mode = 0
-offset_left = 390.0
-offset_top = 612.0
-offset_right = 640.0
-offset_bottom = 636.0
-
-[node name="Label" type="Label" parent="Settings/Binds/PanelContainer" unique_id=507913711]
-layout_mode = 2
-tooltip_text = "Enter a key......"
-mouse_filter = 0
-text = "Enter a key......"
-
-[node name="Quit" type="Button" parent="Settings/Binds" unique_id=66633419]
-layout_mode = 0
-offset_top = 596.0
-offset_right = 176.0
-offset_bottom = 644.0
-tooltip_text = "Quit The Bindings Menu"
 text = "Quit"
 
 [node name="Main" type="Control" parent="Settings" unique_id=864585042]
@@ -527,130 +484,237 @@ tooltip_text = "Resets Your Settings"
 focus_mode = 0
 text = "Reset"
 
-[node name="Start" type="Button" parent="." unique_id=45654231]
-layout_mode = 0
-offset_top = 120.0
-offset_right = 176.0
-offset_bottom = 168.0
-tooltip_text = "Start The Game"
-text = "Start"
+[node name="Binds" type="Control" parent="Settings" unique_id=1344302065]
+visible = false
+clip_contents = true
+anchors_preset = 0
+offset_right = 1384.0
+offset_bottom = 648.0
 
-[node name="Settings Button" type="Button" parent="." unique_id=1091338797]
+[node name="Forward" type="Button" parent="Settings/Binds" unique_id=190688487]
 layout_mode = 0
-offset_top = 180.0
-offset_right = 176.0
-offset_bottom = 228.0
-tooltip_text = "Change The Settings"
-text = "Settings"
+offset_left = -1.0
+offset_top = 93.0
+offset_right = 149.0
+offset_bottom = 125.0
+tooltip_text = "Key To Go Forwards"
+focus_mode = 0
+text = "Forward"
 
-[node name="Credits Button" type="Button" parent="." unique_id=1800972824]
+[node name="Backward" type="Button" parent="Settings/Binds" unique_id=1145259071]
 layout_mode = 0
-offset_top = 243.0
-offset_right = 176.0
-offset_bottom = 291.0
-tooltip_text = "Quit The Game"
-text = "Credits
+offset_top = 136.0
+offset_right = 145.0
+offset_bottom = 167.0
+tooltip_text = "Key To Go Backwards"
+focus_mode = 0
+text = "Backward"
+
+[node name="Left" type="Button" parent="Settings/Binds" unique_id=1607280638]
+layout_mode = 0
+offset_top = 176.0
+offset_right = 144.0
+offset_bottom = 207.0
+tooltip_text = "Key To Go Left"
+text = "Left"
+
+[node name="Right" type="Button" parent="Settings/Binds" unique_id=1515153924]
+layout_mode = 0
+offset_top = 216.0
+offset_right = 144.0
+offset_bottom = 247.0
+tooltip_text = "Key To Go Right"
+text = "Right"
+
+[node name="Sprint" type="Button" parent="Settings/Binds" unique_id=1395131579]
+layout_mode = 0
+offset_top = 263.0
+offset_right = 145.0
+offset_bottom = 294.0
+tooltip_text = "Key To Sprint"
+focus_mode = 0
+text = "Sprint"
+
+[node name="Crouch" type="Button" parent="Settings/Binds" unique_id=721196373]
+layout_mode = 0
+offset_top = 303.0
+offset_right = 144.0
+offset_bottom = 334.0
+tooltip_text = "Key To Crouch"
+text = "Crouch
 "
 
-[node name="Quit" type="Button" parent="." unique_id=1410713948]
+[node name="Freelook" type="Button" parent="Settings/Binds" unique_id=698427877]
 layout_mode = 0
-offset_top = 307.0
+offset_top = 343.0
+offset_right = 144.0
+offset_bottom = 374.0
+tooltip_text = "Key To Freelook"
+text = "Freelook
+"
+
+[node name="Jump" type="Button" parent="Settings/Binds" unique_id=644686874]
+layout_mode = 0
+offset_top = 391.0
+offset_right = 144.0
+offset_bottom = 422.0
+tooltip_text = "Key To Jump"
+text = "Jump
+"
+
+[node name="Change Gun" type="Button" parent="Settings/Binds" unique_id=496390064]
+layout_mode = 0
+offset_top = 447.0
+offset_right = 144.0
+offset_bottom = 478.0
+tooltip_text = "Key To Change The Gun"
+text = "Change Weapon
+"
+
+[node name="Shoot" type="Button" parent="Settings/Binds" unique_id=1449838251]
+layout_mode = 0
+offset_top = 503.0
+offset_right = 144.0
+offset_bottom = 534.0
+tooltip_text = "Button To Shoot"
+text = "Shoot
+"
+
+[node name="Exit" type="Button" parent="Settings/Binds" unique_id=1130508926]
+layout_mode = 0
+offset_top = 559.0
+offset_right = 144.0
+offset_bottom = 590.0
+tooltip_text = "Key To Bring Up The In-Game Menu"
+text = "Exit
+"
+
+[node name="Reset" type="Button" parent="Settings/Binds" unique_id=236807662]
+layout_mode = 0
+offset_left = 193.0
+offset_top = 597.0
+offset_right = 360.0
+offset_bottom = 640.0
+tooltip_text = "Reset Your Bindings"
+focus_mode = 0
+text = "Reset"
+
+[node name="Forward Label" type="Label" parent="Settings/Binds" unique_id=1732014698]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 96.0
+offset_right = 447.0
+offset_bottom = 128.0
+tooltip_text = "Binds Set To The Forwards Key"
+mouse_filter = 0
+
+[node name="Backward Label" type="Label" parent="Settings/Binds" unique_id=34563308]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 136.0
+offset_right = 400.0
+offset_bottom = 168.0
+tooltip_text = "Binds Set To The Backwards Key"
+mouse_filter = 0
+
+[node name="Left Label" type="Label" parent="Settings/Binds" unique_id=194630576]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 176.0
+offset_right = 408.0
+offset_bottom = 208.0
+tooltip_text = "Binds Set To The Left Key"
+mouse_filter = 0
+
+[node name="Right Label" type="Label" parent="Settings/Binds" unique_id=711294625]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 225.0
+offset_right = 400.0
+offset_bottom = 248.0
+tooltip_text = "Binds Set To The Right Key"
+mouse_filter = 0
+
+[node name="Sprint Label" type="Label" parent="Settings/Binds" unique_id=2105832663]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 268.0
+offset_right = 400.0
+offset_bottom = 300.0
+tooltip_text = "Binds Set To Sprint"
+mouse_filter = 0
+
+[node name="Crouch Label" type="Label" parent="Settings/Binds" unique_id=1742655661]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 308.0
+offset_right = 408.0
+offset_bottom = 340.0
+tooltip_text = "Binds Set To Crouch"
+mouse_filter = 0
+
+[node name="Freelook Label" type="Label" parent="Settings/Binds" unique_id=190211659]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 357.0
+offset_right = 400.0
+offset_bottom = 380.0
+tooltip_text = "Binds Set To Freelook"
+mouse_filter = 0
+
+[node name="Jump Label" type="Label" parent="Settings/Binds" unique_id=1369900227]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 400.0
+offset_right = 447.0
+offset_bottom = 432.0
+tooltip_text = "Binds Set To Jump"
+mouse_filter = 0
+
+[node name="Change Gun Label" type="Label" parent="Settings/Binds" unique_id=636419439]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 448.0
+offset_right = 447.0
+offset_bottom = 480.0
+tooltip_text = "Binds Set To Change The Gun"
+mouse_filter = 0
+
+[node name="Shoot Label" type="Label" parent="Settings/Binds" unique_id=703470066]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 512.0
+offset_right = 447.0
+offset_bottom = 544.0
+tooltip_text = "Binds Set To Shoot"
+mouse_filter = 0
+
+[node name="Exit Label" type="Label" parent="Settings/Binds" unique_id=577441956]
+layout_mode = 0
+offset_left = 168.0
+offset_top = 560.0
+offset_right = 447.0
+offset_bottom = 592.0
+tooltip_text = "Binds Set To Toggle The In-Game Menu"
+mouse_filter = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Settings/Binds" unique_id=1341006646]
+layout_mode = 0
+offset_left = 390.0
+offset_top = 612.0
+offset_right = 640.0
+offset_bottom = 636.0
+
+[node name="Label" type="Label" parent="Settings/Binds/PanelContainer" unique_id=507913711]
+layout_mode = 2
+tooltip_text = "Enter a key......"
+mouse_filter = 0
+text = "Enter a key......"
+
+[node name="Quit" type="Button" parent="Settings/Binds" unique_id=66633419]
+layout_mode = 0
+offset_top = 596.0
 offset_right = 176.0
-offset_bottom = 355.0
-tooltip_text = "Quit The Game"
-text = "Quit"
-
-[node name="FPS Counter" type="Label" parent="." unique_id=1160444725]
-layout_mode = 0
-offset_left = 1109.0
-offset_right = 1229.0
-offset_bottom = 40.0
-
-[node name="Multiplayer" type="Control" parent="." unique_id=1866732488]
-visible = false
-anchors_preset = 0
-offset_top = 1.0
-offset_right = 40.0
-offset_bottom = 41.0
-script = ExtResource("2_6pedr")
-
-[node name="ColorRect" type="ColorRect" parent="Multiplayer" unique_id=1906324769]
-layout_mode = 0
-offset_right = 1336.0
-offset_bottom = 648.0
-color = Color(0, 0, 0, 1)
-
-[node name="Host" type="Button" parent="Multiplayer" unique_id=676262168]
-layout_mode = 0
-offset_right = 288.0
-offset_bottom = 72.0
-text = "Host A Game"
-
-[node name="Join" type="Button" parent="Multiplayer" unique_id=2037537452]
-layout_mode = 0
-offset_top = 144.0
-offset_right = 288.0
-offset_bottom = 216.0
-text = "Join A Game"
-
-[node name="Start Game" type="Button" parent="Multiplayer" unique_id=1849373933]
-layout_mode = 0
-offset_top = 264.0
-offset_right = 288.0
-offset_bottom = 336.0
-text = "Start The Game"
-
-[node name="Username" type="LineEdit" parent="Multiplayer" unique_id=670042289]
-layout_mode = 0
-offset_left = 360.0
-offset_right = 880.0
-offset_bottom = 40.0
-placeholder_text = "Enter Your Username...."
-
-[node name="Credits" type="Control" parent="." unique_id=565533374]
-visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Background" type="ColorRect" parent="Credits" unique_id=730316244]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 28.8
-anchor_bottom = 16.225
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.08627451, 0.08627451, 0.08627451, 1)
-metadata/_edit_use_anchors_ = true
-
-[node name="Title" type="Label" parent="Credits" unique_id=135020700]
-layout_mode = 0
-offset_right = 253.0
-offset_bottom = 64.0
-theme_override_font_sizes/font_size = 64
-text = "Credits:"
-vertical_alignment = 1
-
-[node name="Credits" type="Label" parent="Credits" unique_id=172232235]
-layout_mode = 0
-offset_top = 81.0
-offset_right = 612.0
-offset_bottom = 225.0
-theme_override_font_sizes/font_size = 32
-text = "Kenney: For The Assets
-Lukky:For The Base Movement Code
-Datagoblin:For The Monogram Font
-Greg Zaal And Jarod Guest:For The Sky Texture
-Pichuliru:For The Smoke Grenade Model
-JoyTree Studios: For The Grenade Texture
-musdasch:For The Bullet Decal Texture
-plaggy:For The Knife Model
-And You! For Playing This Incredibely Buggy Game <3"
-
-[node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
-layout_mode = 0
-offset_top = 600.0
-offset_right = 176.0
-offset_bottom = 648.0
-tooltip_text = "Quit The Settings Menu"
+offset_bottom = 644.0
+tooltip_text = "Quit The Bindings Menu"
 text = "Quit"

@@ -2,8 +2,6 @@ extends Control
 
 var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
-@export var Deadzone:float = 0.2
-var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 
 @onready var Forward: Button = $Settings/Binds/Forward
 @onready var Backward: Button = $Settings/Binds/Backward
@@ -18,21 +16,21 @@ var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 @onready var Backward_Label: Label = $"Settings/Binds/Backward Label"
 @onready var Left_Label: Label = $"Settings/Binds/Left Label"
 @onready var Right_Label: Label = $"Settings/Binds/Right Label"
-@onready var Settings_Button: Button = $'Settings Button'
+@onready var Settings_Button: Button = $'Main/Settings Button'
 @onready var Settings_Quit: Button = $Settings/Quit
 @onready var Info_Panel: PanelContainer = $Settings/Binds/PanelContainer
 @onready var Settings: Control = $Settings
 @onready var Credits: Control = $Credits
 @onready var Binds: Control = $Settings/Binds
 @onready var Bindings_Quit: Button = $Settings/Binds/Quit
-@onready var Start: Button = $Start
-@onready var Credits_Button: Button = $"Credits Button"
-@onready var Quit: Button = $Quit
+@onready var Start: Button = $Main/Start
+@onready var Credits_Button: Button = $"Main/Credits Button"
+@onready var Quit: Button = $Main/Quit
 @onready var Bindings: Button = $Settings/Main/Bindings
 @onready var Fullscreen_Check: CheckBox = $"Settings/Main/Fullscreen Check"
 @onready var FPS_Check: CheckBox = $"Settings/Main/FPS Check"
 @onready var Speedometer_Check: CheckBox = $"Settings/Main/Speedometer Check"
-@onready var FPS_Counter: Label = $"FPS Counter"
+@onready var FPS_Counter: Label = $"Main/FPS Counter"
 @onready var Mouse_Sensitivity_Number: SpinBox = $"Settings/Main/Mouse Sensitivity Number"
 @onready var Joystick_Sensitivity_Number: SpinBox = $"Settings/Main/Joystick Sensitivity Number"
 @onready var Volume_Slider: HSlider = $"Settings/Main/Volume Slider"
@@ -54,9 +52,12 @@ var Virtual_Mouse_Position:Vector2 = Vector2.ZERO
 @onready var Exit_Label: Label = $"Settings/Binds/Exit Label"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
 @onready var Quit_Credits: Button = $Credits/Quit
+@onready var Keys: Control = $Keys
+@onready var Keys_Button: Button = $"Main/Keys Button"
+@onready var Keys_Quit: Button = $Keys/Quit
+@onready var Version: Label = $Main/Version
 
 func _ready() -> void:
-	Virtual_Mouse_Position = get_viewport().get_visible_rect().size / 2.0
 	Load_Game_Settings()
 	Forward.pressed.connect(On_Button_Pressed.bind(Forward))
 	Backward.pressed.connect(On_Button_Pressed.bind(Backward))
@@ -68,7 +69,7 @@ func _ready() -> void:
 	Jump.pressed.connect(On_Button_Pressed.bind(Jump))
 	Reset_Bindings.pressed.connect(Reset_Bindings_To_Default)
 	Reset_Settings.pressed.connect(Reset_Settings_To_Default)
-	Settings_Button.pressed.connect(Change_To_Settings)
+	Settings_Button.pressed.connect(func():Settings.visible = true)
 	Settings_Quit.pressed.connect(Quit_From_Settings)
 	Fullscreen_Check.toggled.connect(On_Fullscreen_Toggled)
 	VSync_Check.toggled.connect(On_VSync_Toggled)
@@ -82,6 +83,9 @@ func _ready() -> void:
 	Credits_Button.pressed.connect(func(): Credits.visible = true)
 	Quit_Credits.pressed.connect(func(): Credits.hide())
 	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
+	Keys_Button.pressed.connect(func():Keys.visible = true)
+	Keys_Quit.pressed.connect(func(): Keys.visible = false)
+	Version.text = "Version:" + str(ProjectSettings.get_setting("application/config/version"))
 	Update_Labels()
 	Info_Panel.hide()
 
@@ -90,19 +94,6 @@ func On_Button_Pressed(button: Button) -> void:
 	Info_Panel.show()
 
 func _process(delta: float) -> void:
-	var Raw_Cursor_X_Position:float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
-	var Raw_Cursor_Y_Position:float = Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
-	var Stick_Input:Vector2 = Vector2(
-		Raw_Cursor_X_Position if abs(Raw_Cursor_X_Position) > Deadzone else 0.0,
-		Raw_Cursor_Y_Position if abs(Raw_Cursor_Y_Position) > Deadzone else 0.0
-	)
-	if Stick_Input != Vector2.ZERO:
-		var Speed:float = GameManager.Joystick_Sensitivity * 600.0
-		var Viewport_Size: Vector2 = get_viewport().size
-		Virtual_Mouse_Position += Stick_Input * Speed * delta
-		Virtual_Mouse_Position.x = clamp(Virtual_Mouse_Position.x, 0.0, Viewport_Size.x)
-		Virtual_Mouse_Position.y = clamp(Virtual_Mouse_Position.y, 0.0, Viewport_Size.y)
-		Input.warp_mouse(Virtual_Mouse_Position)
 	if FPS_Check.button_pressed:
 		GameManager.FPS_Counter = true
 		FPS_Counter.text = 'FPS:' + str(int(Engine.get_frames_per_second()))
@@ -124,8 +115,6 @@ func _process(delta: float) -> void:
 	GameManager.Speedometer = Speedometer_Check.button_pressed
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseMotion:
-		Virtual_Mouse_Position = event.position
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
 		var Is_Fullscreen:bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 		Fullscreen_Check.toggled.disconnect(On_Fullscreen_Toggled)
@@ -136,17 +125,6 @@ func _input(event: InputEvent) -> void:
 		Save_Game_Settings()
 		Apply_Loaded_Settings()
 		return
-	if event is InputEventJoypadButton && !event.is_echo():
-		if event.button_index == JOY_BUTTON_A:
-			if !Current_Button:
-				var Click_Event:InputEventMouseButton = InputEventMouseButton.new()
-				Click_Event.button_index = MOUSE_BUTTON_LEFT
-				Click_Event.pressed = event.is_pressed()
-				Click_Event.position = Virtual_Mouse_Position
-				Click_Event.global_position = Virtual_Mouse_Position
-				get_viewport().push_input(Click_Event)
-				accept_event()
-				return
 	if !Current_Button:
 		return
 	if event is InputEventMouseMotion or event is InputEventPanGesture:
@@ -220,21 +198,8 @@ func Clear_Action_Inputs(Action_Name: String) -> void:
 	InputMap.action_erase_events(Action_Name)
 	Update_Labels()
 
-func Change_To_Settings():
-	Settings.visible = true
-	Main.visible = true
-	Binds.visible = false
-	Start.visible = false
-	Quit.visible = false
-	Settings_Button.visible = false
-	Credits_Button.visible = false
-
 func Quit_From_Settings():
 	Settings.visible = false
-	Start.visible = true
-	Quit.visible = true
-	Settings_Button.visible = true
-	Credits_Button.visible = true
 	GameManager.Max_FPS = int(FPS_Lock_Number.value)
 	Engine.max_fps = GameManager.Max_FPS
 	Save_Game_Settings()
@@ -248,11 +213,8 @@ func Quit_From_Bindings():
 	Save_Game_Settings()
 	Settings.visible = true
 	Main.visible = true
-	Binds.visible = false
-	Start.visible = false
-	Quit.visible = false
-	Settings_Button.visible = false
 	Settings_Quit.visible = true
+	Binds.visible = false
 
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	GameManager.Fullscreen = Is_Checked

@@ -589,9 +589,9 @@ offset_bottom = 40.0
 
 [node name="Bindings" type="Button" parent="InGame Menu/Settings/Main" unique_id=747028282]
 layout_mode = 0
-offset_top = 546.0
+offset_top = 534.0
 offset_right = 176.0
-offset_bottom = 594.0
+offset_bottom = 582.0
 tooltip_text = "Rebind Keys"
 text = "Bind Keys"
 

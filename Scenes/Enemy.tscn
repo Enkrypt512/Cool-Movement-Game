@@ -13,6 +13,9 @@ height = 3.0
 radius = 0.79785156
 height = 3.0
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_q6h8p"]
+size = Vector3(1, 2.6873171, 1)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1htj"]
 radius = 0.79785156
 height = 3.0
@@ -26,6 +29,10 @@ mesh = SubResource("CapsuleMesh_lmyy4")
 
 [node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1285501161]
 shape = SubResource("CapsuleShape3D_i1i1d")
+
+[node name="Occluding" type="OccluderInstance3D" parent="Collision Shape" unique_id=216938034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05022192, 0)
+occluder = SubResource("BoxOccluder3D_q6h8p")
 
 [node name="Pathfinding" type="NavigationAgent3D" parent="." unique_id=232808568]
 

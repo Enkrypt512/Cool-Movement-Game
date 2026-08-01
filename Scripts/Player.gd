@@ -1,7 +1,7 @@
 extends CharacterBody3D
 
 # Movement Variables
-@export_group("Movment Variables")
+@export_group("Movement Variables")
 @export var Current_Speed: float = 5.0
 @export var Walking_Speed: float = 10.0
 @export var Sprinting_Speed: float = 20.0

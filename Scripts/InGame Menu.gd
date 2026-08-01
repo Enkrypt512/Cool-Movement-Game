@@ -51,6 +51,7 @@ var Local_Player:CharacterBody3D = null
 @onready var InGame_Menu: Control = $"."
 @onready var Back_To_Menu: Button = $"Back To Menu"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
+@onready var Died: Control = $"../Died"
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -85,7 +86,7 @@ func _ready() -> void:
 	Info_Panel.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("Exit") && !event.is_echo():
+	if event.is_action_pressed("Exit") && !event.is_echo() && !Died.visible:
 		get_viewport().set_input_as_handled()
 		if get_tree().paused:
 			Resume_Game()
