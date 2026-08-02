@@ -46,17 +46,17 @@ func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float)
 
 func Save_Stats() -> void:
 	var Config: ConfigFile = ConfigFile.new()
-	Config.load("user://Settings.cfg") 
+	Config.load("user://Save.cfg") 
 	Config.set_value("Stats", "Highscore", Highscore)
 	Config.set_value("Stats", "Most Enemies Killed", Most_Enemies_Killed)
 	Config.set_value("Stats", "Best Time", Best_Time)
-	var error := Config.save("user://Settings.cfg")
+	var error := Config.save("user://Save.cfg")
 	if error != OK:
 		print("Failed to save stats. Error code: ", error)
 
 func Load_Stats() -> void:
 	var Config: ConfigFile = ConfigFile.new()
-	if Config.load("user://Settings.cfg") == OK:
+	if Config.load("user://Save.cfg") == OK:
 		Highscore = Config.get_value("Stats", "Highscore", 0)
 		Most_Enemies_Killed = Config.get_value("Stats", "Most Enemies Killed", 0)
 		Best_Time = Config.get_value("Stats", "Best Time", 0.0)

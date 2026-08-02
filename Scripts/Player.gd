@@ -45,7 +45,7 @@ var Slide_Vector: Vector2 = Vector2.ZERO
 var Current_Slide_Speed: float = 0.0
 @export var Slide_Boost: float = 8.0
 @export var Max_Chained_Speed: float = 2000000000.0
-@export var Speed_Preservation: float = 0.98
+@export var Speed_Preservation: float = 0.9666
 @export var Slide_Jump_Forward_Boost: float = 1.25
 
 # Dash Variables
@@ -311,8 +311,9 @@ func _physics_process(delta: float) -> void:
 	if !is_on_floor():
 		if Input.is_action_just_pressed("Crouch"):
 			Slamming = true
-			velocity.y = Air_Slam_Velocity
-		elif !Slamming:
+		if Slamming:
+			velocity.y = min(velocity.y, Air_Slam_Velocity)
+		else:
 			velocity += get_gravity() * delta
 	# Grapple
 	if Input.is_action_just_pressed("Grapple") && !Grappling:
@@ -386,17 +387,23 @@ func _physics_process(delta: float) -> void:
 		if Input.is_action_just_pressed("Jump"):
 			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0:
 				var Wall_Normal: Vector3 = get_wall_normal()
+				var Horizontal_Normal: Vector3 = Vector3(Wall_Normal.x, 0.0, Wall_Normal.z).normalized()
+				var Current_Horiz_Velocity: Vector3 = Vector3(velocity.x, 0.0, velocity.z)
+				var Speed: float = Current_Horiz_Velocity.length()
 				velocity.y = Wall_Jump_Velocity
-				velocity.x = Wall_Normal.x * Wall_Push_Force
-				velocity.z = Wall_Normal.z * Wall_Push_Force
+				var Bounce_Direction: Vector3 = Current_Horiz_Velocity.bounce(Horizontal_Normal).normalized()
+				var Outward_Direction: Vector3 = (Horizontal_Normal + Bounce_Direction).normalized()
+				var Final_Push_Speed: float = max(Speed, abs(Wall_Push_Force))
+				velocity.x = Outward_Direction.x * Final_Push_Speed
+				velocity.z = Outward_Direction.z * Final_Push_Speed
 				Wall_Jump_Lock_Timer = Wall_Jump_Lock_Time
-				Direction = Vector3(Wall_Normal.x, 0, Wall_Normal.z).normalized()
+				Direction = Outward_Direction
 				Wall_Jumps_Left -= 1
 				Jumps_Left = Max_Jumps - 1
 				if GameManager.Toggle_Crouch && Sliding:
 					Crouching = false
-				Sliding = false
-				Freelooking = false
+					Sliding = false
+					Freelooking = false
 			elif Jumps_Left > 0:
 				velocity.y = Jump_Velocity
 				Jumps_Left -= 1
@@ -482,12 +489,22 @@ func _physics_process(delta: float) -> void:
 			velocity.y = Max_Upward_Velocity
 	# Fall Damage
 	if Was_In_Air && is_on_floor():
-		if !Slamming:
+		if Slamming:
+			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
+			Sliding = true
+			Freelooking = true
+			Slide_Timer = Slide_Timer_Max
+			Slide_Vector = Vector2(Input_Direction.x, -1.0) if Input_Direction != Vector2.ZERO else Vector2(0, -1.0)
+			var New_Speed: float = min(Horizontal_Velocity.length() + Slam_Slide_Boost, Max_Chained_Speed)
+			var Slide_Direction: Vector3 = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
+			velocity.x = Slide_Direction.x * New_Speed
+			velocity.z = Slide_Direction.z * New_Speed
+			Slamming = false
+		else:
 			if Last_Velocity.y < -Minimum_Fall_Velocity:
 				var Excess_Speed: float = abs(Last_Velocity.y) - Minimum_Fall_Velocity
 				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier
 				Health = max(0, Health - int(Calculated_Damage))
-		Slamming = false
 
 func _process(delta: float) -> void:
 	Grenades_Left.text = str(Grenades)

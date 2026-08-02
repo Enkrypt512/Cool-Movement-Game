@@ -12,4 +12,4 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	Health_Bar.value = Player.Health
 	if GameManager.Speedometer:
-		Speedometer.text = str(round(int(Player.velocity.length()))) + "km/s"
+		Speedometer.text = str(round(int(Player.velocity.length()))) + "m/s"

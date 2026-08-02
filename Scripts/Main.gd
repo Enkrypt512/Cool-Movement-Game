@@ -8,7 +8,7 @@ extends Node3D
 @onready var Main_Settings: Control = $"InGame Menu/Settings/Main"
 @onready var Quit_Settings: Button = $"InGame Menu/Settings/Quit"
 @onready var Resume: Button = $"InGame Menu/Main/Resume"
-@onready var Settings_Button: Button = $"InGame Menu/Settings Button"
+@onready var Settings_Button: Button = $"InGame Menu/Main/Settings Button"
 @onready var Quit_Menu: Button = $"InGame Menu/Quit"
 @onready var Back_To_Menu: Button = $"InGame Menu/Back To Menu"
 @onready var Enemies_Killed: Label = $"HUD/Enemies Killed"
