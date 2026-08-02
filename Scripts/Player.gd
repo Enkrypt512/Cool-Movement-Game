@@ -476,6 +476,11 @@ func _physics_process(delta: float) -> void:
 	var Was_In_Air: bool = !is_on_floor()
 	Last_Velocity = velocity
 	move_and_slide()
+	if !is_on_floor():
+		var Max_Upward_Velocity: float = max(Jump_Velocity, Wall_Jump_Velocity) * 1.5
+		if velocity.y > Max_Upward_Velocity:
+			velocity.y = Max_Upward_Velocity
+	# Fall Damage
 	if Was_In_Air && is_on_floor():
 		if !Slamming:
 			if Last_Velocity.y < -Minimum_Fall_Velocity:
