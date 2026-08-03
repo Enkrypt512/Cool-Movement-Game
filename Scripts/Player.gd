@@ -18,7 +18,7 @@ extends CharacterBody3D
 @onready var Eyes: Node3D = $Neck/Head/Eyes
 @onready var Standing_Shape: MeshInstance3D = $"Standing Shape"
 @onready var Crouching_Shape: MeshInstance3D = $"Crouching Shape"
-@onready var Animations: AnimationPlayer = $Animations
+
 @onready var Multiplayer_Synchronizer: MultiplayerSynchronizer = $"Multiplayer Synchronizer"
 @onready var Speed_Lines: CanvasLayer = $"Speed Lines"
 @onready var Grapple_Ray: RayCast3D = $"Neck/Head/Eyes/Recoil/Camera/Grappling/Grapple Ray"
@@ -510,3 +510,8 @@ func _process(delta: float) -> void:
 	Grenades_Left.text = str(Grenades)
 	if Health <= 0:
 		queue_free()
+
+func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:
+	Health -= Amount
+	if Knockback != Vector3.ZERO:
+		velocity += Knockback

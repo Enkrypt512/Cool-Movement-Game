@@ -14,12 +14,17 @@ extends Node3D
 @onready var Enemies_Killed: Label = $"HUD/Enemies Killed"
 @onready var Score: Label = $HUD/Score
 @onready var time: Label = $HUD/Time
+@onready var Hits: Label = $HUD/Hits
 @onready var Highscore: Label = $HUD/Highscore
 @onready var Best_Time: Label = $"HUD/Best Time"
 @onready var Most_Enemies_Killed: Label = $"HUD/Most Enemies Killed"
+@onready var Least_Hits: Label = $"HUD/Least Hits"
+@onready var Enemies: Node3D = $Enemies
+@onready var Health_Boxes: Node3D = $"Health Boxes"
 
 var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
+var Ram_Enemy: PackedScene = preload("res://Scenes/Ram Enemy.tscn")
 var Last_Spawn_Time: float = 0.0
 var Last_Enemy_Spawn_Time: float = 0.0
 var Local_Player: CharacterBody3D = null
@@ -90,7 +95,7 @@ func _process(delta: float) -> void:
 			if Current_Time - Last_Spawn_Time >= Spawn_Cooldown:
 				Last_Spawn_Time = Current_Time
 				Spawn_Health_Box()
-			var Enemy_Spawn_Cooldown: float = 1.0
+			var Enemy_Spawn_Cooldown: float = 1.5
 			if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
 				Last_Enemy_Spawn_Time = Current_Time
 				Spawn_Enemy()
@@ -102,16 +107,15 @@ func _process(delta: float) -> void:
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
 	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
-	if Highscore:
-		Highscore.text = "Highscore: " + str(GameManager.Highscore)
-	if Most_Enemies_Killed:
-		Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
-	if Best_Time:
-		var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
-		var Best_Mins: int = Best_Microseconds / 60_000_000
-		var Best_Secs: int = (Best_Microseconds / 1_000_000) % 60
-		var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
-		Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Mins, Best_Secs, Best_Ms]
+	Hits.text = "Hits:" +  str(GameManager.Times_Hit)
+	Highscore.text = "Highscore: " + str(GameManager.Highscore)
+	Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
+	var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
+	var Best_Minutues: int = Best_Microseconds / 60_000_000
+	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
+	var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
+	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Ms]
+	Least_Hits.text = "Least Hits:" + str(GameManager.Fewest_Hits)
 
 func Spawn_Health_Box() -> void:
 	var Health_Box_Instance: Node = Health_Box.instantiate()
@@ -119,15 +123,18 @@ func Spawn_Health_Box() -> void:
 	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin, Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
 	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin, Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
 	Health_Box_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
-	add_child(Health_Box_Instance, true)
+	Health_Boxes.add_child(Health_Box_Instance, true)
 
 func Spawn_Enemy() -> void:
-	var Enemy_Instance: Node3D = Enemey.instantiate()
+	var Selected_Enemy_Scene: PackedScene = Enemey if randf() < 0.5 else Ram_Enemy
+	var Enemy_Instance: Node3D = Selected_Enemy_Scene.instantiate()
 	var Margin: float = 1.0
-	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin, Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
-	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin, Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
+	var Half_X: float = Floor.size.x / 2.0
+	var Half_Z: float = Floor.size.z / 2.0
+	var Random_X_Position: float = randf_range(Floor.global_position.x - Half_X + Margin, Floor.global_position.x + Half_X - Margin)
+	var Random_Z_Position: float = randf_range(Floor.global_position.z - Half_Z + Margin, Floor.global_position.z + Half_Z - Margin)
 	Enemy_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
-	add_child(Enemy_Instance, true)
+	Enemies.add_child(Enemy_Instance, true)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:

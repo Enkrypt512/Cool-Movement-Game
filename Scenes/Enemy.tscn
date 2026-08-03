@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dm3r1gkecbeir"]
 
 [ext_resource type="Script" uid="uid://s4lgyoj2col1" path="res://Scripts/Enemy.gd" id="1_m1htj"]
+[ext_resource type="Texture2D" uid="uid://5567tinl1g58" path="res://Assets/Textures/Enemy Face.png" id="2_wovta"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lmyy4"]
 albedo_color = Color(0.79419327, 0.16951677, 0, 1)
@@ -9,34 +10,33 @@ albedo_color = Color(0.79419327, 0.16951677, 0, 1)
 material = SubResource("StandardMaterial3D_lmyy4")
 height = 3.0
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i1i1d"]
-radius = 0.79785156
-height = 3.0
-
 [sub_resource type="BoxOccluder3D" id="BoxOccluder3D_q6h8p"]
 size = Vector3(1, 2.6873171, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_m1htj"]
-radius = 0.79785156
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_i1i1d"]
 height = 3.0
 
 [node name="Enemy" type="CharacterBody3D" unique_id=611555974]
 script = ExtResource("1_m1htj")
-Speed = 15.0
 
 [node name="Shape" type="MeshInstance3D" parent="." unique_id=2035658390]
 mesh = SubResource("CapsuleMesh_lmyy4")
 
-[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1285501161]
-shape = SubResource("CapsuleShape3D_i1i1d")
-
-[node name="Occluding" type="OccluderInstance3D" parent="Collision Shape" unique_id=216938034]
+[node name="Occluding" type="OccluderInstance3D" parent="Shape" unique_id=216938034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05022192, 0)
 occluder = SubResource("BoxOccluder3D_q6h8p")
+
+[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1285501161]
+shape = SubResource("CapsuleShape3D_i1i1d")
 
 [node name="Pathfinding" type="NavigationAgent3D" parent="." unique_id=232808568]
 
 [node name="Collision Detection" type="Area3D" parent="." unique_id=1243317213]
 
-[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=1872614699]
-shape = SubResource("CapsuleShape3D_m1htj")
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=544317450]
+shape = SubResource("CapsuleShape3D_i1i1d")
+
+[node name="Face" type="Sprite3D" parent="." unique_id=224926407]
+transform = Transform3D(2.5, 0, 1.4210855e-14, 0, 2.5, 0, -1.4210855e-14, 0, 2.5, 0.006664768, 0.89265907, -0.5)
+texture_filter = 0
+texture = ExtResource("2_wovta")

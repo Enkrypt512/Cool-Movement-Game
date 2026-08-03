@@ -21,7 +21,4 @@ func On_Body_Entered(Body: Node) -> void:
 	if Body.is_multiplayer_authority() && Body.name == owner.name:
 		return
 	if Body.is_in_group("Player") || Body.is_in_group("Enemy") || Body.name == "Enemy":
-		if "Health" in Body:
-			Body.Health -= Knife_Damage
-		elif Body.has_method("Take_Damage"):
-			Body.Take_Damage(Knife_Damage)
+		Body.Take_Damage(Knife_Damage,Vector3(-1,0,0))

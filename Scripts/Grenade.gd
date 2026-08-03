@@ -33,7 +33,5 @@ func Explode() -> void:
 		if Body.has_method("Take_Damage"):
 			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
 			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
-		elif "Health" in Body:
-			Body.Health -= Damage_To_Apply
 	# TODO: Add explosion VFX & SFX here
 	queue_free()

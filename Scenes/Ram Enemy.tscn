@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dp354qkgok6iw"]
+
+[ext_resource type="Script" uid="uid://ctee18pvuswm2" path="res://Scripts/Ram Enemy.gd" id="1_dsu1w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_miouo"]
+albedo_color = Color(0.61940634, 0.00066372304, 0.6949299, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dsu1w"]
+size = Vector3(2.1957703, 0.2, 1.9470901)
+
+[node name="Ram Enemy" type="CharacterBody3D" unique_id=1041186720]
+script = ExtResource("1_dsu1w")
+
+[node name="Model" type="CSGBox3D" parent="." unique_id=586840078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.047210574, 0.078160524, 0.0723598)
+size = Vector3(2.168396, 0.2, 1.8962402)
+material = SubResource("StandardMaterial3D_miouo")
+
+[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1874989167]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06480408, 0, 0.112133026)
+shape = SubResource("BoxShape3D_dsu1w")
+
+[node name="Collision Detection" type="Area3D" parent="." unique_id=50576204]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=1161349792]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06480408, 0, 0.112133026)
+shape = SubResource("BoxShape3D_dsu1w")

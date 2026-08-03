@@ -146,6 +146,10 @@ material = SubResource("StandardMaterial3D_jw32o")
 [node name="Occluder" type="OccluderInstance3D" parent="Navigation Region/Ceiling" unique_id=389775670]
 occluder = SubResource("BoxOccluder3D_vy5pj")
 
+[node name="Enemies" type="Node3D" parent="." unique_id=1403375538]
+
+[node name="Health Boxes" type="Node3D" parent="." unique_id=1870703658]
+
 [node name="Player" parent="." unique_id=1454171372 instance=ExtResource("3_v1gob")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
 
@@ -190,12 +194,21 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Hits" type="Label" parent="HUD" unique_id=687049562]
+layout_mode = 0
+offset_top = 176.0
+offset_right = 223.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Highscore" type="Label" parent="HUD" unique_id=271022326]
 layout_mode = 0
 offset_left = -19.0
-offset_top = 176.0
+offset_top = 200.0
 offset_right = 204.0
-offset_bottom = 212.0
+offset_bottom = 236.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -203,9 +216,9 @@ vertical_alignment = 1
 [node name="Best Time" type="Label" parent="HUD" unique_id=287294907]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 200.0
+offset_top = 224.0
 offset_right = 224.0
-offset_bottom = 236.0
+offset_bottom = 260.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -213,9 +226,19 @@ vertical_alignment = 1
 [node name="Most Enemies Killed" type="Label" parent="HUD" unique_id=525255113]
 layout_mode = 0
 offset_left = 17.0
-offset_top = 224.0
+offset_top = 248.0
 offset_right = 240.0
-offset_bottom = 260.0
+offset_bottom = 284.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Least Hits" type="Label" parent="HUD" unique_id=219939195]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 272.0
+offset_right = 240.0
+offset_bottom = 308.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -237,9 +260,9 @@ color = Color(0, 0, 0, 1)
 [node name="Title" type="Label" parent="Died" unique_id=1903250784]
 layout_mode = 0
 offset_left = 120.0
-offset_top = 140.0
+offset_top = 180.0
 offset_right = 1000.0
-offset_bottom = 252.0
+offset_bottom = 292.0
 tooltip_text = "You Died!"
 mouse_filter = 0
 theme_override_font_sizes/font_size = 100
@@ -247,12 +270,22 @@ text = "You Died!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Return To Menu" type="Button" parent="Died" unique_id=636771378]
+[node name="Retry" type="Button" parent="Died" unique_id=570484977]
 layout_mode = 0
 offset_left = 390.0
-offset_top = 288.0
+offset_top = 320.0
 offset_right = 715.0
-offset_bottom = 344.0
+offset_bottom = 373.0
+tooltip_text = "Quit The Game"
+theme_override_font_sizes/font_size = 32
+text = "Retry"
+
+[node name="Return To Menu" type="Button" parent="Died" unique_id=636771378]
+layout_mode = 0
+offset_left = 389.0
+offset_top = 395.0
+offset_right = 714.0
+offset_bottom = 451.0
 tooltip_text = "Return To The Main Menu"
 theme_override_font_sizes/font_size = 32
 text = "Return To Menu"
@@ -260,9 +293,9 @@ text = "Return To Menu"
 [node name="Quit" type="Button" parent="Died" unique_id=79881718]
 layout_mode = 0
 offset_left = 390.0
-offset_top = 416.0
+offset_top = 472.0
 offset_right = 715.0
-offset_bottom = 469.0
+offset_bottom = 525.0
 tooltip_text = "Quit The Game"
 theme_override_font_sizes/font_size = 32
 text = "Quit"
@@ -270,14 +303,34 @@ text = "Quit"
 [node name="Enemies Killed" type="Label" parent="Died" unique_id=892199018]
 layout_mode = 0
 offset_left = 456.0
-offset_top = 129.0
+offset_top = 169.0
 offset_right = 648.0
-offset_bottom = 161.0
+offset_bottom = 201.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Time" type="Label" parent="Died" unique_id=772558368]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 145.0
+offset_right = 648.0
+offset_bottom = 177.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Died" unique_id=1077127384]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 121.0
+offset_right = 648.0
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hits" type="Label" parent="Died" unique_id=411269337]
 layout_mode = 0
 offset_left = 456.0
 offset_top = 97.0
@@ -287,12 +340,12 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Score" type="Label" parent="Died" unique_id=1077127384]
+[node name="Least Hits" type="Label" parent="Died" unique_id=337835638]
 layout_mode = 0
 offset_left = 456.0
-offset_top = 65.0
+offset_top = 73.0
 offset_right = 648.0
-offset_bottom = 97.0
+offset_bottom = 105.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -300,9 +353,9 @@ vertical_alignment = 1
 [node name="Highscore" type="Label" parent="Died" unique_id=980911340]
 layout_mode = 0
 offset_left = 456.0
-offset_top = 33.0
+offset_top = 1.0
 offset_right = 648.0
-offset_bottom = 65.0
+offset_bottom = 33.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -310,9 +363,19 @@ vertical_alignment = 1
 [node name="Most Enemies Killed" type="Label" parent="Died" unique_id=1949908782]
 layout_mode = 0
 offset_left = 456.0
-offset_top = 1.0
+offset_top = 49.0
 offset_right = 648.0
-offset_bottom = 33.0
+offset_bottom = 81.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Best Time" type="Label" parent="Died" unique_id=168545847]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 25.0
+offset_right = 648.0
+offset_bottom = 57.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1

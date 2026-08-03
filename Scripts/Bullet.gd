@@ -33,8 +33,9 @@ func Spawn_Decal(Target_Body: Node) -> void:
 	if !Decal_Scene || Target_Body.is_in_group("Enemy") || Target_Body.is_in_group("Player"):
 		return
 	var Space_State: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
-	var Ray_Start: Vector3 = global_position + global_transform.basis.z * 1.5
-	var Ray_End: Vector3 = global_position - global_transform.basis.z * 1.5
+	var Travel_Dir: Vector3 = -global_transform.basis.z
+	var Ray_Start: Vector3 = global_position - Travel_Dir * 2.0
+	var Ray_End: Vector3 = global_position + Travel_Dir * 2.0
 	var Ray_Query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(Ray_Start, Ray_End)
 	var Result: Dictionary = Space_State.intersect_ray(Ray_Query)
 	if Result:
