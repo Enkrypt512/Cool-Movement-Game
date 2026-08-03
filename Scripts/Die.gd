@@ -7,8 +7,8 @@ var Player_Scene: PackedScene = preload("res://Scenes/Player.tscn")
 @onready var Return_To_Menu: Button = $"Return To Menu"
 @onready var Quit: Button = $Quit
 @onready var InGame_Menu: Control = $"../InGame Menu"
-@onready var Crosshair: Sprite2D = $"../Player/HUD/Crosshair"
-@onready var HUD: Control = $"../Player/HUD"
+@onready var Crosshair: Sprite2D = null
+@onready var HUD: Control = null
 @onready var Enemies_Killed: Label = $"Enemies Killed"
 @onready var time: Label = $Time
 @onready var Score: Label = $Score
@@ -48,23 +48,29 @@ func _ready() -> void:
 	Find_Local_Player()
 
 func On_Node_Added(node: Node) -> void:
-	if Player == null && node.is_in_group("Player") && node.is_multiplayer_authority():
-		Player = node
+	if node.is_in_group("Player") && node.is_multiplayer_authority():
+		Set_Player(node)
+
+func Set_Player(player_node: Node) -> void:
+	Player = player_node
+	HUD = Player.get_node_or_null("HUD")
+	if HUD:
+		Crosshair = HUD.get_node_or_null("Crosshair")
 
 func Find_Local_Player() -> void:
 	for player in get_tree().get_nodes_in_group("Player"):
 		if player.is_multiplayer_authority():
-			Player = player 
+			Set_Player(player)
 			break
 
 func _process(_delta: float) -> void:
-	if Player == null || !("Health" in Player):
+	if !is_instance_valid(Player) || !("Health" in Player):
 		return
 	if Player.Health <= 0:
 		if !Died.visible: 
 			Died.visible = true
-			Crosshair.visible = false
-			HUD.visible = false
+			if is_instance_valid(Crosshair): Crosshair.visible = false
+			if is_instance_valid(HUD): HUD.visible = false
 			Menu.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			var Current_Score: int = GameManager.Enemies_Killed * 50
@@ -94,10 +100,11 @@ func _process(_delta: float) -> void:
 	else:
 		if Died.visible:
 			Died.visible = false
-			Crosshair.visible = true
-			HUD.visible = true
+			if is_instance_valid(Crosshair): Crosshair.visible = true
+			if is_instance_valid(HUD): HUD.visible = true
 			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+				
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(GameManager.time * 1_000_000)
@@ -168,10 +175,15 @@ func Update_Rank_UI(Rank_Data: Dictionary) -> void:
 			Rank_Label.add_theme_color_override("font_color", Color(0.85, 0.0, 0.0))
 
 func Retry_Game():
-	var Player_Instance = Player_Scene.instantiate
+	if is_instance_valid(Player):
+		Player.queue_free()
+	Player = null
+	HUD = null
+	Crosshair = null
 	for Enemy in Enemies.get_children():
 		Enemy.queue_free()
 	for Health_Box in Health_Boxes.get_children():
 		Health_Box.queue_free()
-	Player.queue_free()
+	var Player_Instance = Player_Scene.instantiate()
+	Player_Instance.global_position.y += 2
 	Main.add_child(Player_Instance)
