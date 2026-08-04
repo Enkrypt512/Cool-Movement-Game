@@ -101,4 +101,6 @@ rem: For Playtesting
 
 [musdasch](https://opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](https://opengameart.org/content/bullet-decal)​
 
-[plaggy](https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​
+[plaggy](https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​ And The (Arrow Model)[https://skfb.ly/oAMyn]​
+
+(LiamOsler)[https://liamosler.itch.io/]​: For The (Bow Model)​[https://liamosler.itch.io/traditional-bow]
