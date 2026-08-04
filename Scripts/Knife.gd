@@ -21,4 +21,4 @@ func On_Body_Entered(Body: Node) -> void:
 	if Body.is_multiplayer_authority() && Body.name == owner.name:
 		return
 	if Body.is_in_group("Player") || Body.is_in_group("Enemy") || Body.name == "Enemy":
-		Body.Take_Damage(Knife_Damage,Vector3(-1,0,0))
+			Body.Take_Damage(Knife_Damage, -global_transform.basis.z * 5.0)

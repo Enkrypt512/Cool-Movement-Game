@@ -30,7 +30,7 @@ func _ready() -> void:
 	Collision_Detection.area_entered.connect(On_Body_Detected)
 
 func _physics_process(delta: float) -> void:
-	if not Player:
+	if !Player:
 		return
 	Cached_Player_Position = Player.global_position
 	if Circling:
@@ -76,7 +76,7 @@ func Diving_To_Player(_delta: float) -> void:
 	var Direction: Vector3 = (Live_Target - global_position).normalized()
 	velocity = Direction * Dive_Speed
 	Smooth_Look_At(global_position + velocity)
-	if is_on_floor() or is_on_wall():
+	if is_on_floor() || is_on_wall():
 		Start_Swoop_Up()
 
 func Start_Swoop_Up() -> void:
@@ -102,19 +102,18 @@ func Smooth_Look_At(Target: Vector3) -> void:
 		look_at(Target, Vector3.UP)
 
 func On_Body_Detected(Node_Hit: Node) -> void:
-	if not Can_Damage:
+	if !Can_Damage:
 		return
 	var Hit_Target: Node = Node_Hit
-	while Hit_Target and not Hit_Target.is_in_group("Player"):
+	while Hit_Target && !Hit_Target.is_in_group("Player"):
 		Hit_Target = Hit_Target.get_parent()
-	if Hit_Target and Hit_Target.is_in_group("Player"):
-		if Hit_Target.has_method("Take_Damage"):
-			Hit_Target.Take_Damage(Damage, Vector3(-1, 0, 0))
-			GameManager.Times_Hit += 1
-			GameManager.Current_Combo = 0
-		Start_Cooldown()
-		if Diving:
-			Start_Swoop_Up()
+	if Hit_Target:
+		Hit_Target.Take_Damage(Damage, -global_transform.basis.z * 5.0)
+	GameManager.Times_Hit += 1
+	GameManager.Current_Combo = 0
+	Start_Cooldown()
+	if Diving:
+		Start_Swoop_Up()
 
 func Start_Cooldown() -> void:
 	Can_Damage = false

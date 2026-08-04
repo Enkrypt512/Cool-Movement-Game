@@ -124,14 +124,13 @@ var Last_Grenade_Throw_Time: float
 @export var Fall_Damage_Multiplier: float = 5.0
 @export var Slam_Fall_Damage_Reduction: float = 0.1
 
-func _enter_tree() -> void:
+func _ready() -> void:
 	if name.is_valid_int():
 		var Peer_ID: int = name.to_int()
 		set_multiplayer_authority(Peer_ID)
 		if has_node("Multiplayer Synchronizer"):
 			$"Multiplayer Synchronizer".set_multiplayer_authority(Peer_ID)
 
-func _ready() -> void:
 	if Grapple_Rope:
 		var Rope_Mesh = ImmediateMesh.new()
 		Grapple_Rope.mesh = Rope_Mesh
@@ -143,8 +142,10 @@ func _ready() -> void:
 		Grapple_Rope.material_override = Rope_Material
 
 	if !is_multiplayer_authority():
+		set_process_input(false)
 		set_process_unhandled_input(false)
 		set_physics_process(false)
+		set_process(false)
 		if Camera:
 			Camera.current = false
 	else:
@@ -154,18 +155,20 @@ func _ready() -> void:
 		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _input(event: InputEvent) -> void:
-	if is_multiplayer_authority():
-		# Mouse Look Logic
-		if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-			var Yaw_Delta: float = deg_to_rad(-event.relative.x * GameManager.Mouse_Sensitivity)
-			var Pitch_delta: float = deg_to_rad(-event.relative.y * GameManager.Mouse_Sensitivity)
-			if Freelooking:
-				Neck.rotate_y(Yaw_Delta)
-				Neck.rotation.y = clamp(Neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
-			else:
-				rotate_y(Yaw_Delta)
-			Head.rotate_x(Pitch_delta)
-			Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
+	if !is_multiplayer_authority():
+		return
+
+	# Mouse Look Logic
+	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		var Yaw_Delta: float = deg_to_rad(-event.relative.x * GameManager.Mouse_Sensitivity)
+		var Pitch_delta: float = deg_to_rad(-event.relative.y * GameManager.Mouse_Sensitivity)
+		if Freelooking:
+			Neck.rotate_y(Yaw_Delta)
+			Neck.rotation.y = clamp(Neck.rotation.y, deg_to_rad(-120), deg_to_rad(120))
+		else:
+			rotate_y(Yaw_Delta)
+		Head.rotate_x(Pitch_delta)
+		Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
@@ -223,7 +226,7 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor() && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			var Current_Horizontal_Speed: float = Horizontal_Velocity.length()
-			if Current_Horizontal_Speed > Walking_Speed or Is_Sprinting_Toggled or Slamming:
+			if Current_Horizontal_Speed > Walking_Speed || Is_Sprinting_Toggled || Slamming:
 				Sliding = true
 				Freelooking = true
 				Slide_Timer = Slide_Timer_Max
@@ -333,16 +336,16 @@ func _physics_process(delta: float) -> void:
 			Grappling = true
 	elif !Input.is_action_pressed("Grapple") && Grappling:
 		Grappling = false
-		if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+		if Grapple_Rope && Grapple_Rope.mesh is ImmediateMesh:
 			(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 	if Grappling:
 		var Current_Direction: Vector3 = (global_position - Grapple_Point).normalized()
 		var Step_Angle: float = Grapple_Last_Direction.angle_to(Current_Direction)
 		Grapple_Total_Angle += Step_Angle
 		Grapple_Last_Direction = Current_Direction
-		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
+		if Grapple_Total_Angle >= PI || Input.is_action_just_pressed("Jump"):
 			Grappling = false
-			if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+			if Grapple_Rope && Grapple_Rope.mesh is ImmediateMesh:
 				(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 			if Input.is_action_just_pressed("Jump"):
 				velocity += Vector3.UP * (Jump_Velocity * 0.5)
@@ -356,7 +359,7 @@ func _physics_process(delta: float) -> void:
 			if Input_Direction != Vector2.ZERO:
 				var Swing_Steering: Vector3 = (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
 				velocity += Swing_Steering * Sprinting_Speed * delta
-			if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+			if Grapple_Rope && Grapple_Rope.mesh is ImmediateMesh:
 				var Immediate_Mesh: ImmediateMesh = Grapple_Rope.mesh as ImmediateMesh
 				Immediate_Mesh.clear_surfaces()
 				var Start_Position: Vector3 = Grapple_Rope.to_local(global_position)
@@ -498,7 +501,10 @@ func _physics_process(delta: float) -> void:
 				Health = max(0, Health - int(Calculated_Damage))
 
 func _process(delta: float) -> void:
-	Grenades_Left.text = str(Grenades)
+	if !is_multiplayer_authority():
+		return
+	if Grenades_Left:
+		Grenades_Left.text = str(Grenades)
 	if Health <= 0:
 		queue_free()
 

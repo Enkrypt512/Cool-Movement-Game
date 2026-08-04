@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://byi3xt157kxmh"]
+
+[ext_resource type="PackedScene" uid="uid://b20ar8udjsmji" path="res://Assets/Models/Arrow.glb" id="1_5mg4u"]
+[ext_resource type="Script" uid="uid://4pc55oo2ktsf" path="res://Scripts/Arrow.gd" id="1_7v023"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lmyy4"]
+size = Vector3(0.7545471, 0.047195435, 0.039691925)
+
+[node name="Arrow" type="Node3D" unique_id=1533390355]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+script = ExtResource("1_7v023")
+
+[node name="Model" parent="." unique_id=280316422 instance=ExtResource("1_5mg4u")]
+transform = Transform3D(-0.3535533, 0.3535533, 0.86602545, 0.7071068, 0.7071068, 0, -0.61237246, 0.61237246, -0.50000006, 0, 0, 0)
+
+[node name="Collision Detection" type="Area3D" parent="." unique_id=230119278]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Collision Detection" unique_id=1316276179]
+transform = Transform3D(-4.3711392e-08, 0, 0.9999998, 0, 1, 0, -1, 0, -4.371138e-08, -0.005604124, -0.0049972534, 0.00049018784)
+shape = SubResource("BoxShape3D_lmyy4")

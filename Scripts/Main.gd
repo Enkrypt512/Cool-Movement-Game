@@ -27,6 +27,8 @@ extends Node3D
 var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
 var Ram_Enemy: PackedScene = preload("res://Scenes/Ram Enemy.tscn")
+var Bow_Enemy: PackedScene = preload("res://Scenes/Bow Enemy.tscn")
+
 var Last_Spawn_Time: float = 0.0
 var Last_Enemy_Spawn_Time: float = 0.0
 var Local_Player: CharacterBody3D = null
@@ -39,7 +41,6 @@ func _ready() -> void:
 	Find_Local_Player()
 	Resume.pressed.connect(Resume_Game)
 	if multiplayer.is_server():
-		multiplayer.peer_connected.connect(Spawn_Player)
 		multiplayer.peer_disconnected.connect(Despawn_Player)
 
 func Spawn_All_Players() -> void:
@@ -54,15 +55,15 @@ func Spawn_Player(Peer_ID: int) -> void:
 		return
 	if has_node(str(Peer_ID)):
 		return
-	var Player_Instance:CharacterBody3D = preload("res://Scenes/Player.tscn").instantiate()
+	var Player_Instance: CharacterBody3D = preload("res://Scenes/Player.tscn").instantiate()
 	Player_Instance.name = str(Peer_ID)
-	Player_Instance.set_multiplayer_authority(Peer_ID)
 	var Spawn_Position: Vector3 = Vector3(0, 2, 0)
 	if Spawn_Locations && Spawn_Locations.get_child_count() > 0:
 		var Spawn_Point: Node3D = Spawn_Locations.get_children().pick_random()
 		Spawn_Position = Spawn_Point.global_position + Vector3(0, 1.5, 0)
-	Player_Instance.global_position = Spawn_Position
 	add_child(Player_Instance, true)
+	Player_Instance.set_multiplayer_authority(Peer_ID)
+	Player_Instance.global_position = Spawn_Position
 
 func Despawn_Player(Peer_ID: int) -> void:
 	if has_node(str(Peer_ID)):
@@ -85,23 +86,19 @@ func _process(delta: float) -> void:
 	if !get_tree().paused:
 		Elapsed_Time += delta
 		GameManager.time = Elapsed_Time
-	if GameManager.FPS_Counter:
-		FPS_Counter.text = 'FPS:' + str(int(Engine.get_frames_per_second()))
-		FPS_Counter.visible = true
-	else:
-		FPS_Counter.visible = false
-	if !get_tree().paused:
-		if multiplayer.is_server():
-			var Current_Time: float = Time.get_ticks_msec() / 1000.0
-			var Spawn_Cooldown: float = 10.0
-			if Current_Time - Last_Spawn_Time >= Spawn_Cooldown:
-				Last_Spawn_Time = Current_Time
-				Spawn_Health_Box()
-			var Enemy_Spawn_Cooldown: float = 1.5
-			if Current_Time - Last_Enemy_Spawn_Time >= Enemy_Spawn_Cooldown:
-				Last_Enemy_Spawn_Time = Current_Time
-				Spawn_Enemy()
-				GameManager.Enemies_Spawned += 1
+	if FPS_Counter:
+		FPS_Counter.visible = GameManager.FPS_Counter
+		if GameManager.FPS_Counter:
+			FPS_Counter.text = "FPS:" + str(int(Engine.get_frames_per_second()))
+	if !get_tree().paused && multiplayer.is_server():
+		var Current_Time: float = Time.get_ticks_msec() / 1000.0
+		if Current_Time - Last_Spawn_Time >= 10.0:
+			Last_Spawn_Time = Current_Time
+			Spawn_Health_Box()
+		if Current_Time - Last_Enemy_Spawn_Time >= 1.5:
+			Last_Enemy_Spawn_Time = Current_Time
+			Spawn_Enemy()
+			GameManager.Enemies_Spawned += 1
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(Elapsed_Time * 1_000_000)
@@ -109,36 +106,36 @@ func _process(delta: float) -> void:
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
 	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
-	Hits.text = "Hits:" +  str(GameManager.Times_Hit)
-	Combo.text = "Combo:" + str(GameManager.Current_Combo) + "x"
-	Best_Run_Combo.text = "Best Run Combo:" + str(GameManager.Max_Combo) + "x"
-	Best_Lifetime_Combo.text = "Best Lifetime Combo:" + str(GameManager.Highest_Lifetime_Combo) + "x"
+	Hits.text = "Hits: " + str(GameManager.Times_Hit)
+	Combo.text = "Combo: " + str(GameManager.Current_Combo) + "x"
+	Best_Run_Combo.text = "Best Run Combo: " + str(GameManager.Max_Combo) + "x"
+	Best_Lifetime_Combo.text = "Best Lifetime Combo: " + str(GameManager.Highest_Lifetime_Combo) + "x"
 	Highscore.text = "Highscore: " + str(GameManager.Highscore)
 	Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
 	var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
-	var Best_Minutues: int = Best_Microseconds / 60_000_000
+	var Best_Minutes: int = Best_Microseconds / 60_000_000
 	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 	var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
-	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Ms]
+	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes, Best_Seconds, Best_Ms]
 
 func Spawn_Health_Box() -> void:
-	var Health_Box_Instance: Node = Health_Box.instantiate()
+	var Health_Box_Instance: Node3D = Health_Box.instantiate()
 	var Margin: float = 1.0
 	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin, Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
 	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin, Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
-	Health_Box_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
 	Health_Boxes.add_child(Health_Box_Instance, true)
+	Health_Box_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
 
 func Spawn_Enemy() -> void:
-	var Selected_Enemy_Scene: PackedScene = Enemey if randf() < 0.5 else Ram_Enemy
+	var Selected_Enemy_Scene: PackedScene = [Enemey,Ram_Enemy,Bow_Enemy].pick_random()
 	var Enemy_Instance: Node3D = Selected_Enemy_Scene.instantiate()
 	var Margin: float = 1.0
 	var Half_X: float = Floor.size.x / 2.0
 	var Half_Z: float = Floor.size.z / 2.0
 	var Random_X_Position: float = randf_range(Floor.global_position.x - Half_X + Margin, Floor.global_position.x + Half_X - Margin)
 	var Random_Z_Position: float = randf_range(Floor.global_position.z - Half_Z + Margin, Floor.global_position.z + Half_Z - Margin)
-	Enemy_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
 	Enemies.add_child(Enemy_Instance, true)
+	Enemy_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
