@@ -18,9 +18,12 @@ var Times_Hit: int = 0
 var Highscore: int = 0
 var Most_Enemies_Killed: int = 0
 var Best_Time: float = 0.0
-var Fewest_Hits: int = 0 
 var Total_Lifetime_Hits: int = 0
 var Speedometer: bool
+var Current_Combo: int = 0
+var Max_Combo: int = 0
+var Highest_Lifetime_Combo: int = 0
+signal Combo_Changed(New_Combo: int)
 
 func _ready() -> void:
 	Load_Stats()
@@ -31,16 +34,29 @@ func Reset_Run_Stats() -> void:
 	Enemies_Spawned = 0
 	Health_Boxes_Used = 0
 	Times_Hit = 0
+	Current_Combo = 0
+	Max_Combo = 0
+	Combo_Changed.emit(Current_Combo)
+
+func Record_Shot() -> void:
+	Current_Combo += 1
+	if Current_Combo > Max_Combo:
+		Max_Combo = Current_Combo
+	if Current_Combo > Highest_Lifetime_Combo:
+		Highest_Lifetime_Combo = Current_Combo
+	Combo_Changed.emit(Current_Combo)
 
 func Record_Hit() -> void:
 	Times_Hit += 1
 	Total_Lifetime_Hits += 1
+	Current_Combo = 0
+	Combo_Changed.emit(Current_Combo)
 
 func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float) -> Dictionary:
 	var New_Highscore_Set: bool = false
 	var New_Most_Kills_Set: bool = false
 	var New_Best_Time_Set: bool = false
-	var New_Fewest_Hits_Set: bool = false
+	var New_Max_Combo_Set: bool = false
 	if Current_Score > Highscore:
 		Highscore = Current_Score
 		New_Highscore_Set = true
@@ -50,15 +66,11 @@ func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float)
 	if Current_Time > Best_Time:
 		Best_Time = Current_Time
 		New_Best_Time_Set = true
-	if Fewest_Hits == -1 or Times_Hit < Fewest_Hits:
-		Fewest_Hits = Times_Hit
-		New_Fewest_Hits_Set = true
 	Save_Stats()
 	return {
 		"Is_New_Score": New_Highscore_Set,
 		"Is_New_Kills": New_Most_Kills_Set,
 		"Is_New_Time": New_Best_Time_Set,
-		"Is_New_Fewest_Hits": New_Fewest_Hits_Set
 	}
 
 func Save_Stats() -> void:
@@ -67,8 +79,8 @@ func Save_Stats() -> void:
 	Config.set_value("Stats", "Highscore", Highscore)
 	Config.set_value("Stats", "Most Enemies Killed", Most_Enemies_Killed)
 	Config.set_value("Stats", "Best Time", Best_Time)
-	Config.set_value("Stats", "Fewest Hits", Fewest_Hits)
 	Config.set_value("Stats", "Total Lifetime Hits", Total_Lifetime_Hits)
+	Config.set_value("Stats", "Highest Lifetime Combo", Highest_Lifetime_Combo)
 	var error := Config.save("user://Save.cfg")
 	if error != OK:
 		print("Failed to save stats. Error code: ", error)
@@ -79,5 +91,5 @@ func Load_Stats() -> void:
 		Highscore = Config.get_value("Stats", "Highscore", 0)
 		Most_Enemies_Killed = Config.get_value("Stats", "Most Enemies Killed", 0)
 		Best_Time = Config.get_value("Stats", "Best Time", 0.0)
-		Fewest_Hits = Config.get_value("Stats", "Fewest Hits", -1)
 		Total_Lifetime_Hits = Config.get_value("Stats", "Total Lifetime Hits", 0)
+		Highest_Lifetime_Combo = Config.get_value("Stats", "Highest Lifetime Combo", 0)

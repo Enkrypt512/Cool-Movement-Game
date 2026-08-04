@@ -63,7 +63,7 @@ script = ExtResource("1_rgh2o")
 environment = SubResource("Environment_pbw6q")
 
 [node name="Sun" type="DirectionalLight3D" parent="Enviroment" unique_id=1608038465]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 121.50572, 0)
 shadow_enabled = true
 
 [node name="Spawn Locations" type="Node3D" parent="." unique_id=1378112405]
@@ -233,18 +233,37 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Least Hits" type="Label" parent="HUD" unique_id=219939195]
+[node name="Combo" type="Label" parent="HUD" unique_id=1464810326]
 layout_mode = 0
-offset_left = 17.0
-offset_top = 272.0
-offset_right = 240.0
-offset_bottom = 308.0
+offset_left = 985.0
+offset_top = 611.0
+offset_right = 1208.0
+offset_bottom = 647.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Best Run Combo" type="Label" parent="HUD" unique_id=1103037547]
+layout_mode = 0
+offset_left = 945.0
+offset_top = 587.0
+offset_right = 1168.0
+offset_bottom = 623.0
+theme_override_font_sizes/font_size = 30
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Best Lifetime Combo" type="Label" parent="HUD" unique_id=649482222]
+layout_mode = 0
+offset_left = 911.0
+offset_top = 563.0
+offset_right = 1134.0
+offset_bottom = 599.0
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Died" type="Control" parent="." unique_id=1510390376]
-visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -340,7 +359,17 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Least Hits" type="Label" parent="Died" unique_id=337835638]
+[node name="Highscore" type="Label" parent="Died" unique_id=980911340]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 25.0
+offset_right = 648.0
+offset_bottom = 57.0
+theme_override_font_sizes/font_size = 32
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Most Enemies Killed" type="Label" parent="Died" unique_id=1949908782]
 layout_mode = 0
 offset_left = 456.0
 offset_top = 73.0
@@ -350,32 +379,12 @@ theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Highscore" type="Label" parent="Died" unique_id=980911340]
-layout_mode = 0
-offset_left = 456.0
-offset_top = 1.0
-offset_right = 648.0
-offset_bottom = 33.0
-theme_override_font_sizes/font_size = 32
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Most Enemies Killed" type="Label" parent="Died" unique_id=1949908782]
+[node name="Best Time" type="Label" parent="Died" unique_id=168545847]
 layout_mode = 0
 offset_left = 456.0
 offset_top = 49.0
 offset_right = 648.0
 offset_bottom = 81.0
-theme_override_font_sizes/font_size = 32
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Best Time" type="Label" parent="Died" unique_id=168545847]
-layout_mode = 0
-offset_left = 456.0
-offset_top = 25.0
-offset_right = 648.0
-offset_bottom = 57.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -532,7 +541,7 @@ tooltip_text = "Reset Your Bindings"
 focus_mode = 0
 text = "Reset"
 
-[node name="Forward Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=2087700]
+[node name="Forward Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1281403366]
 layout_mode = 0
 offset_left = 168.0
 offset_top = 96.0
@@ -541,16 +550,16 @@ offset_bottom = 128.0
 tooltip_text = "Binds Set To The Forwards Key"
 mouse_filter = 0
 
-[node name="Backward Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1997533178]
+[node name="Backward Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=963075593]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 136.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 168.0
 tooltip_text = "Binds Set To The Backwards Key"
 mouse_filter = 0
 
-[node name="Left Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=427090075]
+[node name="Left Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=472044391]
 layout_mode = 0
 offset_left = 168.0
 offset_top = 176.0
@@ -559,43 +568,43 @@ offset_bottom = 208.0
 tooltip_text = "Binds Set To The Left Key"
 mouse_filter = 0
 
-[node name="Right Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1350323996]
+[node name="Right Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=800550358]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 225.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 248.0
 tooltip_text = "Binds Set To The Right Key"
 mouse_filter = 0
 
-[node name="Sprint Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=569818937]
+[node name="Sprint Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1120073532]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 268.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 300.0
 tooltip_text = "Binds Set To Sprint"
 mouse_filter = 0
 
-[node name="Crouch Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=130818765]
+[node name="Crouch Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=117591220]
 layout_mode = 0
 offset_left = 168.0
-offset_top = 308.0
+offset_top = 313.0
 offset_right = 408.0
-offset_bottom = 340.0
+offset_bottom = 345.0
 tooltip_text = "Binds Set To Crouch"
 mouse_filter = 0
 
-[node name="Freelook Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=693254108]
+[node name="Freelook Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1968120988]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 357.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 380.0
 tooltip_text = "Binds Set To Freelook"
 mouse_filter = 0
 
-[node name="Jump Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1802782182]
+[node name="Jump Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=2138700124]
 layout_mode = 0
 offset_left = 168.0
 offset_top = 400.0
@@ -604,16 +613,16 @@ offset_bottom = 432.0
 tooltip_text = "Binds Set To Jump"
 mouse_filter = 0
 
-[node name="Change Gun Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=43958555]
+[node name="Change Gun Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=50262329]
 layout_mode = 0
 offset_left = 168.0
-offset_top = 448.0
+offset_top = 456.0
 offset_right = 447.0
-offset_bottom = 480.0
+offset_bottom = 488.0
 tooltip_text = "Binds Set To Change The Gun"
 mouse_filter = 0
 
-[node name="Shoot Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1538088630]
+[node name="Shoot Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=1271258667]
 layout_mode = 0
 offset_left = 168.0
 offset_top = 512.0
@@ -622,7 +631,7 @@ offset_bottom = 544.0
 tooltip_text = "Binds Set To Shoot"
 mouse_filter = 0
 
-[node name="Exit Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=976033506]
+[node name="Exit Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=923877283]
 layout_mode = 0
 offset_left = 168.0
 offset_top = 560.0
@@ -632,6 +641,7 @@ tooltip_text = "Binds Set To Toggle The In-Game Menu"
 mouse_filter = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="InGame Menu/Settings/Binds" unique_id=707968268]
+visible = false
 layout_mode = 0
 offset_left = 390.0
 offset_top = 612.0

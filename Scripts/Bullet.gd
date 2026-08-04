@@ -25,6 +25,7 @@ func On_Bullet_Hit(Body: Node) -> void:
 			return
 	if "Health" in Body:
 		Body.Health -= Damage
+		GameManager.Record_Shot()
 	else:
 		Spawn_Decal(Body)
 	queue_free()

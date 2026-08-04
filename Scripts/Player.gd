@@ -133,7 +133,15 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	if Grapple_Rope:
-		Grapple_Rope.mesh = null
+		var Rope_Mesh = ImmediateMesh.new()
+		Grapple_Rope.mesh = Rope_Mesh
+		var Rope_Material = StandardMaterial3D.new()
+		Rope_Material.albedo_texture = Rope_Texture
+		Rope_Material.uv1_triplanar = true
+		Rope_Material.uv2_triplanar = true
+		Rope_Material.cull_mode = BaseMaterial3D.CULL_DISABLED
+		Grapple_Rope.material_override = Rope_Material
+
 	if !is_multiplayer_authority():
 		set_process_unhandled_input(false)
 		set_physics_process(false)
@@ -325,8 +333,8 @@ func _physics_process(delta: float) -> void:
 			Grappling = true
 	elif !Input.is_action_pressed("Grapple") && Grappling:
 		Grappling = false
-		if Grapple_Rope:
-			Grapple_Rope.mesh = null
+		if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+			(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 	if Grappling:
 		var Current_Direction: Vector3 = (global_position - Grapple_Point).normalized()
 		var Step_Angle: float = Grapple_Last_Direction.angle_to(Current_Direction)
@@ -334,8 +342,8 @@ func _physics_process(delta: float) -> void:
 		Grapple_Last_Direction = Current_Direction
 		if Grapple_Total_Angle >= PI or Input.is_action_just_pressed("Jump"):
 			Grappling = false
-			if Grapple_Rope:
-				Grapple_Rope.mesh = null
+			if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+				(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 			if Input.is_action_just_pressed("Jump"):
 				velocity += Vector3.UP * (Jump_Velocity * 0.5)
 		else:
@@ -348,21 +356,9 @@ func _physics_process(delta: float) -> void:
 			if Input_Direction != Vector2.ZERO:
 				var Swing_Steering: Vector3 = (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized()
 				velocity += Swing_Steering * Sprinting_Speed * delta
-			if Grapple_Rope:
-				var Immediate_Mesh: ImmediateMesh
-				if Grapple_Rope.mesh is ImmediateMesh:
-					Immediate_Mesh = Grapple_Rope.mesh as ImmediateMesh
-					Immediate_Mesh.clear_surfaces()
-				else:
-					Immediate_Mesh = ImmediateMesh.new()
-					Grapple_Rope.mesh = Immediate_Mesh
-				if !Grapple_Rope.material_override:
-					var Rope_Material: StandardMaterial3D = StandardMaterial3D.new()
-					Rope_Material.albedo_texture = Rope_Texture
-					Rope_Material.uv1_triplanar = true
-					Rope_Material.uv2_triplanar = true
-					Rope_Material.cull_mode = BaseMaterial3D.CULL_DISABLED
-					Grapple_Rope.material_override = Rope_Material
+			if Grapple_Rope and Grapple_Rope.mesh is ImmediateMesh:
+				var Immediate_Mesh: ImmediateMesh = Grapple_Rope.mesh as ImmediateMesh
+				Immediate_Mesh.clear_surfaces()
 				var Start_Position: Vector3 = Grapple_Rope.to_local(global_position)
 				var End_Position: Vector3 = Grapple_Rope.to_local(Grapple_Point)
 				var Mesh_Rope_Direction: Vector3 = (End_Position - Start_Position).normalized()
@@ -374,30 +370,25 @@ func _physics_process(delta: float) -> void:
 				var First_Vertex: Vector3 = Start_Position - Side_Direction
 				var Second_Vertex: Vector3 = Start_Position + Side_Direction
 				var Third_Vertex: Vector3 = End_Position + Side_Direction
-				var Fourth_Vertext: Vector3 = End_Position - Side_Direction
+				var Fourth_Vertex: Vector3 = End_Position - Side_Direction
 				Immediate_Mesh.surface_add_vertex(First_Vertex)
 				Immediate_Mesh.surface_add_vertex(Second_Vertex)
 				Immediate_Mesh.surface_add_vertex(Third_Vertex)
 				Immediate_Mesh.surface_add_vertex(First_Vertex)
 				Immediate_Mesh.surface_add_vertex(Third_Vertex)
-				Immediate_Mesh.surface_add_vertex(Fourth_Vertext)
+				Immediate_Mesh.surface_add_vertex(Fourth_Vertex)
 				Immediate_Mesh.surface_end()
 	else:
 		# Jumping & Wall Jumping
 		if Input.is_action_just_pressed("Jump"):
 			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0:
 				var Wall_Normal: Vector3 = get_wall_normal()
-				var Horizontal_Normal: Vector3 = Vector3(Wall_Normal.x, 0.0, Wall_Normal.z).normalized()
-				var Current_Horiz_Velocity: Vector3 = Vector3(velocity.x, 0.0, velocity.z)
-				var Speed: float = Current_Horiz_Velocity.length()
+				var Push_Direction: Vector3 = Vector3(Wall_Normal.x, 0.0, Wall_Normal.z).normalized()
 				velocity.y = Wall_Jump_Velocity
-				var Bounce_Direction: Vector3 = Current_Horiz_Velocity.bounce(Horizontal_Normal).normalized()
-				var Outward_Direction: Vector3 = (Horizontal_Normal + Bounce_Direction).normalized()
-				var Final_Push_Speed: float = max(Speed, abs(Wall_Push_Force))
-				velocity.x = Outward_Direction.x * Final_Push_Speed
-				velocity.z = Outward_Direction.z * Final_Push_Speed
+				velocity.x = Push_Direction.x * Wall_Push_Force
+				velocity.z = Push_Direction.z * Wall_Push_Force
 				Wall_Jump_Lock_Timer = Wall_Jump_Lock_Time
-				Direction = Outward_Direction
+				Direction = Push_Direction
 				Wall_Jumps_Left -= 1
 				Jumps_Left = Max_Jumps - 1
 				if GameManager.Toggle_Crouch && Sliding:
@@ -500,7 +491,7 @@ func _physics_process(delta: float) -> void:
 			velocity.x = Slide_Direction.x * New_Speed
 			velocity.z = Slide_Direction.z * New_Speed
 			Slamming = false
-		else:
+		elif !Slamming && !Grappling:
 			if Last_Velocity.y < -Minimum_Fall_Velocity:
 				var Excess_Speed: float = abs(Last_Velocity.y) - Minimum_Fall_Velocity
 				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier

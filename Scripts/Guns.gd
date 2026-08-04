@@ -85,6 +85,7 @@ func _physics_process(delta: float) -> void:
 					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
 				Gun_Animations.play(str(Current_Gun_Name) + " Recoil")
+		# Aim Down Sight (ADS)
 		if is_multiplayer_authority():
 			var Current_Gun_Name: String = Guns[Current_Gun].name
 			if Input.is_action_pressed("Aim Down Sight") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED && Current_Gun_Name != "Knife":
@@ -93,6 +94,6 @@ func _physics_process(delta: float) -> void:
 				Previous_Mouse_Sensitivity = GameManager.Mouse_Sensitivity
 				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity / 6
 			else:
-				Camera.fov = lerp(int(Camera.fov), 70, delta * Lerp_Speed)
+				Camera.fov = lerp(int(Camera.fov), 75, delta * Lerp_Speed)
 				Aim_Down_Sight.visible = false
 				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity

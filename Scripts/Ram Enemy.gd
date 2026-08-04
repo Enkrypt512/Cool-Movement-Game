@@ -14,20 +14,25 @@ var Swoop_Up: bool = false
 @export_group("Flight Settings")
 @export var Hover_Altitude: float = 50.0
 @export var Circle_Radius: float = 200.0
+
 var Player: Node3D = null
 var Can_Damage: bool = true
 var Circle_Angle: float = 0.0
 @onready var Collision_Detection: Area3D = $"Collision Detection"
 var Health: int = 100
+var Cached_Player_Position: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	Player = get_tree().get_first_node_in_group("Player")
+	if Player:
+		Cached_Player_Position = Player.global_position
 	Collision_Detection.body_entered.connect(On_Body_Detected)
 	Collision_Detection.area_entered.connect(On_Body_Detected)
 
 func _physics_process(delta: float) -> void:
 	if not Player:
 		return
+	Cached_Player_Position = Player.global_position
 	if Circling:
 		Circling_Around_Player(delta)
 	elif Diving:
@@ -51,9 +56,9 @@ func _process(delta: float) -> void:
 
 func Circling_Around_Player(delta: float) -> void:
 	Circle_Angle += delta * (Speed / Circle_Radius)
-	var Target_X: float = Player.global_position.x + cos(Circle_Angle) * Circle_Radius
-	var Target_Z: float = Player.global_position.z + sin(Circle_Angle) * Circle_Radius
-	var Target_Y: float = Player.global_position.y + Hover_Altitude
+	var Target_X: float = Cached_Player_Position.x + cos(Circle_Angle) * Circle_Radius
+	var Target_Z: float = Cached_Player_Position.z + sin(Circle_Angle) * Circle_Radius
+	var Target_Y: float = Cached_Player_Position.y + Hover_Altitude
 	var Target_Position: Vector3 = Vector3(Target_X, Target_Y, Target_Z)
 	var Direction: Vector3 = (Target_Position - global_position).normalized()
 	velocity = Direction * Speed
@@ -67,7 +72,7 @@ func Dive() -> void:
 	Swoop_Up = false
 
 func Diving_To_Player(_delta: float) -> void:
-	var Live_Target: Vector3 = Player.global_position
+	var Live_Target: Vector3 = Cached_Player_Position
 	var Direction: Vector3 = (Live_Target - global_position).normalized()
 	velocity = Direction * Dive_Speed
 	Smooth_Look_At(global_position + velocity)
@@ -80,13 +85,13 @@ func Start_Swoop_Up() -> void:
 	Swoop_Up = true
 
 func Swooping_Up(_delta: float) -> void:
-	var Away_Direction: Vector3 = (global_position - Player.global_position)
+	var Away_Direction: Vector3 = (global_position - Cached_Player_Position)
 	Away_Direction.y = 0.0
 	Away_Direction = Away_Direction.normalized()
 	var Target_Direction: Vector3 = (Away_Direction + Vector3.UP).normalized()
 	velocity = Target_Direction * Swoop_Speed
 	Smooth_Look_At(global_position + velocity)
-	if global_position.y >= Player.global_position.y + Hover_Altitude:
+	if global_position.y >= Cached_Player_Position.y + Hover_Altitude:
 		Circling = true
 		Diving = false
 		Swoop_Up = false
@@ -99,13 +104,14 @@ func Smooth_Look_At(Target: Vector3) -> void:
 func On_Body_Detected(Node_Hit: Node) -> void:
 	if not Can_Damage:
 		return
-	var Target: Node = Node_Hit
-	while Target and not Target.is_in_group("Player"):
-		Target = Target.get_parent()
-	if Target and Target.is_in_group("Player"):
-		if Target.has_method("Take_Damage"):
-			Target.Take_Damage(Damage,Vector3(-1,0,0))
+	var Hit_Target: Node = Node_Hit
+	while Hit_Target and not Hit_Target.is_in_group("Player"):
+		Hit_Target = Hit_Target.get_parent()
+	if Hit_Target and Hit_Target.is_in_group("Player"):
+		if Hit_Target.has_method("Take_Damage"):
+			Hit_Target.Take_Damage(Damage, Vector3(-1, 0, 0))
 			GameManager.Times_Hit += 1
+			GameManager.Current_Combo = 0
 		Start_Cooldown()
 		if Diving:
 			Start_Swoop_Up()

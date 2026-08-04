@@ -9,8 +9,8 @@ extends Node3D
 @onready var Quit_Settings: Button = $"InGame Menu/Settings/Quit"
 @onready var Resume: Button = $"InGame Menu/Main/Resume"
 @onready var Settings_Button: Button = $"InGame Menu/Main/Settings Button"
-@onready var Quit_Menu: Button = $"InGame Menu/Quit"
-@onready var Back_To_Menu: Button = $"InGame Menu/Back To Menu"
+@onready var Quit_Menu: Button = $"InGame Menu/Main/Quit"
+@onready var Back_To_Menu: Button = $"InGame Menu/Main/Back To Menu"
 @onready var Enemies_Killed: Label = $"HUD/Enemies Killed"
 @onready var Score: Label = $HUD/Score
 @onready var time: Label = $HUD/Time
@@ -18,9 +18,11 @@ extends Node3D
 @onready var Highscore: Label = $HUD/Highscore
 @onready var Best_Time: Label = $"HUD/Best Time"
 @onready var Most_Enemies_Killed: Label = $"HUD/Most Enemies Killed"
-@onready var Least_Hits: Label = $"HUD/Least Hits"
 @onready var Enemies: Node3D = $Enemies
 @onready var Health_Boxes: Node3D = $"Health Boxes"
+@onready var Combo: Label = $HUD/Combo
+@onready var Best_Run_Combo: Label = $"HUD/Best Run Combo"
+@onready var Best_Lifetime_Combo: Label = $"HUD/Best Lifetime Combo"
 
 var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
@@ -108,6 +110,9 @@ func _process(delta: float) -> void:
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
 	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
 	Hits.text = "Hits:" +  str(GameManager.Times_Hit)
+	Combo.text = "Combo:" + str(GameManager.Current_Combo) + "x"
+	Best_Run_Combo.text = "Best Run Combo:" + str(GameManager.Max_Combo) + "x"
+	Best_Lifetime_Combo.text = "Best Lifetime Combo:" + str(GameManager.Highest_Lifetime_Combo) + "x"
 	Highscore.text = "Highscore: " + str(GameManager.Highscore)
 	Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
 	var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
@@ -115,7 +120,6 @@ func _process(delta: float) -> void:
 	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 	var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
 	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Ms]
-	Least_Hits.text = "Least Hits:" + str(GameManager.Fewest_Hits)
 
 func Spawn_Health_Box() -> void:
 	var Health_Box_Instance: Node = Health_Box.instantiate()

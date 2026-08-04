@@ -6,6 +6,7 @@ extends CharacterBody3D
 @export var Target: Node3D
 @onready var Pathfinding: NavigationAgent3D = $Pathfinding
 @onready var Collision_Detection: Area3D = $"Collision Detection"
+
 var Gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var Health: int = 100
 var Can_Damage: bool = true
@@ -84,6 +85,7 @@ func Body_Detected(Node_Hit):
 		if Hit_Target.has_method("Take_Damage"):
 			Hit_Target.Take_Damage(Damage,Vector3(-1,0,0))
 			GameManager.Times_Hit += 1
+			GameManager.Current_Combo = 0
 			Start_Cooldown()
 
 func Start_Cooldown() -> void:

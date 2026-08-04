@@ -570,10 +570,10 @@ text = "Exit
 
 [node name="Reset" type="Button" parent="Settings/Binds" unique_id=236807662]
 layout_mode = 0
-offset_left = 193.0
-offset_top = 597.0
-offset_right = 360.0
-offset_bottom = 640.0
+offset_left = 985.0
+offset_top = 605.0
+offset_right = 1152.0
+offset_bottom = 648.0
 tooltip_text = "Reset Your Bindings"
 focus_mode = 0
 text = "Reset"
@@ -589,9 +589,9 @@ mouse_filter = 0
 
 [node name="Backward Label" type="Label" parent="Settings/Binds" unique_id=34563308]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 136.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 168.0
 tooltip_text = "Binds Set To The Backwards Key"
 mouse_filter = 0
@@ -607,18 +607,18 @@ mouse_filter = 0
 
 [node name="Right Label" type="Label" parent="Settings/Binds" unique_id=711294625]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 225.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 248.0
 tooltip_text = "Binds Set To The Right Key"
 mouse_filter = 0
 
 [node name="Sprint Label" type="Label" parent="Settings/Binds" unique_id=2105832663]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 268.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 300.0
 tooltip_text = "Binds Set To Sprint"
 mouse_filter = 0
@@ -626,17 +626,17 @@ mouse_filter = 0
 [node name="Crouch Label" type="Label" parent="Settings/Binds" unique_id=1742655661]
 layout_mode = 0
 offset_left = 168.0
-offset_top = 308.0
+offset_top = 313.0
 offset_right = 408.0
-offset_bottom = 340.0
+offset_bottom = 345.0
 tooltip_text = "Binds Set To Crouch"
 mouse_filter = 0
 
 [node name="Freelook Label" type="Label" parent="Settings/Binds" unique_id=190211659]
 layout_mode = 0
-offset_left = 160.0
+offset_left = 168.0
 offset_top = 357.0
-offset_right = 400.0
+offset_right = 408.0
 offset_bottom = 380.0
 tooltip_text = "Binds Set To Freelook"
 mouse_filter = 0
@@ -653,9 +653,9 @@ mouse_filter = 0
 [node name="Change Gun Label" type="Label" parent="Settings/Binds" unique_id=636419439]
 layout_mode = 0
 offset_left = 168.0
-offset_top = 448.0
+offset_top = 456.0
 offset_right = 447.0
-offset_bottom = 480.0
+offset_bottom = 488.0
 tooltip_text = "Binds Set To Change The Gun"
 mouse_filter = 0
 
@@ -678,6 +678,7 @@ tooltip_text = "Binds Set To Toggle The In-Game Menu"
 mouse_filter = 0
 
 [node name="PanelContainer" type="PanelContainer" parent="Settings/Binds" unique_id=1341006646]
+visible = false
 layout_mode = 0
 offset_left = 390.0
 offset_top = 612.0

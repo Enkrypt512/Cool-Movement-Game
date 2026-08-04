@@ -21,7 +21,6 @@ var Player_Scene: PackedScene = preload("res://Scenes/Player.tscn")
 @onready var Health_Boxes: Node3D = $"../Health Boxes"
 @onready var Main: Node3D = $".."
 @onready var Hits: Label = $Hits
-@onready var Least_Hits: Label = $"Least Hits"
 
 enum Ranks {
 	D,
@@ -91,10 +90,6 @@ func _process(_delta: float) -> void:
 				var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 				var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
 				Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Ms]
-			if Record_Results.get("Is_New_Fewest_Hits",false):
-				Least_Hits.text = "New Fewest Hits!"
-			else:
-				Least_Hits.text = "Least Hits:" + str(GameManager.Fewest_Hits)
 			var Rank_Data: Dictionary = Calculate_Final_Rank(GameManager.Enemies_Killed, GameManager.time, Player)
 			Update_Rank_UI(Rank_Data)
 	else:
@@ -104,7 +99,6 @@ func _process(_delta: float) -> void:
 			if is_instance_valid(HUD): HUD.visible = true
 			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-				
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
 	Score.text = "Score: " + str(GameManager.Enemies_Killed * 50)
 	var Total_Microseconds: int = int(GameManager.time * 1_000_000)
@@ -187,3 +181,8 @@ func Retry_Game():
 	var Player_Instance = Player_Scene.instantiate()
 	Player_Instance.global_position.y += 2
 	Main.add_child(Player_Instance)
+	GameManager.time = 0
+	GameManager.Enemies_Killed = 0
+	GameManager.Times_Hit = 0
+	GameManager.Max_Combo = 0
+	Main.Elapsed_Time = 0
