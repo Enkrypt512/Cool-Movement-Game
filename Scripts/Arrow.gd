@@ -21,6 +21,6 @@ func On_Body_Entered(Body: Node3D) -> void:
 		Hit_Target = Hit_Target.get_parent()
 	if Hit_Target:
 		Hit_Target.Take_Damage(Damage, -global_transform.basis.z * 5.0)
-	GameManager.Times_Hit += 1
-	GameManager.Current_Combo = 0
-	queue_free()
+		GameManager.Times_Hit += 1
+		GameManager.Current_Combo = 0
+		queue_free()

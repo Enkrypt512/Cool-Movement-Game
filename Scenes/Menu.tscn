@@ -143,15 +143,15 @@ offset_right = 612.0
 offset_bottom = 225.0
 theme_override_font_sizes/font_size = 32
 text = "rem: For Playtesting
-Kenney: For The Assets
-Lukky:For The Base Movement Code
-Datagoblin:For The Monogram Font
-Greg Zaal And Jarod Guest:For The Sky Texture
-Pichuliru:For The Smoke Grenade Model
-JoyTree Studios: For The Grenade Texture
-musdasch:For The Bullet Decal Texture
-plaggy:For The Knife Model
-And You! For Playing This Incredibely Buggy Game <3"
+Kenney: For Most Of The Assets
+Lukky: For The Base Movement Code
+Datagoblin: For The Monogram Font
+Greg Zaal And Jarod Guest: For The Sky Texture 
+Pichuliru: For The Smoke Grenade Model 
+JoyTree Studios:  For The Grenade Texture 
+musdasch: For The Bullet Decal Texture
+plaggy: For The Knife Model And The Arrow Model
+LiamOsler: For The Bow Model"
 
 [node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
 layout_mode = 0

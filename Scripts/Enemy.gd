@@ -83,9 +83,9 @@ func Body_Detected(Node_Hit):
 		Hit_Target = Hit_Target.get_parent()
 	if Hit_Target:
 		Hit_Target.Take_Damage(Damage, -global_transform.basis.z * 5.0)
-	GameManager.Times_Hit += 1
-	GameManager.Current_Combo = 0
-	Start_Cooldown()
+		GameManager.Times_Hit += 1
+		GameManager.Current_Combo = 0
+		Start_Cooldown()
 
 func Start_Cooldown() -> void:
 	Can_Damage = false
