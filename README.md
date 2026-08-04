@@ -1,5 +1,5 @@
 # Cool-Movement-Game
-A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With:​
+A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot!  With:
 
 - Sprinting
 
@@ -13,17 +13,19 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - CS:GO-Like Recoil
 
--  Aim Down Sight
+- Enemies
+
+- Aim Down Sight
 
 - Double Jump
 
-- Dashing
+- Dashing 
 
 - Grapple Hooks
 
 - Wall Gliding
 
-- Wall Jumping
+- Wall Jumping 
 
 - Grenades
 
@@ -39,8 +41,6 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Speedometer
 
-- 3 Type Of Enemies
-
 And More Coming Soon! Like:
 
 - Peeking
@@ -53,9 +53,9 @@ And More Coming Soon! Like:
 
 - Ledge Grabbing
 
-- Smoke & Normal Grenades
+- Smoke Grenades
 
-Keys:
+# Keys:
 
 - WASD/Arrow Keys:Move
 
