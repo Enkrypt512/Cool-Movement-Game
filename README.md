@@ -39,6 +39,8 @@ A WIP FPS movement game inspired by ULTRAKILL And Half-Life, made in Godot! With
 
 - Speedometer
 
+- 3 Type Of Enemies
+
 And More Coming Soon! Like:
 
 - Peeking
