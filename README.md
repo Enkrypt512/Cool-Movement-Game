@@ -13,7 +13,7 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot!  With
 
 - CS:GO-Like Recoil
 
-- Enemies
+- 3 Type Of Enemies
 
 - Aim Down Sight
 
