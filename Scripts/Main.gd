@@ -172,6 +172,8 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	InGame_Menu.Save_Game_Settings()
+	InGame_Menu.Apply_Loaded_Settings()
 
 func Pause_Game() -> void:
 	InGame_Menu.visible = true

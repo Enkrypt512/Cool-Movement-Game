@@ -2,7 +2,7 @@ extends Node
 
 var Fullscreen: bool
 var FPS_Counter: bool
-var Volume: int
+var Volume: int = 100
 var Mouse_Sensitivity: float
 var VSync: bool
 var Max_FPS: int
@@ -23,6 +23,7 @@ var Speedometer: bool
 var Current_Combo: int = 0
 var Max_Combo: int = 0
 var Highest_Lifetime_Combo: int = 0
+var Anti_Aliasing_Mode: int
 signal Combo_Changed(New_Combo: int)
 
 func _ready() -> void:
@@ -75,19 +76,19 @@ func Submit_Score(Current_Score: int, Current_Enemies: int, Current_Time: float)
 
 func Save_Stats() -> void:
 	var Config: ConfigFile = ConfigFile.new()
-	Config.load("user://Save.cfg") 
+	Config.load("user://Stats.cfg") 
 	Config.set_value("Stats", "Highscore", Highscore)
 	Config.set_value("Stats", "Most Enemies Killed", Most_Enemies_Killed)
 	Config.set_value("Stats", "Best Time", Best_Time)
 	Config.set_value("Stats", "Total Lifetime Hits", Total_Lifetime_Hits)
 	Config.set_value("Stats", "Highest Lifetime Combo", Highest_Lifetime_Combo)
-	var error := Config.save("user://Save.cfg")
+	var error := Config.save("user://Stats.cfg")
 	if error != OK:
 		print("Failed to save stats. Error code: ", error)
 
 func Load_Stats() -> void:
 	var Config: ConfigFile = ConfigFile.new()
-	if Config.load("user://Save.cfg") == OK:
+	if Config.load("user://Stats.cfg") == OK:
 		Highscore = Config.get_value("Stats", "Highscore", 0)
 		Most_Enemies_Killed = Config.get_value("Stats", "Most Enemies Killed", 0)
 		Best_Time = Config.get_value("Stats", "Best Time", 0.0)

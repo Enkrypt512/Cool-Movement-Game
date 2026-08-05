@@ -10,6 +10,8 @@ extends Node3D
 @onready var Recoil: Node3D = $"../.."
 @onready var Camera: Camera3D = $".."
 @onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
+@onready var Shoot_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Shoot"
+@onready var Change_Gun_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change Gun"
 var Guns: Array = []
 @export var Lerp_Speed: int = 10
 var Previous_Mouse_Sensitivity: int
@@ -63,9 +65,13 @@ func _input(event: InputEvent) -> void:
 				Gun.visible = false
 			Guns[Current_Gun].visible = true
 			Continuous_Fire_Time = 0.0
+			Change_Gun_SFX.pitch_scale = randf_range(0.9,1.1)
+			Change_Gun_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Change_Gun_SFX.play()
 
 func _physics_process(delta: float) -> void:
 	if Player.is_multiplayer_authority():
+		# Shooting
 		if Input.is_action_pressed("Shoot") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			var Current_Gun_Name: String = Guns[Current_Gun].name
 			var Shoot_Cooldown: float = Gun_Cooldowns.get(Current_Gun_Name, 0.1)
@@ -81,6 +87,9 @@ func _physics_process(delta: float) -> void:
 					Bullet_Instance.global_transform = Active_Gun.global_transform
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
+					Shoot_SFX.pitch_scale = randf_range(0.9,1.1)
+					Shoot_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+					Shoot_SFX.play()
 					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
 					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)

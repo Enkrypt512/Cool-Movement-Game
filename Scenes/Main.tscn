@@ -322,80 +322,77 @@ text = "Quit"
 
 [node name="Enemies Killed" type="Label" parent="Died" unique_id=892199018]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 169.0
-offset_right = 648.0
-offset_bottom = 201.0
+offset_top = 136.0
+offset_right = 192.0
+offset_bottom = 168.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Time" type="Label" parent="Died" unique_id=772558368]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 145.0
-offset_right = 648.0
-offset_bottom = 177.0
+offset_top = 112.0
+offset_right = 192.0
+offset_bottom = 144.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Score" type="Label" parent="Died" unique_id=1077127384]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 121.0
-offset_right = 648.0
-offset_bottom = 153.0
+offset_left = -40.0
+offset_top = 88.0
+offset_right = 152.0
+offset_bottom = 120.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Hits" type="Label" parent="Died" unique_id=411269337]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 97.0
-offset_right = 648.0
-offset_bottom = 129.0
+offset_left = -57.0
+offset_top = 64.0
+offset_right = 135.0
+offset_bottom = 96.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Highscore" type="Label" parent="Died" unique_id=980911340]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 25.0
-offset_right = 648.0
-offset_bottom = 57.0
+offset_left = -9.0
+offset_top = -8.0
+offset_right = 183.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Most Enemies Killed" type="Label" parent="Died" unique_id=1949908782]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 73.0
-offset_right = 648.0
-offset_bottom = 105.0
+offset_top = 40.0
+offset_right = 192.0
+offset_bottom = 72.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Best Time" type="Label" parent="Died" unique_id=168545847]
 layout_mode = 0
-offset_left = 456.0
-offset_top = 49.0
-offset_right = 648.0
-offset_bottom = 81.0
+offset_top = 16.0
+offset_right = 192.0
+offset_bottom = 48.0
 theme_override_font_sizes/font_size = 32
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Rank" type="Label" parent="Died" unique_id=1034594831]
 layout_mode = 0
-offset_top = 64.0
-offset_right = 193.0
-offset_bottom = 97.0
-theme_override_font_sizes/font_size = 32
+offset_left = 480.0
+offset_top = -8.0
+offset_right = 673.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 64
 
 [node name="InGame Menu" type="Control" parent="." unique_id=1098213457]
 visible = false
@@ -798,6 +795,18 @@ text = "Speedometer:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Anti-Aliasing" type="Label" parent="InGame Menu/Settings/Main" unique_id=267577966]
+layout_mode = 0
+offset_top = 486.0
+offset_right = 200.0
+offset_bottom = 526.0
+tooltip_text = "Use Anti-Aliasing For Better Looking Worlds
+"
+mouse_filter = 0
+text = "Anti-Aliasing"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fullscreen Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=363133083]
 layout_mode = 0
 offset_left = 192.0
@@ -823,6 +832,7 @@ offset_bottom = 160.0
 tooltip_text = "Change SFX Volume"
 
 [node name="Mouse Sensitivity Number" type="SpinBox" parent="InGame Menu/Settings/Main" unique_id=419394893]
+visible = false
 layout_mode = 0
 offset_left = 184.0
 offset_top = 176.0
@@ -882,6 +892,24 @@ offset_top = 446.0
 offset_right = 224.0
 offset_bottom = 478.0
 tooltip_text = "Adds A Speedometer"
+
+[node name="Anti-Aliasing Drop Down" type="OptionButton" parent="InGame Menu/Settings/Main" unique_id=2050367947]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 494.0
+offset_right = 232.0
+offset_bottom = 514.0
+tooltip_text = "Use Anti-Aliasing For Better Looking Worlds"
+selected = 0
+item_count = 4
+popup/item_0/text = "Disabled"
+popup/item_0/id = 0
+popup/item_1/text = "2x"
+popup/item_1/id = 1
+popup/item_2/text = "4x"
+popup/item_2/id = 2
+popup/item_3/text = "8x"
+popup/item_3/id = 3
 
 [node name="Reset" type="Button" parent="InGame Menu/Settings/Main" unique_id=1192571523]
 layout_mode = 0

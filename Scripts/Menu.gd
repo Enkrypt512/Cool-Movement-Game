@@ -1,7 +1,7 @@
 extends Control
 
 var Current_Button : Button
-@export var Save_Path:String = "user://Save.cfg"
+@export var Save_Path:String = "user://Settings.cfg"
 
 @onready var Forward: Button = $Settings/Binds/Forward
 @onready var Backward: Button = $Settings/Binds/Backward
@@ -55,6 +55,7 @@ var Current_Button : Button
 @onready var Keys_Button: Button = $"Main/Keys Button"
 @onready var Keys_Quit: Button = $Keys/Quit
 @onready var Version: Label = $Main/Version
+@onready var Anti_Aliasing_Drop_Down: OptionButton = $"Settings/Main/Anti-Aliasing Drop Down"
 
 func _ready() -> void:
 	Load_Game_Settings()
@@ -84,6 +85,7 @@ func _ready() -> void:
 	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
 	Keys_Button.pressed.connect(func():Keys.visible = true)
 	Keys_Quit.pressed.connect(func(): Keys.visible = false)
+	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Version.text = "Version:" + str(ProjectSettings.get_setting("application/config/version"))
 	Update_Labels()
 	Info_Panel.hide()
@@ -103,7 +105,7 @@ func _process(delta: float) -> void:
 		FPS_Counter.visible = false
 	GameManager.FPS_Counter = FPS_Check.button_pressed
 	GameManager.Fullscreen = Fullscreen_Check.button_pressed
-	GameManager.Volume = Volume_Slider.value  
+	GameManager.Volume = Volume_Slider.value
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
 	GameManager.VSync = VSync_Check.button_pressed
 	GameManager.Max_FPS = int(FPS_Lock_Number.value)
@@ -111,6 +113,7 @@ func _process(delta: float) -> void:
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
 	GameManager.Speedometer = Speedometer_Check.button_pressed
+	GameManager.Anti_Aliasing_Mode = Anti_Aliasing_Drop_Down.selected
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
@@ -189,6 +192,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
 	GameManager.Speedometer = false
+	GameManager.Anti_Aliasing_Mode = 0
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -243,6 +247,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
+	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
 	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
@@ -269,6 +274,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
 		GameManager.Speedometer = false
+		GameManager.Anti_Aliasing_Mode = 0
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -279,6 +285,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
 		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
+		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
 		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -311,6 +318,7 @@ func Apply_Loaded_Settings() -> void:
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
 	Speedometer_Check.button_pressed = GameManager.Speedometer
+	Anti_Aliasing_Drop_Down.selected = GameManager.Anti_Aliasing_Mode
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -323,7 +331,37 @@ func Apply_Loaded_Settings() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
 	Engine.max_fps = GameManager.Max_FPS
+	if Anti_Aliasing_Drop_Down.selected == 0:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
+	elif Anti_Aliasing_Drop_Down.selected == 1:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
+	elif Anti_Aliasing_Drop_Down.selected == 2:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
+	elif Anti_Aliasing_Drop_Down.selected == 3:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
 
 func On_Max_FPS_Changed(Value: float) -> void:
 	GameManager.Max_FPS = int(Value)
 	Engine.max_fps = int(Value)
+
+func Change_Anti_Aliasing_Mode(Selected: int):
+	if Selected == 0:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
+		GameManager.Anti_Aliasing_Mode = 0
+	elif Selected == 1:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
+		GameManager.Anti_Aliasing_Mode = 1
+	elif Selected == 2:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
+		GameManager.Anti_Aliasing_Mode = 2
+	elif Selected == 3:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
+		GameManager.Anti_Aliasing_Mode = 3

@@ -1,7 +1,7 @@
 extends Control
 
 var Current_Button : Button
-@export var Save_Path:String = "user://Save.cfg"
+@export var Save_Path:String = "user://Settings.cfg"
 var Local_Player: CharacterBody3D = null
 
 @onready var Forward: Button = $Settings/Binds/Forward
@@ -51,6 +51,8 @@ var Local_Player: CharacterBody3D = null
 @onready var Back_To_Menu: Button = $"Main/Back To Menu"
 @onready var Reset_Settings: Button = $Settings/Main/Reset
 @onready var Died: Control = $"../Died"
+@onready var Anti_Aliasing_Drop_Down: OptionButton = $"Settings/Main/Anti-Aliasing Drop Down"
+@onready var Main: Control = $Main
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -81,6 +83,7 @@ func _ready() -> void:
 		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
 	)
 	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
+	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Update_Labels()
 	Info_Panel.hide()
 
@@ -99,6 +102,14 @@ func Pause_Game() -> void:
 	var Main_Node: Node3D = get_tree().current_scene
 	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(false)
+	Binds.visible = false
+	Settings.visible = false
+	Main_Settings.visible = true
+	Main.visible = true
+	Resume.visible = true
+	Quit.visible = true
+	Settings_Button.visible = true
+	Back_To_Menu.visible = true
 	get_tree().paused = true
 
 func Resume_Game() -> void:
@@ -108,6 +119,14 @@ func Resume_Game() -> void:
 	var Main_Node: Node3D = get_tree().current_scene
 	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
 		Main_Node.Set_HUD_Visibility(true)
+	Binds.visible = false
+	Settings.visible = false
+	Main_Settings.visible = true
+	Main.visible = true
+	Resume.visible = true
+	Quit.visible = true
+	Settings_Button.visible = true
+	Back_To_Menu.visible = true
 	get_tree().paused = false
 
 func On_Button_Pressed(button: Button) -> void:
@@ -125,6 +144,7 @@ func _process(_delta: float) -> void:
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
 	GameManager.Speedometer = Speedometer_Check.button_pressed
+	GameManager.Anti_Aliasing_Mode = Anti_Aliasing_Drop_Down.selected
 
 func _input(Event: InputEvent) -> void:
 	if Current_Button == null:
@@ -193,6 +213,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
 	GameManager.Speedometer = false
+	GameManager.Anti_Aliasing_Mode = 0
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -244,6 +265,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
+	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
 	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
@@ -270,6 +292,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
 		GameManager.Speedometer = false
+		GameManager.Anti_Aliasing_Mode = 0
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -279,6 +302,8 @@ func Load_Game_Settings() -> void:
 		GameManager.Toggle_Sprint = Config.get_value("Settings","Toggle Sprint",false)
 		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
+		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
+		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
 		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -311,6 +336,7 @@ func Apply_Loaded_Settings() -> void:
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
 	Speedometer_Check.button_pressed = GameManager.Speedometer
+	Anti_Aliasing_Drop_Down.selected = GameManager.Anti_Aliasing_Mode
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -322,6 +348,18 @@ func Apply_Loaded_Settings() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
 	Engine.max_fps = GameManager.Max_FPS
+	if Anti_Aliasing_Drop_Down.selected == 0:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
+	elif Anti_Aliasing_Drop_Down.selected == 1:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
+	elif Anti_Aliasing_Drop_Down.selected == 2:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
+	elif Anti_Aliasing_Drop_Down.selected == 3:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
 
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	GameManager.Fullscreen = Is_Checked
@@ -336,7 +374,26 @@ func On_VSync_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+	Save_Game_Settings()
 
 func On_Max_FPS_Changed(value: float) -> void:
 	GameManager.Max_FPS = int(value)
 	Engine.max_fps = int(value)
+
+func Change_Anti_Aliasing_Mode(Selected: int):
+	if Selected == 0:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
+		GameManager.Anti_Aliasing_Mode = 0
+	elif Selected == 1:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
+		GameManager.Anti_Aliasing_Mode = 1
+	elif Selected == 2:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
+		GameManager.Anti_Aliasing_Mode = 2
+	elif Selected == 3:
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
+		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
+		GameManager.Anti_Aliasing_Mode = 3

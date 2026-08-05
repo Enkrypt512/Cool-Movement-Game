@@ -18,12 +18,16 @@ extends CharacterBody3D
 @onready var Eyes: Node3D = $Neck/Head/Eyes
 @onready var Standing_Shape: MeshInstance3D = $"Standing Shape"
 @onready var Crouching_Shape: MeshInstance3D = $"Crouching Shape"
-
 @onready var Multiplayer_Synchronizer: MultiplayerSynchronizer = $"Multiplayer Synchronizer"
 @onready var Speed_Lines: CanvasLayer = $"Speed Lines"
 @onready var Grapple_Ray: RayCast3D = $"Neck/Head/Eyes/Recoil/Camera/Grappling/Grapple Ray"
 @onready var Grapple_Rope: MeshInstance3D = $"Rope Mesh"
 @onready var Grenades_Left: Label = $"HUD/Grenades Left"
+@onready var Walking_SFX_1: AudioStreamPlayer3D = $"SFX/Walking/1"
+@onready var Walking_SFX_2: AudioStreamPlayer3D = $"SFX/Walking/2"
+@onready var Walking_SFX_3: AudioStreamPlayer3D = $"SFX/Walking/3"
+@onready var Walking_SFX_4: AudioStreamPlayer3D = $"SFX/Walking/4"
+@onready var Slam_SFX: AudioStreamPlayer3D = $SFX/Slam
 
 # States
 var Walking: bool = false
@@ -35,6 +39,7 @@ var Dashing: bool = false
 var Grappling: bool = false
 var Wall_Gliding: bool = false
 var Slamming: bool = false
+var Just_Landed_From_Slam: bool = false
 
 # Sliding Variables
 @export_group("Sliding Variables")
@@ -123,6 +128,14 @@ var Last_Grenade_Throw_Time: float
 @export var Minimum_Fall_Velocity: float = 20.0
 @export var Fall_Damage_Multiplier: float = 5.0
 @export var Slam_Fall_Damage_Reduction: float = 0.1
+@onready var Walking_SFXs: Array = [
+	Walking_SFX_1,
+	Walking_SFX_2,
+	Walking_SFX_3,
+	Walking_SFX_4,
+]
+var Was_Foot_Down: bool = false
+
 
 func _ready() -> void:
 	if name.is_valid_int():
@@ -171,6 +184,7 @@ func _input(event: InputEvent) -> void:
 		Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
+	Just_Landed_From_Slam = false
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if !is_multiplayer_authority():
 		return
@@ -182,10 +196,10 @@ func _physics_process(delta: float) -> void:
 		Wall_Jumps_Left = Max_Wall_Jumps
 	# Crouching
 	if GameManager.Toggle_Crouch:
-		if Crouch_Just_Pressed:
+		if Crouch_Just_Pressed && !Slamming && is_on_floor() && !Just_Landed_From_Slam:
 			Is_Crouching_Toggled = !Is_Crouching_Toggled
 	else:
-		Is_Crouching_Toggled = Input.is_action_pressed("Crouch")
+		Is_Crouching_Toggled = Input.is_action_pressed("Crouch") && !Slamming && !Just_Landed_From_Slam
 	# Sprinting
 	if GameManager.Toggle_Sprint:
 		if Input.is_action_just_pressed("Sprint"):
@@ -214,7 +228,6 @@ func _physics_process(delta: float) -> void:
 	var Should_Crouch: bool = Is_Crouching_Toggled || Sliding
 	var Should_Sprint: bool = Is_Sprinting_Toggled && !Should_Crouch
 	# Changes The State On What You're Holding/Toggling
-	# TODO:Add Walking/Sprinting/Crouching/Sliding SFX
 	if Should_Crouch:
 		Head.position.y = lerp(Head.position.y, Crouching_Depth, delta * Lerp_Speed)
 		Current_Speed = lerp(Current_Speed, Crouching_Speed, delta * Lerp_Speed)
@@ -226,12 +239,12 @@ func _physics_process(delta: float) -> void:
 		if is_on_floor() && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			var Current_Horizontal_Speed: float = Horizontal_Velocity.length()
-			if Current_Horizontal_Speed > Walking_Speed || Is_Sprinting_Toggled || Slamming:
+			if Current_Horizontal_Speed > Walking_Speed || Is_Sprinting_Toggled:
 				Sliding = true
 				Freelooking = true
 				Slide_Timer = Slide_Timer_Max
 				Slide_Vector = Vector2(Input_Direction.x, -1.0) if Input_Direction != Vector2.ZERO else Vector2(0, -1.0)
-				var Added_Boost: float = Slam_Slide_Boost if Slamming else Slide_Boost
+				var Added_Boost: float = Slide_Boost
 				var New_Speed: float = min(Current_Horizontal_Speed + Added_Boost, Max_Chained_Speed)
 				var Slide_Direction: Vector3 = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
 				velocity.x = Slide_Direction.x * New_Speed
@@ -263,6 +276,9 @@ func _physics_process(delta: float) -> void:
 			Dash_Vector = Input_Direction
 		else:
 			Dash_Vector = Vector2(0, -1.0)
+		var Dash_Dir: Vector3 = (transform.basis * Vector3(Dash_Vector.x, 0, Dash_Vector.y)).normalized()
+		velocity.x = Dash_Dir.x * Dash_Speed
+		velocity.z = Dash_Dir.z * Dash_Speed
 	# Throwing Grenades
 	if Input.is_action_just_pressed("Throw Grenade") && Grenade:
 		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
@@ -291,25 +307,35 @@ func _physics_process(delta: float) -> void:
 		Neck.rotation.y = lerp(Neck.rotation.y, 0.0, delta * Lerp_Speed)
 		Camera.rotation.z = lerp(Camera.rotation.z, 0.0, delta * Lerp_Speed)
 	# Headbobbing
-	if !GameManager.No_Shake:
+	if is_on_floor() && !Sliding && !Dashing && Input_Direction != Vector2.ZERO:
+		var Current_Bob_Speed: float = Headbobbing_Walking_Speed
 		if Sprinting:
-			Headbobbing_Current_Intensity = Headbobbing_Sprinting_Intensity
-			Headbobbing_Index += Headbobbing_Sprinting_Speed * delta
-		elif Walking:
-			Headbobbing_Current_Intensity = Headbobbing_Walking_Intensity
-			Headbobbing_Index += Headbobbing_Walking_Speed * delta
+			Current_Bob_Speed = Headbobbing_Sprinting_Speed
 		elif Crouching:
-			Headbobbing_Current_Intensity = Headbobbing_Crouching_Intensity 
-			Headbobbing_Index += Headbobbing_Crouching_Speed * delta
-		if is_on_floor() && !Sliding && !Dashing && Input_Direction != Vector2.ZERO:
+			Current_Bob_Speed = Headbobbing_Crouching_Speed
+		Headbobbing_Index += Current_Bob_Speed * delta
+		if !GameManager.No_Shake:
+			if Sprinting:
+				Headbobbing_Current_Intensity = Headbobbing_Sprinting_Intensity
+			elif Walking:
+				Headbobbing_Current_Intensity = Headbobbing_Walking_Intensity
+			elif Crouching:
+				Headbobbing_Current_Intensity = Headbobbing_Crouching_Intensity
 			Headbobbing_Vector.y = sin(Headbobbing_Index)
-			Headbobbing_Vector.x = sin(Headbobbing_Index / 2) + 0.5
-			Eyes.position.y = lerp(Eyes.position.y, Headbobbing_Vector.y * (Headbobbing_Current_Intensity / 2), delta * Lerp_Speed)
+			Headbobbing_Vector.x = sin(Headbobbing_Index / 2.0) + 0.5
+			Eyes.position.y = lerp(Eyes.position.y, Headbobbing_Vector.y * (Headbobbing_Current_Intensity / 2.0), delta * Lerp_Speed)
 			Eyes.position.x = lerp(Eyes.position.x, Headbobbing_Vector.x * Headbobbing_Current_Intensity, delta * Lerp_Speed)
-		else:
-			Eyes.position.y = lerp(Eyes.position.y, 0.0, delta * Lerp_Speed)
-			Eyes.position.x = lerp(Eyes.position.x, 0.0, delta * Lerp_Speed)
-			Headbobbing_Vector.x = sin(Headbobbing_Index / 2) + 0.5
+		var Is_Foot_Down: bool = sin(Headbobbing_Index) < -0.85
+		if Is_Foot_Down && !Was_Foot_Down:
+			var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
+			Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
+			Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Random_Walking_SFX.play()
+		Was_Foot_Down = Is_Foot_Down
+	else:
+		Eyes.position.y = lerp(Eyes.position.y, 0.0, delta * Lerp_Speed)
+		Eyes.position.x = lerp(Eyes.position.x, 0.0, delta * Lerp_Speed)
+		Was_Foot_Down = false
 	# Camera tilt
 	if !GameManager.No_Shake && !Wall_Gliding:
 		if Input.is_action_pressed("Left"):
@@ -322,6 +348,7 @@ func _physics_process(delta: float) -> void:
 	if !is_on_floor():
 		if Input.is_action_just_pressed("Crouch"):
 			Slamming = true
+			Is_Crouching_Toggled = false
 		if Slamming:
 			velocity.y = min(velocity.y, Air_Slam_Velocity)
 		else:
@@ -349,6 +376,10 @@ func _physics_process(delta: float) -> void:
 				(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 			if Input.is_action_just_pressed("Jump"):
 				velocity += Vector3.UP * (Jump_Velocity * 0.5)
+				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
+				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_SFX.play()
 		else:
 			var Current_Distance: float = global_position.distance_to(Grapple_Point)
 			var Rope_Direction: Vector3 = (Grapple_Point - global_position).normalized()
@@ -394,6 +425,10 @@ func _physics_process(delta: float) -> void:
 				Direction = Push_Direction
 				Wall_Jumps_Left -= 1
 				Jumps_Left = Max_Jumps - 1
+				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
+				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_SFX.play()
 				if GameManager.Toggle_Crouch && Sliding:
 					Crouching = false
 					Sliding = false
@@ -401,6 +436,10 @@ func _physics_process(delta: float) -> void:
 			elif Jumps_Left > 0:
 				velocity.y = Jump_Velocity
 				Jumps_Left -= 1
+				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
+				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_SFX.play()
 				# Bunnyslide Chaining & Super Jumping
 				if Sliding:
 					var Forward_Direction: Vector3 = -transform.basis.z
@@ -448,12 +487,8 @@ func _physics_process(delta: float) -> void:
 				Freelooking = false
 		elif Dashing:
 			Direction = (transform.basis * Vector3(Dash_Vector.x, 0, Dash_Vector.y)).normalized()
-			Current_Speed = (Dash_Timer + 0.1) * Dash_Speed
-			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
-			Current_Dash_Speed = Horizontal_Velocity.length()
-			if Current_Dash_Speed < Walking_Speed:
-				Dashing = false
-				Current_Speed = Walking_Speed
+			velocity.x = Direction.x * Dash_Speed
+			velocity.z = Direction.z * Dash_Speed
 		else:
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			var Horizontal_Speed: float = Horizontal_Velocity.length()
@@ -484,18 +519,29 @@ func _physics_process(delta: float) -> void:
 	# Fall Damage
 	if Was_In_Air && is_on_floor():
 		if Slamming:
-			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
-			Sliding = true
-			Freelooking = true
-			Slide_Timer = Slide_Timer_Max
-			Slide_Vector = Vector2(Input_Direction.x, -1.0) if Input_Direction != Vector2.ZERO else Vector2(0, -1.0)
-			var New_Speed: float = min(Horizontal_Velocity.length() + Slam_Slide_Boost, Max_Chained_Speed)
-			var Slide_Direction: Vector3 = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
-			velocity.x = Slide_Direction.x * New_Speed
-			velocity.z = Slide_Direction.z * New_Speed
+			Just_Landed_From_Slam = true
 			Slamming = false
-		elif !Slamming && !Grappling:
-			if Last_Velocity.y < -Minimum_Fall_Velocity:
+			Slam_SFX.pitch_scale = randf_range(0.95, 1.05)
+			Slam_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Slam_SFX.play()
+			if Input.is_action_just_pressed("Crouch"):
+				var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
+				Sliding = true
+				Freelooking = true
+				Slide_Timer = Slide_Timer_Max
+				Slide_Vector = Vector2(Input_Direction.x, -1.0) if Input_Direction != Vector2.ZERO else Vector2(0, -1.0)
+				var New_Speed: float = min(Horizontal_Velocity.length() + Slam_Slide_Boost, Max_Chained_Speed)
+				var Slide_Direction: Vector3 = (transform.basis * Vector3(Slide_Vector.x, 0, Slide_Vector.y)).normalized()
+				velocity.x = Slide_Direction.x * New_Speed
+				velocity.z = Slide_Direction.z * New_Speed
+			else:
+				Is_Crouching_Toggled = false
+		else:
+			var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
+			Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
+			Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Random_Walking_SFX.play()
+			if !Grappling && Last_Velocity.y < -Minimum_Fall_Velocity:
 				var Excess_Speed: float = abs(Last_Velocity.y) - Minimum_Fall_Velocity
 				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier
 				Health = max(0, Health - int(Calculated_Damage))
@@ -508,7 +554,7 @@ func _process(delta: float) -> void:
 	if Health <= 0:
 		queue_free()
 
-func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:
+func Take_Damage(Amount: int, Knockback: Vector3) -> void:
 	Health -= Amount
 	if Knockback != Vector3.ZERO:
 		velocity += Knockback

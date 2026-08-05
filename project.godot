@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Cool Movement Game"
-config/version="0.8.4"
+config/version="0.8.5"
 run/main_scene="uid://bo4lgf8hrh8b3"
 config/features=PackedStringArray("4.8", "Forward Plus")
 config/icon="uid://hfgsgnyrr2af"
@@ -19,6 +19,7 @@ config/icon="uid://hfgsgnyrr2af"
 [autoload]
 
 GameManager="*res://Scripts/Game Manager.gd"
+ButtonClick="*uid://clnuj08yrwek0"
 
 [display]
 
@@ -26,6 +27,7 @@ window/hdr/request_hdr_output=true
 window/subwindows/embed_subwindows=false
 window/stretch/mode="canvas_items"
 window/stretch/aspect="ignore"
+window/per_pixel_transparency/allowed=true
 window/vsync/vsync_mode=0
 mouse_cursor/custom_image="uid://dqvkgx7pnx4sb"
 

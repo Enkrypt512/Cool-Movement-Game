@@ -13,6 +13,13 @@
 [ext_resource type="PackedScene" uid="uid://bqe7pi6jcjj5f" path="res://Scenes/Speed Lines.tscn" id="10_yoq75"]
 [ext_resource type="PackedScene" uid="uid://b23jj064p6p7r" path="res://Scenes/Aim Down Sight.tscn" id="11_ksbbd"]
 [ext_resource type="Texture2D" uid="uid://b6pjw3dsprrvi" path="res://Assets/Textures/Grenade.png" id="11_miouo"]
+[ext_resource type="AudioStream" uid="uid://cmr2k1alyuubc" path="res://Assets/SFX/Walking/1.ogg" id="16_5v66d"]
+[ext_resource type="AudioStream" uid="uid://si4tks2ty57a" path="res://Assets/SFX/Walking/2.ogg" id="17_x63xi"]
+[ext_resource type="AudioStream" uid="uid://6upn2b048vqa" path="res://Assets/SFX/Shoot.wav" id="18_1iu4k"]
+[ext_resource type="AudioStream" uid="uid://n3k7maxjgc7m" path="res://Assets/SFX/Walking/3.ogg" id="18_i2e8t"]
+[ext_resource type="AudioStream" uid="uid://hki8bckxdfvi" path="res://Assets/SFX/Change Gun.ogg" id="19_m0x7a"]
+[ext_resource type="AudioStream" uid="uid://orqphcoiwlu2" path="res://Assets/SFX/Walking/4.ogg" id="19_qidb7"]
+[ext_resource type="AudioStream" uid="uid://neruci025lgq" path="res://Assets/SFX/Slam.mp3" id="20_m0x7a"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
@@ -528,3 +535,28 @@ visibility_update_mode = 1
 [node name="Rope Mesh" type="MeshInstance3D" parent="." unique_id=873274516]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3558221, 0.5582113, -0.51929426)
 mesh = SubResource("ImmediateMesh_miouo")
+
+[node name="SFX" type="Node3D" parent="." unique_id=1200809219]
+
+[node name="Walking" type="Node3D" parent="SFX" unique_id=1680743391]
+
+[node name="1" type="AudioStreamPlayer3D" parent="SFX/Walking" unique_id=994285906]
+stream = ExtResource("16_5v66d")
+
+[node name="2" type="AudioStreamPlayer3D" parent="SFX/Walking" unique_id=2010413198]
+stream = ExtResource("17_x63xi")
+
+[node name="3" type="AudioStreamPlayer3D" parent="SFX/Walking" unique_id=724845942]
+stream = ExtResource("18_i2e8t")
+
+[node name="4" type="AudioStreamPlayer3D" parent="SFX/Walking" unique_id=676313286]
+stream = ExtResource("19_qidb7")
+
+[node name="Shoot" type="AudioStreamPlayer3D" parent="SFX" unique_id=1775119201]
+stream = ExtResource("18_1iu4k")
+
+[node name="Change Gun" type="AudioStreamPlayer3D" parent="SFX" unique_id=1753457675]
+stream = ExtResource("19_m0x7a")
+
+[node name="Slam" type="AudioStreamPlayer3D" parent="SFX" unique_id=899007623]
+stream = ExtResource("20_m0x7a")
