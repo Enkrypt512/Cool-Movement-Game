@@ -114,3 +114,9 @@ rem: For Playtesting
 [rubberduck](https://opengameart.org/users/rubberduck): For The [Changing Gun SFX](https://opengameart.org/content/100-cc0-sfx-2)
 
 [kyles](https://freesound.org/people/kyles/): For The [Shooting SFX](https://freesound.org/people/kyles/sounds/450852/)
+
+[thatguynm](https://thatguynm.itch.io/): For Most Of [The Music](https://thatguynm.itch.io/menumusic)
+
+[qubodup](https://freesound.org/people/qubodup/): For The [Explosion SFX](https://freesound.org/people/qubodup/sounds/741173/)
+
+[SeKa](https://opengameart.org/users/seka): For The [Dying Music](https://opengameart.org/content/sad-scene-music-what-is-left)
