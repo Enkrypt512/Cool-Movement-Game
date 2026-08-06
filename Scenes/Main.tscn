@@ -6,6 +6,18 @@
 [ext_resource type="PackedScene" uid="uid://wchx5lfbm4rn" path="res://Scenes/Player.tscn" id="3_v1gob"]
 [ext_resource type="Script" uid="uid://cj2mkbriqyqrj" path="res://Scripts/InGame Menu.gd" id="5_pbw6q"]
 [ext_resource type="Script" uid="uid://cs68i5scaqmkd" path="res://Scripts/Die.gd" id="6_v1gob"]
+[ext_resource type="AudioStream" uid="uid://06ycvmig1bh0" path="res://Assets/Music/Main Menu/1.wav" id="7_2w5on"]
+[ext_resource type="AudioStream" uid="uid://b713rxj4iqhbd" path="res://Assets/Music/Main Menu/2.wav" id="8_346fj"]
+[ext_resource type="AudioStream" uid="uid://b4n7yjffpg1sr" path="res://Assets/Music/Main Menu/3.wav" id="9_0sclb"]
+[ext_resource type="AudioStream" uid="uid://on1l880exo4i" path="res://Assets/Music/Main Menu/4.wav" id="10_sxkr1"]
+[ext_resource type="AudioStream" uid="uid://k88wis3yxtpk" path="res://Assets/Music/Main Menu/5.wav" id="11_fq0cl"]
+[ext_resource type="AudioStream" uid="uid://phkejds6lhx1" path="res://Assets/Music/Main Menu/6.wav" id="12_hwpts"]
+[ext_resource type="AudioStream" uid="uid://cpcg8icr0btiy" path="res://Assets/Music/Main Menu/7.wav" id="13_jyqft"]
+[ext_resource type="AudioStream" uid="uid://cppmhafnp3dmc" path="res://Assets/Music/Main Menu/8.wav" id="14_3tgeq"]
+[ext_resource type="AudioStream" uid="uid://4i4cdfdvupuo" path="res://Assets/Music/Main Menu/9.wav" id="15_c4ay3"]
+[ext_resource type="AudioStream" uid="uid://dx51wgow672ww" path="res://Assets/Music/Main Menu/10.wav" id="16_aht7i"]
+[ext_resource type="AudioStream" uid="uid://cmj1tg7a084jn" path="res://Assets/Music/Main Menu/11.wav" id="17_5jffn"]
+[ext_resource type="AudioStream" uid="uid://cgcdxucqpf76e" path="res://Assets/Music/Died.mp3" id="18_346fj"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pn0ev"]
 panorama = ExtResource("2_kln2b")
@@ -957,3 +969,41 @@ offset_right = 176.0
 offset_bottom = 331.0
 tooltip_text = "Return Back To The Main Menu"
 text = "Go Back To Menu"
+
+[node name="Music" type="Node" parent="." unique_id=674948551]
+
+[node name="1" type="AudioStreamPlayer" parent="Music" unique_id=899774285]
+stream = ExtResource("7_2w5on")
+
+[node name="2" type="AudioStreamPlayer" parent="Music" unique_id=733641051]
+stream = ExtResource("8_346fj")
+
+[node name="3" type="AudioStreamPlayer" parent="Music" unique_id=722958020]
+stream = ExtResource("9_0sclb")
+
+[node name="4" type="AudioStreamPlayer" parent="Music" unique_id=254764855]
+stream = ExtResource("10_sxkr1")
+
+[node name="5" type="AudioStreamPlayer" parent="Music" unique_id=727741044]
+stream = ExtResource("11_fq0cl")
+
+[node name="6" type="AudioStreamPlayer" parent="Music" unique_id=347375773]
+stream = ExtResource("12_hwpts")
+
+[node name="7" type="AudioStreamPlayer" parent="Music" unique_id=345900652]
+stream = ExtResource("13_jyqft")
+
+[node name="8" type="AudioStreamPlayer" parent="Music" unique_id=750366910]
+stream = ExtResource("14_3tgeq")
+
+[node name="9" type="AudioStreamPlayer" parent="Music" unique_id=642259548]
+stream = ExtResource("15_c4ay3")
+
+[node name="10" type="AudioStreamPlayer" parent="Music" unique_id=1865371325]
+stream = ExtResource("16_aht7i")
+
+[node name="11" type="AudioStreamPlayer" parent="Music" unique_id=779186640]
+stream = ExtResource("17_5jffn")
+
+[node name="Died" type="AudioStreamPlayer" parent="Music" unique_id=1104968831]
+stream = ExtResource("18_346fj")

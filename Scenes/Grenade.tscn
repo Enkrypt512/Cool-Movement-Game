@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cakxbwcl762cd" path="res://Assets/Models/Grenade.glb" id="1_be0jk"]
 [ext_resource type="Script" uid="uid://cudej43astjx6" path="res://Scripts/Grenade.gd" id="1_t2ec2"]
+[ext_resource type="AudioStream" uid="uid://by5f5bufg8ivx" path="res://Assets/SFX/Explosion.wav" id="3_6rbch"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ksbbd"]
 friction = 0.6
@@ -30,3 +31,7 @@ shape = SubResource("SphereShape3D_t2ec2")
 [node name="Collision Shape" type="CollisionShape3D" parent="Blast Area" unique_id=1713400547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7490982, 0)
 shape = SubResource("SphereShape3D_763og")
+
+[node name="Explosion" type="AudioStreamPlayer3D" parent="." unique_id=277999432]
+stream = ExtResource("3_6rbch")
+max_distance = 1000000000000.0

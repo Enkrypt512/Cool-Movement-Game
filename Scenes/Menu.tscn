@@ -2,6 +2,17 @@
 
 [ext_resource type="Script" uid="uid://dqywirb45cafe" path="res://Scripts/Menu.gd" id="1_3kf3n"]
 [ext_resource type="Script" uid="uid://dd5dmeacrppe8" path="res://Scripts/Multiplayer.gd" id="2_6pedr"]
+[ext_resource type="AudioStream" uid="uid://06ycvmig1bh0" path="res://Assets/Music/Main Menu/1.wav" id="3_syfuq"]
+[ext_resource type="AudioStream" uid="uid://b713rxj4iqhbd" path="res://Assets/Music/Main Menu/2.wav" id="4_byewe"]
+[ext_resource type="AudioStream" uid="uid://b4n7yjffpg1sr" path="res://Assets/Music/Main Menu/3.wav" id="5_a8aa6"]
+[ext_resource type="AudioStream" uid="uid://on1l880exo4i" path="res://Assets/Music/Main Menu/4.wav" id="6_x0ao6"]
+[ext_resource type="AudioStream" uid="uid://k88wis3yxtpk" path="res://Assets/Music/Main Menu/5.wav" id="7_t8p2w"]
+[ext_resource type="AudioStream" uid="uid://phkejds6lhx1" path="res://Assets/Music/Main Menu/6.wav" id="8_krje8"]
+[ext_resource type="AudioStream" uid="uid://cpcg8icr0btiy" path="res://Assets/Music/Main Menu/7.wav" id="9_dd46u"]
+[ext_resource type="AudioStream" uid="uid://cppmhafnp3dmc" path="res://Assets/Music/Main Menu/8.wav" id="11_dm44m"]
+[ext_resource type="AudioStream" uid="uid://4i4cdfdvupuo" path="res://Assets/Music/Main Menu/9.wav" id="12_du1yi"]
+[ext_resource type="AudioStream" uid="uid://dx51wgow672ww" path="res://Assets/Music/Main Menu/10.wav" id="13_c0stj"]
+[ext_resource type="AudioStream" uid="uid://cmj1tg7a084jn" path="res://Assets/Music/Main Menu/11.wav" id="14_3feh0"]
 
 [node name="Menu" type="Control" unique_id=1098213457]
 layout_mode = 3
@@ -152,9 +163,12 @@ JoyTree Studios:  For The Grenade Texture
 musdasch: For The Bullet Decal Texture
 plaggy: For The Knife Model And The Arrow Model
 LiamOsler: For The Bow Model
-Dragon Studio: Slamming SFX
-rubberduck: Changing Gun SFX
-kyles: Shooting SFX
+Dragon Studio: For The Slamming SFX
+rubberduck: For The Changing Gun SFX
+kyles: For The Shooting SFX
+thatguynm: For Most Of The Music
+qubodup: Explosion SFX
+SeKa: Dying Music
 And You! For Playing <3"
 
 [node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
@@ -732,3 +746,38 @@ offset_right = 176.0
 offset_bottom = 644.0
 tooltip_text = "Quit The Bindings Menu"
 text = "Quit"
+
+[node name="Music" type="Node" parent="." unique_id=829994336]
+
+[node name="1" type="AudioStreamPlayer" parent="Music" unique_id=808837451]
+stream = ExtResource("3_syfuq")
+
+[node name="2" type="AudioStreamPlayer" parent="Music" unique_id=1913179766]
+stream = ExtResource("4_byewe")
+
+[node name="3" type="AudioStreamPlayer" parent="Music" unique_id=263681987]
+stream = ExtResource("5_a8aa6")
+
+[node name="4" type="AudioStreamPlayer" parent="Music" unique_id=644516167]
+stream = ExtResource("6_x0ao6")
+
+[node name="5" type="AudioStreamPlayer" parent="Music" unique_id=1780430408]
+stream = ExtResource("7_t8p2w")
+
+[node name="6" type="AudioStreamPlayer" parent="Music" unique_id=1994563422]
+stream = ExtResource("8_krje8")
+
+[node name="7" type="AudioStreamPlayer" parent="Music" unique_id=2064273139]
+stream = ExtResource("9_dd46u")
+
+[node name="8" type="AudioStreamPlayer" parent="Music" unique_id=1322123564]
+stream = ExtResource("11_dm44m")
+
+[node name="9" type="AudioStreamPlayer" parent="Music" unique_id=375802278]
+stream = ExtResource("12_du1yi")
+
+[node name="10" type="AudioStreamPlayer" parent="Music" unique_id=326428106]
+stream = ExtResource("13_c0stj")
+
+[node name="11" type="AudioStreamPlayer" parent="Music" unique_id=1375561777]
+stream = ExtResource("14_3feh0")

@@ -12,6 +12,8 @@ extends Node3D
 @onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
 @onready var Shoot_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Shoot"
 @onready var Change_Gun_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change Gun"
+var Shoot_Playback: AudioStreamPlaybackPolyphonic
+@export var Shoot_Sound: AudioStream = preload("res://Assets/SFX/Shoot.wav")
 var Guns: Array = []
 @export var Lerp_Speed: int = 10
 var Previous_Mouse_Sensitivity: int
@@ -52,6 +54,8 @@ var Continuous_Fire_Time: float = 0.0
 
 func _ready() -> void:
 	Guns = [Percision, Glock, Minigun, Blaster, Knife]
+	Shoot_SFX.play()
+	Shoot_Playback = Shoot_SFX.get_stream_playback()
 
 func _process(delta: float) -> void:
 	if !Input.is_action_pressed("Shoot"):
@@ -65,7 +69,7 @@ func _input(event: InputEvent) -> void:
 				Gun.visible = false
 			Guns[Current_Gun].visible = true
 			Continuous_Fire_Time = 0.0
-			Change_Gun_SFX.pitch_scale = randf_range(0.9,1.1)
+			Change_Gun_SFX.pitch_scale = randf_range(0.9, 1.1)
 			Change_Gun_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
 			Change_Gun_SFX.play()
 
@@ -79,7 +83,6 @@ func _physics_process(delta: float) -> void:
 			if Current_Time - Last_Shot_Time >= Shoot_Cooldown:
 				Last_Shot_Time = Current_Time
 				Continuous_Fire_Time += Shoot_Cooldown
-				# TODO:Add Explosion VFX In Blaster Gun + Send Every Player Against The Explosion Here
 				if Current_Gun_Name != "Knife":
 					var Bullet_Instance: Node3D = Bullet.instantiate()
 					var Active_Gun: Node3D = Guns[Current_Gun]
@@ -87,9 +90,9 @@ func _physics_process(delta: float) -> void:
 					Bullet_Instance.global_transform = Active_Gun.global_transform
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
-					Shoot_SFX.pitch_scale = randf_range(0.9,1.1)
 					Shoot_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-					Shoot_SFX.play()
+					if Shoot_Playback:
+						Shoot_Playback.play_stream(Shoot_Sound, 0.0, 0.0, randf_range(0.9, 1.1))
 					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
 					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)

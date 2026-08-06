@@ -1,5 +1,4 @@
 extends Node3D
-
 @export var Speed: float = 30.0
 @export var Damage: int = 15
 @export var Lifetime: float = 5.0

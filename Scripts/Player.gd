@@ -28,6 +28,8 @@ extends CharacterBody3D
 @onready var Walking_SFX_3: AudioStreamPlayer3D = $"SFX/Walking/3"
 @onready var Walking_SFX_4: AudioStreamPlayer3D = $"SFX/Walking/4"
 @onready var Slam_SFX: AudioStreamPlayer3D = $SFX/Slam
+@onready var Shoot_SFX: AudioStreamPlayer3D = $SFX/Shoot
+@onready var Change_Gun_SFX: AudioStreamPlayer3D = $"SFX/Change Gun"
 
 # States
 var Walking: bool = false
@@ -132,10 +134,9 @@ var Last_Grenade_Throw_Time: float
 	Walking_SFX_1,
 	Walking_SFX_2,
 	Walking_SFX_3,
-	Walking_SFX_4,
+	Walking_SFX_4
 ]
 var Was_Foot_Down: bool = false
-
 
 func _ready() -> void:
 	if name.is_valid_int():
@@ -143,7 +144,6 @@ func _ready() -> void:
 		set_multiplayer_authority(Peer_ID)
 		if has_node("Multiplayer Synchronizer"):
 			$"Multiplayer Synchronizer".set_multiplayer_authority(Peer_ID)
-
 	if Grapple_Rope:
 		var Rope_Mesh = ImmediateMesh.new()
 		Grapple_Rope.mesh = Rope_Mesh
@@ -153,7 +153,6 @@ func _ready() -> void:
 		Rope_Material.uv2_triplanar = true
 		Rope_Material.cull_mode = BaseMaterial3D.CULL_DISABLED
 		Grapple_Rope.material_override = Rope_Material
-
 	if !is_multiplayer_authority():
 		set_process_input(false)
 		set_process_unhandled_input(false)
@@ -170,7 +169,6 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if !is_multiplayer_authority():
 		return
-
 	# Mouse Look Logic
 	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var Yaw_Delta: float = deg_to_rad(-event.relative.x * GameManager.Mouse_Sensitivity)
@@ -276,9 +274,9 @@ func _physics_process(delta: float) -> void:
 			Dash_Vector = Input_Direction
 		else:
 			Dash_Vector = Vector2(0, -1.0)
-		var Dash_Dir: Vector3 = (transform.basis * Vector3(Dash_Vector.x, 0, Dash_Vector.y)).normalized()
-		velocity.x = Dash_Dir.x * Dash_Speed
-		velocity.z = Dash_Dir.z * Dash_Speed
+		var Dash_Direction: Vector3 = (transform.basis * Vector3(Dash_Vector.x, 0, Dash_Vector.y)).normalized()
+		velocity.x = Dash_Direction.x * Dash_Speed
+		velocity.z = Dash_Direction.z * Dash_Speed
 	# Throwing Grenades
 	if Input.is_action_just_pressed("Throw Grenade") && Grenade:
 		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
@@ -546,7 +544,7 @@ func _physics_process(delta: float) -> void:
 				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier
 				Health = max(0, Health - int(Calculated_Damage))
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if !is_multiplayer_authority():
 		return
 	if Grenades_Left:

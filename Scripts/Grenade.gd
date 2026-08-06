@@ -5,9 +5,10 @@ extends RigidBody3D
 @export var Blast_Force: float = 20.0
 @export var Max_Damage: float = 100.0
 @export var Weight: float = 1.4
-
 @onready var Blast_Area: Area3D = $"Blast Area"
+
 @onready var Blast_Area_Collision_Shape: CollisionShape3D = $"Blast Area/Collision Shape"
+@onready var Explosion: AudioStreamPlayer3D = $Explosion
 
 func _ready() -> void:
 	gravity_scale = Weight
@@ -33,5 +34,15 @@ func Explode() -> void:
 		if Body.has_method("Take_Damage"):
 			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
 			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
-	# TODO: Add explosion VFX & SFX here
+	if Explosion and Explosion.stream:
+		Explosion.volume_db = linear_to_db(GameManager.Volume / 100.0)
+		Explosion.play()
+	visible = false
+	freeze = true
+	if has_node("CollisionShape3D"):
+		$CollisionShape3D.set_deferred("disabled", true)
+	Blast_Area_Collision_Shape.set_deferred("disabled", true)
+	# TODO: Add explosion VFX here
+	if Explosion and Explosion.playing:
+		await Explosion.finished
 	queue_free()

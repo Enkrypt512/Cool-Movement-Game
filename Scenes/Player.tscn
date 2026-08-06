@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://b6pjw3dsprrvi" path="res://Assets/Textures/Grenade.png" id="11_miouo"]
 [ext_resource type="AudioStream" uid="uid://cmr2k1alyuubc" path="res://Assets/SFX/Walking/1.ogg" id="16_5v66d"]
 [ext_resource type="AudioStream" uid="uid://si4tks2ty57a" path="res://Assets/SFX/Walking/2.ogg" id="17_x63xi"]
-[ext_resource type="AudioStream" uid="uid://6upn2b048vqa" path="res://Assets/SFX/Shoot.wav" id="18_1iu4k"]
 [ext_resource type="AudioStream" uid="uid://n3k7maxjgc7m" path="res://Assets/SFX/Walking/3.ogg" id="18_i2e8t"]
 [ext_resource type="AudioStream" uid="uid://hki8bckxdfvi" path="res://Assets/SFX/Change Gun.ogg" id="19_m0x7a"]
 [ext_resource type="AudioStream" uid="uid://orqphcoiwlu2" path="res://Assets/SFX/Walking/4.ogg" id="19_qidb7"]
@@ -408,6 +407,8 @@ properties/31/replication_mode = 1
 
 [sub_resource type="ImmediateMesh" id="ImmediateMesh_miouo"]
 
+[sub_resource type="AudioStreamPolyphonic" id="AudioStreamPolyphonic_m0x7a"]
+
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
 
@@ -553,7 +554,7 @@ stream = ExtResource("18_i2e8t")
 stream = ExtResource("19_qidb7")
 
 [node name="Shoot" type="AudioStreamPlayer3D" parent="SFX" unique_id=1775119201]
-stream = ExtResource("18_1iu4k")
+stream = SubResource("AudioStreamPolyphonic_m0x7a")
 
 [node name="Change Gun" type="AudioStreamPlayer3D" parent="SFX" unique_id=1753457675]
 stream = ExtResource("19_m0x7a")

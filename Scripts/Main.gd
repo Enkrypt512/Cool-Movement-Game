@@ -1,5 +1,6 @@
 extends Node3D
 
+# Nodes
 @onready var FPS_Counter: Label = $"HUD/FPS Counter"
 @onready var InGame_Menu: Control = $"InGame Menu"
 @onready var Floor: CSGBox3D = $"Navigation Region/Floor"
@@ -23,16 +24,45 @@ extends Node3D
 @onready var Combo: Label = $HUD/Combo
 @onready var Best_Run_Combo: Label = $"HUD/Best Run Combo"
 @onready var Best_Lifetime_Combo: Label = $"HUD/Best Lifetime Combo"
+@onready var Music_1: AudioStreamPlayer = $"Music/1"
+@onready var Music_2: AudioStreamPlayer = $"Music/2"
+@onready var Music_3: AudioStreamPlayer = $"Music/3"
+@onready var Music_4: AudioStreamPlayer = $"Music/4"
+@onready var Music_5: AudioStreamPlayer = $"Music/5"
+@onready var Music_6: AudioStreamPlayer = $"Music/6"
+@onready var Music_7: AudioStreamPlayer = $"Music/7"
+@onready var Music_8: AudioStreamPlayer = $"Music/8"
+@onready var Music_9: AudioStreamPlayer = $"Music/9"
+@onready var Music_10: AudioStreamPlayer = $"Music/10"
+@onready var Music_11: AudioStreamPlayer = $"Music/11"
+@onready var Music: Array = [
+	Music_1,
+	Music_2,
+	Music_3,
+	Music_4,
+	Music_5,
+	Music_6,
+	Music_7,
+	Music_8,
+	Music_9,
+	Music_10,
+	Music_11,
+]
+@onready var Died: Control = $Died
+@onready var Died_Music: AudioStreamPlayer = $Music/Died
 
+# Scenes
 var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
 var Ram_Enemy: PackedScene = preload("res://Scenes/Ram Enemy.tscn")
 var Bow_Enemy: PackedScene = preload("res://Scenes/Bow Enemy.tscn")
 
+# Misc Varibles
 var Last_Spawn_Time: float = 0.0
 var Last_Enemy_Spawn_Time: float = 0.0
 var Local_Player: CharacterBody3D = null
 var Elapsed_Time: float = 0.0
+var Current_Song: AudioStreamPlayer = null
 
 func _ready() -> void:
 	GameManager.Enemies_Killed = 0
@@ -42,6 +72,16 @@ func _ready() -> void:
 	Resume.pressed.connect(Resume_Game)
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(Despawn_Player)
+	var Random_Song: AudioStreamPlayer = Music.pick_random()
+	Play_Song_With_Fade(Random_Song, 2.0)
+	for Song in Music:
+		Song.finished.connect(func():
+			var Next_Song: AudioStreamPlayer = Music.pick_random()
+			while Next_Song == Current_Song and Music.size() > 1:
+				Next_Song = Music.pick_random()
+			Play_Song_With_Fade(Next_Song, 2.0)
+		)
+	Died.visibility_changed.connect(On_Died)
 
 func Spawn_All_Players() -> void:
 	if !multiplayer.is_server():
@@ -117,6 +157,8 @@ func _process(delta: float) -> void:
 	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 	var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
 	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes, Best_Seconds, Best_Ms]
+	for Song in Music:
+		Song.volume_db = linear_to_db(GameManager.Volume / 100.0)
 
 func Spawn_Health_Box() -> void:
 	var Health_Box_Instance: Node3D = Health_Box.instantiate()
@@ -202,3 +244,21 @@ func Resume_Game() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Set_HUD_Visibility(true)
 	get_tree().paused = false
+
+# Play Menu Music
+func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
+	var Target_Decibels: float = linear_to_db(GameManager.Volume / 100.0)
+	if Current_Song and Current_Song != Next_Song and Current_Song.playing:
+		var Fade_Out_Tween: Tween = create_tween()
+		Fade_Out_Tween.tween_property(Current_Song, "volume_db", -80.0, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		Fade_Out_Tween.tween_callback(Current_Song.stop)
+	Current_Song = Next_Song
+	Current_Song.volume_db = -80.0
+	Current_Song.play()
+	var Fade_In_Tween: Tween = create_tween()
+	Fade_In_Tween.tween_property(Current_Song, "volume_db", Target_Decibels, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func On_Died():
+	for Song in Music:
+		Song.stop()
+	Play_Song_With_Fade(Died_Music)

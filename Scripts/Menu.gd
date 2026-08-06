@@ -1,8 +1,11 @@
 extends Control
 
+# Misc Variables
 var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
+var Current_Song: AudioStreamPlayer = null
 
+# Nodes
 @onready var Forward: Button = $Settings/Binds/Forward
 @onready var Backward: Button = $Settings/Binds/Backward
 @onready var Left: Button = $Settings/Binds/Left
@@ -56,6 +59,30 @@ var Current_Button : Button
 @onready var Keys_Quit: Button = $Keys/Quit
 @onready var Version: Label = $Main/Version
 @onready var Anti_Aliasing_Drop_Down: OptionButton = $"Settings/Main/Anti-Aliasing Drop Down"
+@onready var Music_1: AudioStreamPlayer = $"Music/1"
+@onready var Music_2: AudioStreamPlayer = $"Music/2"
+@onready var Music_3: AudioStreamPlayer = $"Music/3"
+@onready var Music_4: AudioStreamPlayer = $"Music/4"
+@onready var Music_5: AudioStreamPlayer = $"Music/5"
+@onready var Music_6: AudioStreamPlayer = $"Music/6"
+@onready var Music_7: AudioStreamPlayer = $"Music/7"
+@onready var Music_8: AudioStreamPlayer = $"Music/8"
+@onready var Music_9: AudioStreamPlayer = $"Music/9"
+@onready var Music_10: AudioStreamPlayer = $"Music/10"
+@onready var Music_11: AudioStreamPlayer = $"Music/11"
+@onready var Music: Array = [
+	Music_1,
+	Music_2,
+	Music_3,
+	Music_4,
+	Music_5,
+	Music_6,
+	Music_7,
+	Music_8,
+	Music_9,
+	Music_10,
+	Music_11,
+]
 
 func _ready() -> void:
 	Load_Game_Settings()
@@ -89,6 +116,15 @@ func _ready() -> void:
 	Version.text = "Version:" + str(ProjectSettings.get_setting("application/config/version"))
 	Update_Labels()
 	Info_Panel.hide()
+	var Random_Song: AudioStreamPlayer = Music.pick_random()
+	Play_Song_With_Fade(Random_Song, 2.0)
+	for Song in Music:
+		Song.finished.connect(func():
+			var Next_Song: AudioStreamPlayer = Music.pick_random()
+			while Next_Song == Current_Song and Music.size() > 1:
+				Next_Song = Music.pick_random()
+			Play_Song_With_Fade(Next_Song, 2.0)
+		)
 
 func On_Button_Pressed(button: Button) -> void:
 	Current_Button = button
@@ -177,10 +213,12 @@ func Set_Label_Text(label: Label, Action_Name: String) -> void:
 	else:
 		label.text = "None"
 
+# Reset Bindings
 func Reset_Bindings_To_Default() -> void:
 	InputMap.load_from_project_settings()
 	Update_Labels()
 
+# Reset Settings
 func Reset_Settings_To_Default() -> void:
 	GameManager.Volume = 100.0
 	GameManager.Fullscreen = false
@@ -199,17 +237,20 @@ func Clear_Action_Inputs(Action_Name: String) -> void:
 	InputMap.action_erase_events(Action_Name)
 	Update_Labels()
 
+# Quit From Settings Menu
 func Quit_From_Settings():
 	Settings.visible = false
 	GameManager.Max_FPS = int(FPS_Lock_Number.value)
 	Engine.max_fps = GameManager.Max_FPS
 	Save_Game_Settings()
 
+# Change To Bindings Menu
 func Change_To_Bindings():
 	Main.visible = false
 	Settings_Quit.visible = false
 	Binds.visible = true
 
+# Quit From Bindings Menu
 func Quit_From_Bindings():
 	Save_Game_Settings()
 	Settings.visible = true
@@ -217,6 +258,7 @@ func Quit_From_Bindings():
 	Settings_Quit.visible = true
 	Binds.visible = false
 
+# Toggle Fullscreen
 func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	GameManager.Fullscreen = Is_Checked
 	if Is_Checked:
@@ -226,6 +268,7 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	if Settings.visible:
 		Save_Game_Settings()
 
+# Toggle VSync
 func On_VSync_Toggled(Is_Checked: bool) -> void:
 	GameManager.VSync = Is_Checked
 	if Is_Checked:
@@ -235,6 +278,7 @@ func On_VSync_Toggled(Is_Checked: bool) -> void:
 	if Settings.visible:
 		Save_Game_Settings()
 
+# Save Settings
 func Save_Game_Settings() -> void:
 	var Config: ConfigFile = ConfigFile.new()
 	Config.set_value("Settings", "Volume", GameManager.Volume)
@@ -259,6 +303,7 @@ func Save_Game_Settings() -> void:
 	if error != OK:
 		print("Failed to save settings. Error code: ", error)
 
+# Load Settings
 func Load_Game_Settings() -> void:
 	var Config: ConfigFile = ConfigFile.new()
 	var error: Error = Config.load(Save_Path)
@@ -344,10 +389,12 @@ func Apply_Loaded_Settings() -> void:
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
 
+# Change Max FPS
 func On_Max_FPS_Changed(Value: float) -> void:
 	GameManager.Max_FPS = int(Value)
 	Engine.max_fps = int(Value)
 
+# Change Anti-Aliasing Mode
 func Change_Anti_Aliasing_Mode(Selected: int):
 	if Selected == 0:
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
@@ -365,3 +412,16 @@ func Change_Anti_Aliasing_Mode(Selected: int):
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
 		GameManager.Anti_Aliasing_Mode = 3
+
+# Play Menu Music
+func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
+	var Target_Decibels: float = linear_to_db(GameManager.Volume / 100.0)
+	if Current_Song and Current_Song != Next_Song and Current_Song.playing:
+		var Fade_Out_Tween: Tween = create_tween()
+		Fade_Out_Tween.tween_property(Current_Song, "volume_db", -80.0, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		Fade_Out_Tween.tween_callback(Current_Song.stop)
+	Current_Song = Next_Song
+	Current_Song.volume_db = -80.0
+	Current_Song.play()
+	var Fade_In_Tween: Tween = create_tween()
+	Fade_In_Tween.tween_property(Current_Song, "volume_db", Target_Decibels, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
