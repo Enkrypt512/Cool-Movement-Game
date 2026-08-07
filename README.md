@@ -87,6 +87,10 @@ And More Coming Soon! Like:
 
 - F11:Toggle Fullscreen
 
+- B: Throw Smoke Grenade
+
+- C: Throw Flashbang
+
 # Credits:
 
 rem: For Playtesting
@@ -120,3 +124,5 @@ rem: For Playtesting
 [qubodup](https://freesound.org/people/qubodup/): For The [Explosion SFX](https://freesound.org/people/qubodup/sounds/741173/)
 
 [SeKa](https://opengameart.org/users/seka): For The [Dying Music](https://opengameart.org/content/sad-scene-music-what-is-left)
+
+[teeeece](https://opengameart.org/users/teeeece): For The [Flashbang SFX](https://opengameart.org/content/flash-bang-sound)
