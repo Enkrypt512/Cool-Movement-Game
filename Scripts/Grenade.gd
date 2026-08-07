@@ -34,7 +34,7 @@ func Explode() -> void:
 		if Body.has_method("Take_Damage"):
 			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
 			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
-	if Explosion and Explosion.stream:
+	if Explosion && Explosion.stream:
 		Explosion.volume_db = linear_to_db(GameManager.Volume / 100.0)
 		Explosion.play()
 	visible = false
@@ -43,6 +43,6 @@ func Explode() -> void:
 		$CollisionShape3D.set_deferred("disabled", true)
 	Blast_Area_Collision_Shape.set_deferred("disabled", true)
 	# TODO: Add explosion VFX here
-	if Explosion and Explosion.playing:
+	if Explosion && Explosion.playing:
 		await Explosion.finished
 	queue_free()

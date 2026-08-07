@@ -83,6 +83,7 @@ var Current_Song: AudioStreamPlayer = null
 	Music_10,
 	Music_11,
 ]
+@onready var Renderer_Drop_Down: OptionButton = $"Settings/Main/Renderer Drop Down"
 
 func _ready() -> void:
 	Load_Game_Settings()
@@ -114,6 +115,7 @@ func _ready() -> void:
 	Keys_Quit.pressed.connect(func(): Keys.visible = false)
 	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Version.text = "Version:" + str(ProjectSettings.get_setting("application/config/version"))
+	Renderer_Drop_Down.item_selected.connect(Change_Renderer_Mode)
 	Update_Labels()
 	Info_Panel.hide()
 	var Random_Song: AudioStreamPlayer = Music.pick_random()
@@ -121,7 +123,7 @@ func _ready() -> void:
 	for Song in Music:
 		Song.finished.connect(func():
 			var Next_Song: AudioStreamPlayer = Music.pick_random()
-			while Next_Song == Current_Song and Music.size() > 1:
+			while Next_Song == Current_Song && Music.size() > 1:
 				Next_Song = Music.pick_random()
 			Play_Song_With_Fade(Next_Song, 2.0)
 		)
@@ -150,6 +152,9 @@ func _process(delta: float) -> void:
 	GameManager.No_Shake = No_Shake_Check.button_pressed
 	GameManager.Speedometer = Speedometer_Check.button_pressed
 	GameManager.Anti_Aliasing_Mode = Anti_Aliasing_Drop_Down.selected
+	GameManager.Renderer = Renderer_Drop_Down.selected
+	for Song in Music:
+		Song.volume_db = linear_to_db(GameManager.Volume / 100.0)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
@@ -231,6 +236,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.No_Shake = false
 	GameManager.Speedometer = false
 	GameManager.Anti_Aliasing_Mode = 0
+	GameManager.Renderer = 0
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -292,6 +298,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
 	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
+	Config.set_value("Settings","Renderer",GameManager.Renderer)
 	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
@@ -320,6 +327,7 @@ func Load_Game_Settings() -> void:
 		GameManager.No_Shake = false
 		GameManager.Speedometer = false
 		GameManager.Anti_Aliasing_Mode = 0
+		GameManager.Renderer = 0
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -331,6 +339,7 @@ func Load_Game_Settings() -> void:
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
 		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
 		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
+		GameManager.Renderer = Config.get_value("Settings","Renderer",0)
 		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -364,6 +373,7 @@ func Apply_Loaded_Settings() -> void:
 	No_Shake_Check.button_pressed = GameManager.No_Shake
 	Speedometer_Check.button_pressed = GameManager.Speedometer
 	Anti_Aliasing_Drop_Down.selected = GameManager.Anti_Aliasing_Mode
+	Renderer_Drop_Down.selected = GameManager.Renderer
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -416,7 +426,7 @@ func Change_Anti_Aliasing_Mode(Selected: int):
 # Play Menu Music
 func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
 	var Target_Decibels: float = linear_to_db(GameManager.Volume / 100.0)
-	if Current_Song and Current_Song != Next_Song and Current_Song.playing:
+	if Current_Song && Current_Song != Next_Song && Current_Song.playing:
 		var Fade_Out_Tween: Tween = create_tween()
 		Fade_Out_Tween.tween_property(Current_Song, "volume_db", -80.0, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		Fade_Out_Tween.tween_callback(Current_Song.stop)
@@ -425,3 +435,22 @@ func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.
 	Current_Song.play()
 	var Fade_In_Tween: Tween = create_tween()
 	Fade_In_Tween.tween_property(Current_Song, "volume_db", Target_Decibels, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+
+func Change_Renderer_Mode(Index: int) -> void:
+	var Rendering_Method = "forward_plus"
+	if Index == 1:
+		Rendering_Method = "gl_compatibility"
+	ProjectSettings.set_setting("rendering/renderer/rendering_method", Rendering_Method)
+	ProjectSettings.set_setting("rendering/renderer/rendering_method.mobile", Rendering_Method)
+	Save_Game_Settings()
+	if OS.has_feature("editor"):
+		print("Renderer changes require an exported build to restart automatically.")
+		return
+	var Arguments = OS.get_cmdline_args()
+	for Argument in range(Arguments.size() - 1, -1, -1):
+		if Arguments[Argument].begins_with("--rendering-method"):
+			Arguments.remove_at(Argument)
+	Arguments.append("--rendering-method")
+	Arguments.append(Rendering_Method)
+	OS.set_restart_on_exit(true, Arguments)
+	get_tree().quit()

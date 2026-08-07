@@ -18,9 +18,9 @@ func _enter_tree() -> void:
 
 func _on_node_added(node: Node) -> void:
 	if node is Button:
-		if not node.mouse_entered.is_connected(Play_SFX):
+		if !node.mouse_entered.is_connected(Play_SFX):
 			node.mouse_entered.connect(Play_SFX)
-		if not node.pressed.is_connected(Play_SFX):
+		if !node.pressed.is_connected(Play_SFX):
 			node.pressed.connect(Play_SFX)
 
 func Play_SFX() -> void:

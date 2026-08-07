@@ -77,7 +77,7 @@ func _ready() -> void:
 	for Song in Music:
 		Song.finished.connect(func():
 			var Next_Song: AudioStreamPlayer = Music.pick_random()
-			while Next_Song == Current_Song and Music.size() > 1:
+			while Next_Song == Current_Song && Music.size() > 1:
 				Next_Song = Music.pick_random()
 			Play_Song_With_Fade(Next_Song, 2.0)
 		)
@@ -247,11 +247,13 @@ func Resume_Game() -> void:
 
 # Play Menu Music
 func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
+	if Died_Music && Died_Music.playing:
+		Died_Music.stop()
 	var Target_Decibels: float = linear_to_db(GameManager.Volume / 100.0)
-	if Current_Song and Current_Song != Next_Song and Current_Song.playing:
+	if Current_Song && Current_Song != Next_Song && Current_Song.playing:
 		var Fade_Out_Tween: Tween = create_tween()
 		Fade_Out_Tween.tween_property(Current_Song, "volume_db", -80.0, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-		Fade_Out_Tween.tween_callback(Current_Song.stop)
+		Fade_Out_Tween.twen_callback(Current_Song.stop)
 	Current_Song = Next_Song
 	Current_Song.volume_db = -80.0
 	Current_Song.play()
@@ -259,6 +261,7 @@ func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.
 	Fade_In_Tween.tween_property(Current_Song, "volume_db", Target_Decibels, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 func On_Died():
-	for Song in Music:
-		Song.stop()
-	Play_Song_With_Fade(Died_Music)
+	if Died.visible:
+		for Song in Music:
+			Song.stop()
+		Play_Song_With_Fade(Died_Music)

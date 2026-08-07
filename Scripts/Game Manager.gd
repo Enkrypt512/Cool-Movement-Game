@@ -24,6 +24,7 @@ var Current_Combo: int = 0
 var Max_Combo: int = 0
 var Highest_Lifetime_Combo: int = 0
 var Anti_Aliasing_Mode: int
+var Renderer: int
 signal Combo_Changed(New_Combo: int)
 
 func _ready() -> void:

@@ -28,7 +28,7 @@ var Local_Player: CharacterBody3D = null
 @onready var Shoot_Label: Label = $"Settings/Binds/Shoot Label"
 @onready var Exit_Label: Label = $"Settings/Binds/Exit Label"
 @onready var Settings_Button: Button = $'Main/Settings Button'
-@onready var Settings_Quit: Button = $Settings/Quit
+@onready var Settings_Quit: Button = $Settings/Main/Quit
 @onready var Info_Panel: PanelContainer = $Settings/Binds/PanelContainer
 @onready var Settings: Control = $Settings
 @onready var Main_Settings: Control = $Settings/Main
@@ -53,6 +53,7 @@ var Local_Player: CharacterBody3D = null
 @onready var Died: Control = $"../Died"
 @onready var Anti_Aliasing_Drop_Down: OptionButton = $"Settings/Main/Anti-Aliasing Drop Down"
 @onready var Main: Control = $Main
+@onready var Renderer_Drop_Down: OptionButton = $"Settings/Main/Renderer Drop Down"
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -84,6 +85,7 @@ func _ready() -> void:
 	)
 	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
 	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
+	Renderer_Drop_Down.item_selected.connect(Change_Renderer_Mode)
 	Update_Labels()
 	Info_Panel.hide()
 
@@ -145,6 +147,7 @@ func _process(_delta: float) -> void:
 	GameManager.No_Shake = No_Shake_Check.button_pressed
 	GameManager.Speedometer = Speedometer_Check.button_pressed
 	GameManager.Anti_Aliasing_Mode = Anti_Aliasing_Drop_Down.selected
+	GameManager.Renderer = Renderer_Drop_Down.selected
 
 func _input(Event: InputEvent) -> void:
 	if Current_Button == null:
@@ -214,6 +217,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.No_Shake = false
 	GameManager.Speedometer = false
 	GameManager.Anti_Aliasing_Mode = 0
+	GameManager.Renderer = 0
 	Apply_Loaded_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
@@ -266,6 +270,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
 	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
+	Config.set_value("Settings","Renderer",GameManager.Renderer)
 	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
@@ -293,6 +298,7 @@ func Load_Game_Settings() -> void:
 		GameManager.No_Shake = false
 		GameManager.Speedometer = false
 		GameManager.Anti_Aliasing_Mode = 0
+		GameManager.Renderer = 0
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -304,6 +310,7 @@ func Load_Game_Settings() -> void:
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
 		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
 		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
+		GameManager.Renderer = Config.get_value("Settings","Renderer",0)
 		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -337,6 +344,7 @@ func Apply_Loaded_Settings() -> void:
 	No_Shake_Check.button_pressed = GameManager.No_Shake
 	Speedometer_Check.button_pressed = GameManager.Speedometer
 	Anti_Aliasing_Drop_Down.selected = GameManager.Anti_Aliasing_Mode
+	Renderer_Drop_Down.selected = GameManager.Renderer
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -397,3 +405,22 @@ func Change_Anti_Aliasing_Mode(Selected: int):
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
 		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
 		GameManager.Anti_Aliasing_Mode = 3
+
+func Change_Renderer_Mode(Index: int) -> void:
+	var Rendering_Method = "forward_plus"
+	if Index == 1:
+		Rendering_Method = "gl_compatibility"
+	ProjectSettings.set_setting("rendering/renderer/rendering_method", Rendering_Method)
+	ProjectSettings.set_setting("rendering/renderer/rendering_method.mobile", Rendering_Method)
+	Save_Game_Settings()
+	if OS.has_feature("editor"):
+		print("Renderer changes require an exported build to restart automatically.")
+		return
+	var Arguments = OS.get_cmdline_args()
+	for Argument in range(Arguments.size() - 1, -1, -1):
+		if Arguments[Argument].begins_with("--rendering-method"):
+			Arguments.remove_at(Argument)
+	Arguments.append("--rendering-method")
+	Arguments.append(Rendering_Method)
+	OS.set_restart_on_exit(true, Arguments)
+	get_tree().quit()

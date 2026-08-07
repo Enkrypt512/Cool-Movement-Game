@@ -18,7 +18,9 @@
 [ext_resource type="AudioStream" uid="uid://n3k7maxjgc7m" path="res://Assets/SFX/Walking/3.ogg" id="18_i2e8t"]
 [ext_resource type="AudioStream" uid="uid://hki8bckxdfvi" path="res://Assets/SFX/Change Gun.ogg" id="19_m0x7a"]
 [ext_resource type="AudioStream" uid="uid://orqphcoiwlu2" path="res://Assets/SFX/Walking/4.ogg" id="19_qidb7"]
+[ext_resource type="AudioStream" uid="uid://b0e5u76uxujh4" path="res://Assets/SFX/Stab.wav" id="20_5v66d"]
 [ext_resource type="AudioStream" uid="uid://neruci025lgq" path="res://Assets/SFX/Slam.mp3" id="20_m0x7a"]
+[ext_resource type="AudioStream" uid="uid://lissptlvecdf" path="res://Assets/SFX/Change To Knife.ogg" id="21_x63xi"]
 
 [sub_resource type="Animation" id="Animation_ksbbd"]
 resource_name = "Blaster Recoil"
@@ -522,6 +524,16 @@ offset_right = 128.0
 offset_bottom = 649.0
 theme_override_font_sizes/font_size = 32
 
+[node name="Flash Overlay" type="CanvasLayer" parent="HUD" unique_id=125145005]
+
+[node name="Flashbang" type="ColorRect" parent="HUD/Flash Overlay" unique_id=263174559]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="Speed Lines" parent="." unique_id=711406124 instance=ExtResource("10_yoq75")]
 layer = -1
 visible = false
@@ -561,3 +573,13 @@ stream = ExtResource("19_m0x7a")
 
 [node name="Slam" type="AudioStreamPlayer3D" parent="SFX" unique_id=899007623]
 stream = ExtResource("20_m0x7a")
+
+[node name="Stab" type="AudioStreamPlayer3D" parent="SFX" unique_id=1685134318]
+stream = ExtResource("20_5v66d")
+
+[node name="Change To Knife" type="AudioStreamPlayer3D" parent="SFX" unique_id=315407188]
+stream = ExtResource("21_x63xi")
+
+[node name="Interaction Ray" type="RayCast3D" parent="." unique_id=1437697624]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70095086, -0.44518614)
+target_position = Vector3(0, 0, -3)

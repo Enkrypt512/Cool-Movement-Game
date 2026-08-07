@@ -167,8 +167,9 @@ Dragon Studio: For The Slamming SFX
 rubberduck: For The Changing Gun SFX
 kyles: For The Shooting SFX
 thatguynm: For Most Of The Music
-qubodup: Explosion SFX
-SeKa: Dying Music
+qubodup: For The Explosion SFX
+SeKa: For The Dying Music
+teeeece: For The Flashbang SFX
 And You! For Playing <3"
 
 [node name="Quit" type="Button" parent="Credits" unique_id=1239328411]
@@ -220,6 +221,8 @@ E:Change Gun
 X:Dash
 N:Grapple Hook
 G:Throw Grenade
+B:Throw Smoke Grenade
+C:Throw Flashbomb
 Escape:Bring Up The InGame Menu
 F11:Toggle Fullscreen"
 
@@ -258,9 +261,10 @@ offset_bottom = 40.0
 
 [node name="Bindings" type="Button" parent="Settings/Main" unique_id=11927939]
 layout_mode = 0
-offset_top = 539.0
-offset_right = 176.0
-offset_bottom = 587.0
+offset_left = 200.0
+offset_top = 598.0
+offset_right = 376.0
+offset_bottom = 646.0
 tooltip_text = "Rebind Keys"
 text = "Bind Keys"
 
@@ -394,7 +398,19 @@ offset_bottom = 526.0
 tooltip_text = "Use Anti-Aliasing For Better Looking Worlds
 "
 mouse_filter = 0
-text = "Anti-Aliasing"
+text = "Anti-Aliasing:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Renderer" type="Label" parent="Settings/Main" unique_id=1091358899]
+layout_mode = 0
+offset_top = 526.0
+offset_right = 200.0
+offset_bottom = 566.0
+tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)
+"
+mouse_filter = 0
+text = "Renderer:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -500,6 +516,20 @@ popup/item_2/text = "4x"
 popup/item_2/id = 2
 popup/item_3/text = "8x"
 popup/item_3/id = 3
+
+[node name="Renderer Drop Down" type="OptionButton" parent="Settings/Main" unique_id=1422301050]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 534.0
+offset_right = 280.0
+offset_bottom = 555.0
+tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)"
+selected = 0
+item_count = 2
+popup/item_0/text = "Vulkan"
+popup/item_0/id = 0
+popup/item_1/text = "OpenGL"
+popup/item_1/id = 1
 
 [node name="Reset" type="Button" parent="Settings/Main" unique_id=1400369090]
 layout_mode = 0

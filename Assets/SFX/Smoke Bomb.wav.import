@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://nsceg12j25xh"
+path="res://.godot/imported/Smoke Bomb.wav-7adb44f11bacc8341a694fdcac61b282.sample"
+
+[deps]
+
+source_file="res://Assets/SFX/Smoke Bomb.wav"
+dest_files=["res://.godot/imported/Smoke Bomb.wav-7adb44f11bacc8341a694fdcac61b282.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=2
+edit/loop_begin=7056
+edit/loop_end=20286
+compress/mode=2

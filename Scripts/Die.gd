@@ -169,6 +169,9 @@ func Update_Rank_UI(Rank_Data: Dictionary) -> void:
 			Rank_Label.add_theme_color_override("font_color", Color(0.85, 0.0, 0.0))
 
 func Retry_Game():
+	var Died_Music = Main.get_node_or_null("Died_Music")
+	if Died_Music && Died_Music is AudioStreamPlayer && Died_Music.playing:
+		Died_Music.stop()
 	if is_instance_valid(Player):
 		Player.queue_free()
 	Player = null
@@ -186,3 +189,4 @@ func Retry_Game():
 	GameManager.Times_Hit = 0
 	GameManager.Max_Combo = 0
 	Main.Elapsed_Time = 0
+	Main.Play_Song_With_Fade(Main.Music.pick_random())

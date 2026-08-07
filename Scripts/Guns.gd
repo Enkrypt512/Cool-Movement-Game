@@ -12,6 +12,9 @@ extends Node3D
 @onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
 @onready var Shoot_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Shoot"
 @onready var Change_Gun_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change Gun"
+@onready var Stab_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Stab"
+@onready var Change_To_Knife_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change To Knife"
+
 var Shoot_Playback: AudioStreamPlaybackPolyphonic
 @export var Shoot_Sound: AudioStream = preload("res://Assets/SFX/Shoot.wav")
 var Guns: Array = []
@@ -26,7 +29,7 @@ var Continuous_Fire_Time: float = 0.0
 	"Percision": 0.3,
 	"Glock": 0.25,
 	"Minigun": 0.05,
-	"Blaster": 0.6,
+	"Blaster": 3.0,
 	"Knife": 0.4
 }
 
@@ -69,9 +72,14 @@ func _input(event: InputEvent) -> void:
 				Gun.visible = false
 			Guns[Current_Gun].visible = true
 			Continuous_Fire_Time = 0.0
-			Change_Gun_SFX.pitch_scale = randf_range(0.9, 1.1)
-			Change_Gun_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-			Change_Gun_SFX.play()
+			if Guns[Current_Gun].name != "Knife":
+				Change_Gun_SFX.pitch_scale = randf_range(0.9, 1.1)
+				Change_Gun_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Change_Gun_SFX.play()
+			else:
+				Change_To_Knife_SFX.pitch_scale = randf_range(0.9, 1.1)
+				Change_To_Knife_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Change_To_Knife_SFX.play()
 
 func _physics_process(delta: float) -> void:
 	if Player.is_multiplayer_authority():
@@ -97,6 +105,10 @@ func _physics_process(delta: float) -> void:
 					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
 				Gun_Animations.play(str(Current_Gun_Name) + " Recoil")
+				if Current_Gun_Name == "Knife":
+					Stab_SFX.pitch_scale = randf_range(0.9, 1.1)
+					Stab_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+					Stab_SFX.play()
 		# Aim Down Sight (ADS)
 		if is_multiplayer_authority():
 			var Current_Gun_Name: String = Guns[Current_Gun].name

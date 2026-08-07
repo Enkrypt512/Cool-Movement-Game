@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://cheato8l8e5jf"]
+
+[ext_resource type="Script" uid="uid://judnt16n8n3w" path="res://Scripts/Smoke Grenade.gd" id="1_krvwp"]
+[ext_resource type="PackedScene" uid="uid://iut8eumy83ma" path="res://Assets/Models/Smoke Grenade.glb" id="1_qvqca"]
+[ext_resource type="AudioStream" uid="uid://nsceg12j25xh" path="res://Assets/SFX/Smoke Bomb.wav" id="3_krvwp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_75xfw"]
+size = Vector3(0.54766655, 1.5124359, 0.6632805)
+
+[node name="Smoke Grenade" type="RigidBody3D" unique_id=1611823888]
+script = ExtResource("1_krvwp")
+
+[node name="Model" parent="." unique_id=881248915 instance=ExtResource("1_qvqca")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=2138318967]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0032052994, 0.110939026, -0.07629204)
+shape = SubResource("BoxShape3D_75xfw")
+
+[node name="SFX" type="AudioStreamPlayer3D" parent="." unique_id=992682023]
+stream = ExtResource("3_krvwp")
+max_distance = 25.0

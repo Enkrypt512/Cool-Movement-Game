@@ -30,6 +30,8 @@ extends CharacterBody3D
 @onready var Slam_SFX: AudioStreamPlayer3D = $SFX/Slam
 @onready var Shoot_SFX: AudioStreamPlayer3D = $SFX/Shoot
 @onready var Change_Gun_SFX: AudioStreamPlayer3D = $"SFX/Change Gun"
+@onready var Flash_Overlay: ColorRect = $"HUD/Flash Overlay/Flashbang"
+@onready var Interaction_Ray: RayCast3D = $"Interaction Ray"
 
 # States
 var Walking: bool = false
@@ -42,6 +44,7 @@ var Grappling: bool = false
 var Wall_Gliding: bool = false
 var Slamming: bool = false
 var Just_Landed_From_Slam: bool = false
+var Driving: bool = false
 
 # Sliding Variables
 @export_group("Sliding Variables")
@@ -106,6 +109,8 @@ var Wall_Jump_Lock_Timer: float = 0.0
 # Grenade Variables
 @export_group("Grenade Variables")
 @export var Grenade: PackedScene = preload("res://Scenes/Grenade.tscn")
+@export var Smoke_Grenade: PackedScene = preload("res://Scenes/Smoke Grenade.tscn")
+@export var Flashbang: PackedScene = preload("res://Scenes/Flashbang.tscn")
 @export var Throw_Force: float = 40.0
 @export var Grenade_Cooldown: float = 10.0
 @export var Grenades: int = 15
@@ -137,6 +142,9 @@ var Last_Grenade_Throw_Time: float
 	Walking_SFX_4
 ]
 var Was_Foot_Down: bool = false
+var Flash_Tween: Tween
+var Current_Car: VehicleBody3D = null
+var Previous_Position: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	if name.is_valid_int():
@@ -182,6 +190,34 @@ func _input(event: InputEvent) -> void:
 		Head.rotation.x = clamp(Head.rotation.x, deg_to_rad(-89), deg_to_rad(89))
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("Interact"):
+		if Driving:
+			Driving = false
+			visible = true
+			if Current_Car:
+				global_position = Current_Car.global_position + Vector3(2.0, 1.0, 0.0)
+			Standing_Collision_Shape.disabled = false
+			Crouching_Collision_Shape.disabled = true
+			if Camera:
+				Camera.make_current()
+			Current_Car = null
+		else:
+			if Interaction_Ray.is_colliding():
+				var Hit_Object: Node3D = Interaction_Ray.get_collider()
+				if Hit_Object is VehicleBody3D:
+					Current_Car = Hit_Object
+					Driving = true
+					Standing_Collision_Shape.disabled = true
+					Crouching_Collision_Shape.disabled = true
+					visible = false
+	if Driving:
+		if Current_Car:
+			Previous_Position = global_position
+			global_position = Current_Car.global_position
+			global_position.y = Current_Car.global_position.y + 6
+			velocity = Vector3.ZERO
+		elif Input.is_action_just_pressed("Jump") || Input.is_action_just_pressed("Crouch"):
+			global_position.y = Previous_Position.y
 	Just_Landed_From_Slam = false
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if !is_multiplayer_authority():
@@ -290,6 +326,32 @@ func _physics_process(delta: float) -> void:
 				Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
 				var Throw_Right: Vector3 = Camera.global_transform.basis.x
 				Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
+				Grenades -= 1
+	elif Input.is_action_just_pressed("Throw Smoke Grenade") && Smoke_Grenade:
+		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
+			if Grenades > 0:
+				Last_Grenade_Throw_Time = Current_Time
+				var Smoke_Grenade_Instance: RigidBody3D = Smoke_Grenade.instantiate()
+				get_tree().current_scene.add_child(Smoke_Grenade_Instance)
+				Smoke_Grenade_Instance.add_collision_exception_with(self)
+				var Forward_Vector: Vector3 = -Camera.global_transform.basis.z
+				Smoke_Grenade_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
+				Smoke_Grenade_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
+				var Throw_Right: Vector3 = Camera.global_transform.basis.x
+				Smoke_Grenade_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
+				Grenades -= 1
+	elif Input.is_action_just_pressed("Throw Flashbang") && Flashbang:
+		if Current_Time - Last_Grenade_Throw_Time >= Grenade_Cooldown:
+			if Grenades > 0:
+				Last_Grenade_Throw_Time = Current_Time
+				var Flashbang_Instance: RigidBody3D = Flashbang.instantiate()
+				get_tree().current_scene.add_child(Flashbang_Instance)
+				Flashbang_Instance.add_collision_exception_with(self)
+				var Forward_Vector: Vector3 = -Camera.global_transform.basis.z
+				Flashbang_Instance.global_position = Camera.global_position + (Forward_Vector * 1.2)
+				Flashbang_Instance.linear_velocity = (velocity * 0.25) + (Forward_Vector * Throw_Force)
+				var Throw_Right: Vector3 = Camera.global_transform.basis.x
+				Flashbang_Instance.angular_velocity = (Throw_Right * 15.0) + Vector3(randf_range(-2, 2), randf_range(-2, 2), randf_range(-2, 2))
 				Grenades -= 1
 	# Speed Lines
 	if Speed_Lines:
@@ -556,3 +618,20 @@ func Take_Damage(Amount: int, Knockback: Vector3) -> void:
 	Health -= Amount
 	if Knockback != Vector3.ZERO:
 		velocity += Knockback
+
+func Apply_Flash(Intensity: float) -> void:
+	if Intensity <= 0.0:
+		return
+	if Flash_Overlay == null:
+		return
+	Flash_Overlay.visible = true
+	Flash_Overlay.color = Color(1, 1, 1, 1)
+	if Flash_Tween && Flash_Tween.is_running():
+		Flash_Tween.kill()
+	var Max_Blind_Duration: float = 3.0 * Intensity
+	var Fade_Out_Duration: float = 2.5 * Intensity
+	Flash_Overlay.modulate.a = clamp(Intensity, 0.2, 1.0)
+	Flash_Tween = create_tween()
+	Flash_Tween.tween_interval(Max_Blind_Duration)
+	Flash_Tween.tween_property(Flash_Overlay, "modulate:a", 0.0, Fade_Out_Duration)
+	Flash_Tween.tween_callback(func(): Flash_Overlay.visible = false)

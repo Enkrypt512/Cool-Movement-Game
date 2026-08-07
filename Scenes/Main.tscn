@@ -29,6 +29,9 @@ sky_material = SubResource("PanoramaSkyMaterial_pn0ev")
 background_mode = 2
 sky = SubResource("Sky_rgh2o")
 glow_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_length = 1024.0
 
 [sub_resource type="NavigationMesh" id="NavigationMesh_lmyy4"]
 vertices = PackedVector3Array(-458.56836, 273.19653, 499.87494, -458.56836, 273.19653, 520.37494, -458.06836, 273.19653, 499.62494, 495.43164, 273.19653, 499.62494, 495.68164, 273.19653, 520.37494, 495.93164, 273.19653, 499.87494, 495.93164, 273.19653, -491.62506, 495.93164, 273.19653, -496.37506, 495.43164, 273.19653, -491.37506, -458.06836, 273.19653, -491.37506, -458.56836, 273.19653, -517.12506, -458.56836, 273.19653, -491.62506, -458.56836, 273.19653, 499.12494, -461.31836, 273.19653, 499.37494, 495.93164, 273.19653, 499.12494, 495.68164, 273.19653, 499.12494, 500.43164, 273.19653, 499.62494, 495.68164, 273.19653, -490.87506, 495.93164, 273.19653, -490.87506, 498.43164, 273.19653, -491.37506, -458.31836, 273.19653, 499.12494, -458.31836, 273.19653, -490.87506, -458.56836, 273.19653, -490.87506, -461.31836, 273.19653, -491.37506, -464.06836, 0.9465332, -491.37506, -462.31836, 0.9465332, -491.37506, -462.06836, 0.9465332, -492.37506, -464.06836, 0.9465332, -499.62506, -459.56836, 0.9465332, -492.37506, -459.56836, 0.9465332, -499.62506, 494.68164, 0.9465332, -497.12506, 495.68164, 0.9465332, -497.37506, 495.68164, 0.9465332, -499.62506, -457.31836, 0.9465332, -499.62506, -457.31836, 0.9465332, -492.37506, 494.68164, 0.9465332, -492.37506, 496.93164, 0.9465332, -497.12506, 503.43164, 0.9465332, -499.62506, 499.18164, 0.9465332, -492.37506, 499.43164, 0.9465332, -491.37506, 503.43164, 0.9465332, -491.37506, 496.93164, 0.9465332, -492.37506, -464.06836, 0.9465332, 499.62494, -462.31836, 0.9465332, 499.62494, -462.06836, 0.9465332, 498.37494, -462.06836, 0.9465332, -490.12506, -459.56836, 0.9465332, 498.37494, -459.56836, 0.9465332, -490.12506, 501.18164, 0.9465332, 498.37494, 501.43164, 0.9465332, 499.62494, 503.43164, 0.9465332, 499.62494, 499.18164, 0.9465332, -490.12506, 496.93164, 0.9465332, -490.12506, 496.93164, 0.9465332, 498.37494, -457.31836, 0.9465332, -490.12506, -457.31836, 0.9465332, 498.37494, 494.68164, 0.9465332, 498.37494, 494.68164, 0.9465332, -490.12506)
@@ -71,7 +74,7 @@ script = ExtResource("1_rgh2o")
 
 [node name="Enviroment" type="Node3D" parent="." unique_id=2096580127]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Enviroment" unique_id=833949613]
+[node name="Enviroment" type="WorldEnvironment" parent="Enviroment" unique_id=833949613]
 environment = SubResource("Environment_pbw6q")
 
 [node name="Sun" type="DirectionalLight3D" parent="Enviroment" unique_id=1608038465]
@@ -429,14 +432,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Quit" type="Button" parent="InGame Menu/Settings" unique_id=1726420477]
-layout_mode = 0
-offset_top = 592.0
-offset_right = 176.0
-offset_bottom = 640.0
-tooltip_text = "Quit The Settings Menu"
-text = "Quit"
-
 [node name="Binds" type="Control" parent="InGame Menu/Settings" unique_id=1344302065]
 visible = false
 anchors_preset = 0
@@ -679,9 +674,10 @@ offset_bottom = 40.0
 
 [node name="Bindings" type="Button" parent="InGame Menu/Settings/Main" unique_id=747028282]
 layout_mode = 0
-offset_top = 526.0
-offset_right = 176.0
-offset_bottom = 574.0
+offset_left = 176.0
+offset_top = 598.0
+offset_right = 352.0
+offset_bottom = 646.0
 tooltip_text = "Rebind Keys"
 text = "Bind Keys"
 
@@ -819,6 +815,18 @@ text = "Anti-Aliasing"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Renderer" type="Label" parent="InGame Menu/Settings/Main" unique_id=1731417596]
+layout_mode = 0
+offset_top = 526.0
+offset_right = 200.0
+offset_bottom = 566.0
+tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)
+"
+mouse_filter = 0
+text = "Renderer:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fullscreen Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=363133083]
 layout_mode = 0
 offset_left = 192.0
@@ -923,6 +931,20 @@ popup/item_2/id = 2
 popup/item_3/text = "8x"
 popup/item_3/id = 3
 
+[node name="Renderer Drop Down" type="OptionButton" parent="InGame Menu/Settings/Main" unique_id=1855234232]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 534.0
+offset_right = 280.0
+offset_bottom = 555.0
+tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)"
+selected = 0
+item_count = 2
+popup/item_0/text = "Vulkan"
+popup/item_0/id = 0
+popup/item_1/text = "OpenGL"
+popup/item_1/id = 1
+
 [node name="Reset" type="Button" parent="InGame Menu/Settings/Main" unique_id=1192571523]
 layout_mode = 0
 offset_left = 985.0
@@ -932,6 +954,14 @@ offset_bottom = 648.0
 tooltip_text = "Resets Your Settings"
 focus_mode = 0
 text = "Reset"
+
+[node name="Quit" type="Button" parent="InGame Menu/Settings/Main" unique_id=1726420477]
+layout_mode = 0
+offset_top = 592.0
+offset_right = 176.0
+offset_bottom = 640.0
+tooltip_text = "Quit The Settings Menu"
+text = "Quit"
 
 [node name="Main" type="Control" parent="InGame Menu" unique_id=574135055]
 anchors_preset = 0
