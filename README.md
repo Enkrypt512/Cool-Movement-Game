@@ -43,6 +43,12 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
 
 - Sound Effects
 
+- Music
+
+- Smoke Grenades
+
+- Flashbangs​
+
 And More Coming Soon! Like:
 
 - Peeking
@@ -54,8 +60,6 @@ And More Coming Soon! Like:
 - Stages
 
 - Ledge Grabbing
-
-- Smoke Grenades
 
 # Keys:
 
