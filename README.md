@@ -99,6 +99,8 @@ And More Coming Soon! Like:
 
 - C: Throw Flashbang
 
+- F: Enter The Car
+
 # Credits:
 
 rem: For Playtesting
