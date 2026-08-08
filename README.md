@@ -101,6 +101,8 @@ And More Coming Soon! Like:
 
 - F: Enter The Car
 
+- W: Brake
+
 # Credits:
 
 rem: For Playtesting
