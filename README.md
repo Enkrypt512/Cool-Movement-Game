@@ -49,6 +49,10 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
 
 - Flashbangs​
 
+- Car
+
+- Explosion VFX
+
 And More Coming Soon! Like:
 
 - Peeking
