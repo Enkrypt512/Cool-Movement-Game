@@ -3,6 +3,8 @@ extends Node3D
 @export var Speed: float = 80.0
 @export var Lifetime: float = 4.0
 @export var Decal_Scene: PackedScene = preload("res://Scenes/Bullet Decal.tscn")
+@export var Explosion_VFX: PackedScene = preload("res://Scenes/Explosion.tscn")
+
 @onready var Collision_Detection: Area3D = $"Collision Detection"
 
 var Damage: int = 10
@@ -20,7 +22,7 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func On_Bullet_Hit(Body: Node) -> void:
-	if Body.is_in_group("Player") || Body.name == "Player":
+	if Body.is_in_group("Player"):
 		if Body.is_multiplayer_authority():
 			return
 	if "Health" in Body:
@@ -28,7 +30,20 @@ func On_Bullet_Hit(Body: Node) -> void:
 		GameManager.Record_Shot()
 	else:
 		Spawn_Decal(Body)
+	if Gun_Type == "Blaster":
+		Spawn_Explosion()
 	queue_free()
+
+func Spawn_Explosion() -> void:
+	if !Explosion_VFX:
+		return
+	var Explosion_Instance: Node3D = Explosion_VFX.instantiate()
+	get_tree().current_scene.add_child(Explosion_Instance)
+	Explosion_Instance.global_position = global_position
+	if "Max_Radius" in Explosion_Instance:
+		Explosion_Instance.Max_Radius = 15.0
+	if "Expansion_Speed" in Explosion_Instance:
+		Explosion_Instance.Expansion_Speed = 75.0
 
 func Spawn_Decal(Target_Body: Node) -> void:
 	if !Decal_Scene || Target_Body.is_in_group("Enemy") || Target_Body.is_in_group("Player"):

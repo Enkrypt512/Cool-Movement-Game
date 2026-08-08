@@ -5,8 +5,14 @@
 [sub_resource type="FogMaterial" id="FogMaterial_qvqca"]
 emission = Color(1, 1, 1, 1)
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(25, 25, 25)
+
 [node name="Smoke" type="FogVolume" unique_id=477742755]
 size = Vector3(25, 25, 25)
 shape = 0
 material = SubResource("FogMaterial_qvqca")
 script = ExtResource("1_684ax")
+
+[node name="Occluder" type="OccluderInstance3D" parent="." unique_id=712927001]
+occluder = SubResource("BoxOccluder3D_bhim7")

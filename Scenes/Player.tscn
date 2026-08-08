@@ -306,6 +306,9 @@ height = 1.9082031
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_lmyy4"]
 height = 3.0
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(0.001, 1.6676998, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_i1i1d"]
 height = 1.7
 
@@ -471,10 +474,17 @@ target_position = Vector3(0, 3, 0)
 [node name="Standing Shape" type="MeshInstance3D" parent="." unique_id=230382903]
 mesh = SubResource("CapsuleMesh_lmyy4")
 
+[node name="Occluder" type="OccluderInstance3D" parent="Standing Shape" unique_id=103826400]
+occluder = SubResource("BoxOccluder3D_bhim7")
+
 [node name="Crouching Shape" type="MeshInstance3D" parent="." unique_id=1529444673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 visible = false
 mesh = SubResource("CapsuleMesh_i1i1d")
+
+[node name="Occluder" type="OccluderInstance3D" parent="Crouching Shape" unique_id=765028473]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.046257973, 0)
+occluder = SubResource("BoxOccluder3D_bhim7")
 
 [node name="HUD" type="Control" parent="." unique_id=769087656]
 layout_mode = 3

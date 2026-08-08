@@ -144,7 +144,6 @@ var Last_Grenade_Throw_Time: float
 var Was_Foot_Down: bool = false
 var Flash_Tween: Tween
 var Current_Car: VehicleBody3D = null
-var Previous_Position: Vector3 = Vector3.ZERO
 
 func _ready() -> void:
 	if name.is_valid_int():
@@ -212,12 +211,9 @@ func _physics_process(delta: float) -> void:
 					visible = false
 	if Driving:
 		if Current_Car:
-			Previous_Position = global_position
 			global_position = Current_Car.global_position
 			global_position.y = Current_Car.global_position.y + 6
 			velocity = Vector3.ZERO
-		elif Input.is_action_just_pressed("Jump") || Input.is_action_just_pressed("Crouch"):
-			global_position.y = Previous_Position.y
 	Just_Landed_From_Slam = false
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if !is_multiplayer_authority():
@@ -355,7 +351,7 @@ func _physics_process(delta: float) -> void:
 				Grenades -= 1
 	# Speed Lines
 	if Speed_Lines:
-		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0)
+		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0) || (Driving && Current_Car.linear_velocity != Vector3.ZERO) || velocity.y != 0
 	# Freelooking Camera Tilt
 	if Input.is_action_pressed("Freelook") || Sliding:
 		Freelooking = true

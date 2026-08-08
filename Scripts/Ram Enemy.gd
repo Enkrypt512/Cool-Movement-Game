@@ -42,7 +42,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 	if Can_Damage && Diving:
 		for Body in Collision_Detection.get_overlapping_bodies():
-			if Body.name == "Player":
+			if Body.is_in_group("Player"):
 				if Body.Sliding:
 					Body.Sliding = false
 			On_Body_Detected(Body)

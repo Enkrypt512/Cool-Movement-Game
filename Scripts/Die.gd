@@ -190,3 +190,8 @@ func Retry_Game():
 	GameManager.Max_Combo = 0
 	Main.Elapsed_Time = 0
 	Main.Play_Song_With_Fade(Main.Music.pick_random())
+	var Car_Instance: VehicleBody3D = Main.Car_Scene.instantiate()
+	Car_Instance.global_position = Vector3(-5.248,1.5,13.5)
+	Main.add_child(Car_Instance)
+	if is_instance_valid(Main.Car):
+		Main.Car.queue_free()

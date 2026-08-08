@@ -23,7 +23,7 @@ script = ExtResource("1_5qgc5")
 [node name="Shape" type="MeshInstance3D" parent="." unique_id=2035658390]
 mesh = SubResource("CapsuleMesh_ji48o")
 
-[node name="Occluding" type="OccluderInstance3D" parent="Shape" unique_id=216938034]
+[node name="Occluder" type="OccluderInstance3D" parent="Shape" unique_id=216938034]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05022192, 0)
 occluder = SubResource("BoxOccluder3D_q6h8p")
 

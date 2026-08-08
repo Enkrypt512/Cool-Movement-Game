@@ -3,6 +3,9 @@
 [ext_resource type="Script" uid="uid://bfwwdxfshr5th" path="res://Scripts/Health Box.gd" id="1_ymmso"]
 [ext_resource type="PackedScene" uid="uid://bloh03xjm6n35" path="res://Assets/Models/Health Box.glb" id="2_lpioi"]
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(0.53086853, 0.40019268, 1)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_ymmso"]
 size = Vector3(1, 0.7, 1.5)
 
@@ -11,6 +14,10 @@ script = ExtResource("1_ymmso")
 
 [node name="Model" parent="." unique_id=810333723 instance=ExtResource("2_lpioi")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="Occluder" type="OccluderInstance3D" parent="Model" unique_id=1784865112]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.14700973, 0)
+occluder = SubResource("BoxOccluder3D_bhim7")
 
 [node name="Collision Detection" type="Area3D" parent="." unique_id=2043163581]
 

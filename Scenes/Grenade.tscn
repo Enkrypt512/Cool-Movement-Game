@@ -8,6 +8,9 @@
 friction = 0.6
 bounce = 0.45
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(0.25512528, 0.22572508, 0.2035354)
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_t2ec2"]
 radius = 0.45
 
@@ -21,6 +24,10 @@ script = ExtResource("1_t2ec2")
 
 [node name="Model" parent="." unique_id=2114661516 instance=ExtResource("1_be0jk")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="Occluder" type="OccluderInstance3D" parent="Model" unique_id=371570493]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.107235864, 0)
+occluder = SubResource("BoxOccluder3D_bhim7")
 
 [node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1555526681]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.39542294, 0)

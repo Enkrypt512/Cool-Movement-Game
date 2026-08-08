@@ -5,8 +5,8 @@ extends RigidBody3D
 @export var Blast_Force: float = 20.0
 @export var Max_Damage: float = 100.0
 @export var Weight: float = 1.4
+@export var Explosion_VFX: PackedScene = preload("res://Scenes/Explosion.tscn")
 @onready var Blast_Area: Area3D = $"Blast Area"
-
 @onready var Blast_Area_Collision_Shape: CollisionShape3D = $"Blast Area/Collision Shape"
 @onready var Explosion: AudioStreamPlayer3D = $Explosion
 
@@ -17,7 +17,7 @@ func _ready() -> void:
 	get_tree().create_timer(Fuse_Time).timeout.connect(Explode)
 
 func Explode() -> void:
-	var Bodies:Array = Blast_Area.get_overlapping_bodies()
+	var Bodies: Array = Blast_Area.get_overlapping_bodies()
 	var Blast_Radius: float = 5.0
 	if Blast_Area_Collision_Shape && Blast_Area_Collision_Shape.shape is SphereShape3D:
 		Blast_Radius = Blast_Area_Collision_Shape.shape.radius
@@ -35,14 +35,21 @@ func Explode() -> void:
 			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
 			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
 	if Explosion && Explosion.stream:
+		Explosion.pitch_scale = randf_range(0.9,1.1)
 		Explosion.volume_db = linear_to_db(GameManager.Volume / 100.0)
 		Explosion.play()
 	visible = false
 	freeze = true
 	if has_node("CollisionShape3D"):
 		$CollisionShape3D.set_deferred("disabled", true)
-	Blast_Area_Collision_Shape.set_deferred("disabled", true)
-	# TODO: Add explosion VFX here
+	if is_instance_valid(Blast_Area_Collision_Shape):
+		Blast_Area_Collision_Shape.set_deferred("disabled", true)
+	if Explosion_VFX:
+		var Explosion_Instance = Explosion_VFX.instantiate()
+		get_tree().current_scene.add_child(Explosion_Instance)
+		Explosion_Instance.global_position = global_position
+		if "Max_Radius" in Explosion_Instance:
+			Explosion_Instance.Max_Radius = Blast_Radius
 	if Explosion && Explosion.playing:
 		await Explosion.finished
 	queue_free()

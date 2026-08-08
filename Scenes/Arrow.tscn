@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://b20ar8udjsmji" path="res://Assets/Models/Arrow.glb" id="1_5mg4u"]
 [ext_resource type="Script" uid="uid://4pc55oo2ktsf" path="res://Scripts/Arrow.gd" id="1_7v023"]
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(0.9155501, 0.047, 0.10517329)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_lmyy4"]
 size = Vector3(0.7545471, 0.047195435, 0.039691925)
 
@@ -11,7 +14,11 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 script = ExtResource("1_7v023")
 
 [node name="Model" parent="." unique_id=280316422 instance=ExtResource("1_5mg4u")]
-transform = Transform3D(-0.3535533, 0.3535533, 0.86602545, 0.7071068, 0.7071068, 0, -0.61237246, 0.61237246, -0.50000006, 0, 0, 0)
+transform = Transform3D(-0.3535533, 0.3535533, 0.86602545, 0.7071068, 0.7071068, 0, -0.61237246, 0.61237246, -0.50000006, 0, 0, 0.04)
+
+[node name="Occluder" type="OccluderInstance3D" parent="Model" unique_id=1315900205]
+transform = Transform3D(0.63387376, 0.70507336, -0.31792438, -0.6290059, 0.7091316, 0.31856543, 0.45006227, -0.001954111, 0.89299476, 0.0075319298, -0.0075319298, -0.018449383)
+occluder = SubResource("BoxOccluder3D_bhim7")
 
 [node name="Collision Detection" type="Area3D" parent="." unique_id=230119278]
 

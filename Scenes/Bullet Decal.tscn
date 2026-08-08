@@ -3,6 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://dovlkyoch4l42" path="res://Assets/Textures/Bullet Decal.png" id="1_fwejc"]
 [ext_resource type="Script" uid="uid://bomwn3inm38ny" path="res://Scripts/Bullet Decal.gd" id="2_u7ph7"]
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(4.203026, 3.9802375, 1)
+
 [node name="Bullet Decal" type="Sprite3D" unique_id=400268932]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 sorting_offset = 1.0
@@ -16,3 +19,6 @@ one_shot = true
 autostart = true
 
 [node name="Audio" type="AudioStreamPlayer3D" parent="." unique_id=2015232194]
+
+[node name="Occluder" type="OccluderInstance3D" parent="." unique_id=989634841]
+occluder = SubResource("BoxOccluder3D_bhim7")

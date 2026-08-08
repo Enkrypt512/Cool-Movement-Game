@@ -414,6 +414,18 @@ text = "Renderer:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Resolution" type="Label" parent="Settings/Main" unique_id=1924374390]
+layout_mode = 0
+offset_top = 558.0
+offset_right = 200.0
+offset_bottom = 598.0
+tooltip_text = "Resolution To Render At
+"
+mouse_filter = 0
+text = "Resolution:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fullscreen Check" type="CheckBox" parent="Settings/Main" unique_id=1497556539]
 layout_mode = 0
 offset_left = 192.0
@@ -530,6 +542,15 @@ popup/item_0/text = "Vulkan"
 popup/item_0/id = 0
 popup/item_1/text = "OpenGL"
 popup/item_1/id = 1
+
+[node name="Resolution Drop Down" type="OptionButton" parent="Settings/Main" unique_id=807676969]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 566.0
+offset_right = 280.0
+offset_bottom = 587.0
+tooltip_text = "Resolution To Render At
+"
 
 [node name="Reset" type="Button" parent="Settings/Main" unique_id=1400369090]
 layout_mode = 0

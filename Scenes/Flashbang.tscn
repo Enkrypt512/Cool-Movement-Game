@@ -4,6 +4,9 @@
 [ext_resource type="Script" uid="uid://cihm1w4mesjxy" path="res://Scripts/Flashbang.gd" id="1_xx3un"]
 [ext_resource type="AudioStream" uid="uid://6v7wqp6345lt" path="res://Assets/SFX/Flashbang.wav" id="3_wyvfg"]
 
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(0.107583135, 0.17029747, 0.09574172)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_bhim7"]
 size = Vector3(1, 1.3363037, 0.6963501)
 
@@ -15,6 +18,9 @@ script = ExtResource("1_xx3un")
 
 [node name="Model" parent="." unique_id=1669492936 instance=ExtResource("1_tikkw")]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="Occluder" type="OccluderInstance3D" parent="Model" unique_id=2147381256]
+occluder = SubResource("BoxOccluder3D_bhim7")
 
 [node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=28294528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19439697, -0.044036865)

@@ -14,7 +14,7 @@ func _ready() -> void:
 	Collision_Detection.body_entered.connect(Body_Entered)
 
 func Body_Entered(Body):
-	if Body.name == "Player":
+	if Body.is_in_group("Player"):
 		if Body.Health <= 99:
 			Body.Health += 30
 			GameManager.Health_Boxes_Used += 1

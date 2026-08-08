@@ -4,6 +4,20 @@ extends Control
 var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
 var Current_Song: AudioStreamPlayer = null
+var Resolutions: Dictionary = {
+	"7680x4320 (8K)": Vector2i(7680, 4320),
+	"3840x2160 (4K)": Vector2i(3840, 2160),
+	"2560x1440 (1440p)": Vector2i(2560, 1440),
+	"1920x1080 (1080p)": Vector2i(1920, 1080),
+	"1600x900 (900p)": Vector2i(1600, 900),
+	"1366x768 (768p)": Vector2i(1366, 768),
+	"1280x720 (720p)": Vector2i(1280, 720),
+	"960x540 (540p)": Vector2i(960, 540),
+	"854x480 (480p)": Vector2i(854, 480),
+	"640x360 (360p)": Vector2i(640, 360),
+	"426x240 (240p)": Vector2i(426, 240),
+	"284x160 (160p)": Vector2i(284, 160)
+}
 
 # Nodes
 @onready var Forward: Button = $Settings/Binds/Forward
@@ -84,8 +98,12 @@ var Current_Song: AudioStreamPlayer = null
 	Music_11,
 ]
 @onready var Renderer_Drop_Down: OptionButton = $"Settings/Main/Renderer Drop Down"
+@onready var Resolution_Drop_Down: OptionButton = $"Settings/Main/Resolution Drop Down"
 
 func _ready() -> void:
+	Resolution_Drop_Down.clear()
+	for Resulotion_Name in Resolutions.keys():
+		Resolution_Drop_Down.add_item(Resulotion_Name)
 	Load_Game_Settings()
 	Forward.pressed.connect(On_Button_Pressed.bind(Forward))
 	Backward.pressed.connect(On_Button_Pressed.bind(Backward))
@@ -116,6 +134,7 @@ func _ready() -> void:
 	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Version.text = "Version:" + str(ProjectSettings.get_setting("application/config/version"))
 	Renderer_Drop_Down.item_selected.connect(Change_Renderer_Mode)
+	Resolution_Drop_Down.item_selected.connect(On_Resolution_Selected)
 	Update_Labels()
 	Info_Panel.hide()
 	var Random_Song: AudioStreamPlayer = Music.pick_random()
@@ -237,7 +256,9 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Speedometer = false
 	GameManager.Anti_Aliasing_Mode = 0
 	GameManager.Renderer = 0
+	GameManager.Resolution = 3
 	Apply_Loaded_Settings()
+	Save_Game_Settings()
 
 func Clear_Action_Inputs(Action_Name: String) -> void:
 	InputMap.action_erase_events(Action_Name)
@@ -271,6 +292,7 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		Change_Resolution(GameManager.Resolution)
 	if Settings.visible:
 		Save_Game_Settings()
 
@@ -299,6 +321,7 @@ func Save_Game_Settings() -> void:
 	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
 	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
 	Config.set_value("Settings","Renderer",GameManager.Renderer)
+	Config.set_value("Settings", "Resolution", GameManager.Resolution)
 	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
@@ -328,6 +351,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Speedometer = false
 		GameManager.Anti_Aliasing_Mode = 0
 		GameManager.Renderer = 0
+		GameManager.Resolution = 3
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
@@ -340,6 +364,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
 		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
 		GameManager.Renderer = Config.get_value("Settings","Renderer",0)
+		GameManager.Resolution = Config.get_value("Settings", "Resolution", 3)
 		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
@@ -374,6 +399,9 @@ func Apply_Loaded_Settings() -> void:
 	Speedometer_Check.button_pressed = GameManager.Speedometer
 	Anti_Aliasing_Drop_Down.selected = GameManager.Anti_Aliasing_Mode
 	Renderer_Drop_Down.selected = GameManager.Renderer
+	Resolution_Drop_Down.selected = GameManager.Resolution
+	if GameManager.Resolution >= 0 && GameManager.Resolution < Resolution_Drop_Down.item_count:
+		Resolution_Drop_Down.selected = GameManager.Resolution
 	if GameManager.Fullscreen:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	else:
@@ -386,42 +414,31 @@ func Apply_Loaded_Settings() -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	VSync_Check.button_pressed = GameManager.VSync
 	Engine.max_fps = GameManager.Max_FPS
-	if Anti_Aliasing_Drop_Down.selected == 0:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
-	elif Anti_Aliasing_Drop_Down.selected == 1:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
-	elif Anti_Aliasing_Drop_Down.selected == 2:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
-	elif Anti_Aliasing_Drop_Down.selected == 3:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
+	Change_Anti_Aliasing_Mode(GameManager.Anti_Aliasing_Mode)
+	Change_Resolution(GameManager.Resolution)
 
 # Change Max FPS
 func On_Max_FPS_Changed(Value: float) -> void:
 	GameManager.Max_FPS = int(Value)
 	Engine.max_fps = int(Value)
+	Save_Game_Settings()
 
 # Change Anti-Aliasing Mode
 func Change_Anti_Aliasing_Mode(Selected: int):
+	GameManager.Anti_Aliasing_Mode = Selected
+	var Viewport_Node = get_viewport()
 	if Selected == 0:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",0)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",0)
-		GameManager.Anti_Aliasing_Mode = 0
-	elif Selected == 1:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",1)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",1)
-		GameManager.Anti_Aliasing_Mode = 1
-	elif Selected == 2:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",2)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",2)
-		GameManager.Anti_Aliasing_Mode = 2
-	elif Selected == 3:
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_2d",3)
-		ProjectSettings.set_setting("rendering/anti_aliasing/quality/msaa_3d",3)
-		GameManager.Anti_Aliasing_Mode = 3
+		Viewport_Node.msaa_3d = Viewport.MSAA_DISABLED
+		Viewport_Node.msaa_2d = Viewport.MSAA_DISABLED
+	if Selected == 1:
+		Viewport_Node.msaa_3d = Viewport.MSAA_2X
+		Viewport_Node.msaa_2d = Viewport.MSAA_2X
+	if Selected == 2:
+		Viewport_Node.msaa_3d = Viewport.MSAA_4X
+		Viewport_Node.msaa_2d = Viewport.MSAA_4X
+	if Selected == 3:
+		Viewport_Node.msaa_3d = Viewport.MSAA_8X
+		Viewport_Node.msaa_2d = Viewport.MSAA_8X
 
 # Play Menu Music
 func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
@@ -454,3 +471,20 @@ func Change_Renderer_Mode(Index: int) -> void:
 	Arguments.append(Rendering_Method)
 	OS.set_restart_on_exit(true, Arguments)
 	get_tree().quit()
+
+func On_Resolution_Selected(Index: int) -> void:
+	GameManager.Resolution = Index
+	Change_Resolution(Index)
+	Save_Game_Settings()
+
+func Change_Resolution(Index: int) -> void:
+	var Resolution_Name = Resolution_Drop_Down.get_item_text(Index)
+	if Resolutions.has(Resolution_Name):
+		var Target_Size: Vector2i = Resolutions[Resolution_Name]
+		GameManager.Resolution = Index
+		if DisplayServer.window_get_mode() != DisplayServer.WINDOW_MODE_FULLSCREEN:
+			DisplayServer.window_set_size(Target_Size)
+		var Base_Width: float = 1920.0
+		var Scale_Factor: float = float(Target_Size.x) / Base_Width
+		get_viewport().scaling_3d_scale = Scale_Factor
+		Save_Game_Settings()

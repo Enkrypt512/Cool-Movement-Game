@@ -18,6 +18,7 @@
 [ext_resource type="AudioStream" uid="uid://dx51wgow672ww" path="res://Assets/Music/Main Menu/10.wav" id="16_aht7i"]
 [ext_resource type="AudioStream" uid="uid://cmj1tg7a084jn" path="res://Assets/Music/Main Menu/11.wav" id="17_5jffn"]
 [ext_resource type="AudioStream" uid="uid://cgcdxucqpf76e" path="res://Assets/Music/Died.mp3" id="18_346fj"]
+[ext_resource type="PackedScene" uid="uid://dh6xbpj7kf837" path="res://Scenes/Car.tscn" id="19_0sclb"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_pn0ev"]
 panorama = ExtResource("2_kln2b")
@@ -515,7 +516,7 @@ offset_top = 447.0
 offset_right = 144.0
 offset_bottom = 478.0
 tooltip_text = "Key To Change The Gun"
-text = "Change Weapon
+text = "Change Gun
 "
 
 [node name="Shoot" type="Button" parent="InGame Menu/Settings/Binds" unique_id=28736187]
@@ -827,6 +828,18 @@ text = "Renderer:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Resolution" type="Label" parent="InGame Menu/Settings/Main" unique_id=1674665234]
+layout_mode = 0
+offset_top = 558.0
+offset_right = 200.0
+offset_bottom = 598.0
+tooltip_text = "Resolution To Render At
+"
+mouse_filter = 0
+text = "Resolution:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Fullscreen Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=363133083]
 layout_mode = 0
 offset_left = 192.0
@@ -945,6 +958,15 @@ popup/item_0/id = 0
 popup/item_1/text = "OpenGL"
 popup/item_1/id = 1
 
+[node name="Resolution Drop Down" type="OptionButton" parent="InGame Menu/Settings/Main" unique_id=1702283965]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 566.0
+offset_right = 280.0
+offset_bottom = 587.0
+tooltip_text = "Resolution To Render At
+"
+
 [node name="Reset" type="Button" parent="InGame Menu/Settings/Main" unique_id=1192571523]
 layout_mode = 0
 offset_left = 985.0
@@ -1037,3 +1059,6 @@ stream = ExtResource("17_5jffn")
 
 [node name="Died" type="AudioStreamPlayer" parent="Music" unique_id=1104968831]
 stream = ExtResource("18_346fj")
+
+[node name="Car" parent="." unique_id=1339976966 instance=ExtResource("19_0sclb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.2482405, 1.4999998, 13.537479)

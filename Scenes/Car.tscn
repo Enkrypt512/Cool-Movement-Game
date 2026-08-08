@@ -4,57 +4,72 @@
 [ext_resource type="Script" uid="uid://b6csg1bgxvoyu" path="res://Scripts/Car.gd" id="1_8tfcp"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_bhim7"]
-size = Vector3(0.7910309, 0.4243276, 1.4108753)
+size = Vector3(0.7910309, 0.4281034, 1.4108753)
+
+[sub_resource type="BoxOccluder3D" id="BoxOccluder3D_bhim7"]
+size = Vector3(1.5243589, 1.577749, 2.6461594)
 
 [node name="Car" type="VehicleBody3D" unique_id=1339976966]
 mass = 2000.0
 center_of_mass_mode = 1
+continuous_cd = true
 script = ExtResource("1_8tfcp")
-Engine_Power = 5000.0
+Max_Steering = 0.25
+Steering_Speed = 0.25
 
 [node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1462795738]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.048789978, 2.8794503, -0.0660944)
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.048789978, 2.8700109, -0.0660944)
 shape = SubResource("BoxShape3D_bhim7")
 
 [node name="Model" parent="." unique_id=1020843684 instance=ExtResource("1_5orbf")]
 transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
 
-[node name="VehicleWheel3D" type="VehicleWheel3D" parent="." unique_id=751154031]
+[node name="Occluder" type="OccluderInstance3D" parent="Model" unique_id=1818986941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6666667, 0)
+occluder = SubResource("BoxOccluder3D_bhim7")
+
+[node name="Rear Left Wheel" type="VehicleWheel3D" parent="." unique_id=751154031]
 transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, -1.8216285, 0.951776, 2.0457752)
 use_as_traction = true
+wheel_rest_length = 0.3
 wheel_friction_slip = 3.0
-suspension_travel = 0.3
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 suspension_max_force = 15000.0
-damping_compression = 2.5
-damping_relaxation = 4.0
+damping_compression = 5.0
+damping_relaxation = 5.0
 
-[node name="VehicleWheel3D3" type="VehicleWheel3D" parent="." unique_id=59640120]
+[node name="Front Left Wheel" type="VehicleWheel3D" parent="." unique_id=59640120]
 transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, -1.8216285, 0.951776, -1.9542248)
-use_as_traction = true
+use_as_steering = true
+wheel_rest_length = 0.3
 wheel_friction_slip = 3.0
-suspension_travel = 0.3
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 suspension_max_force = 15000.0
-damping_compression = 2.5
-damping_relaxation = 4.0
+damping_compression = 5.0
+damping_relaxation = 5.0
 
-[node name="VehicleWheel3D2" type="VehicleWheel3D" parent="." unique_id=2098499394]
+[node name="Rear Right Wheel" type="VehicleWheel3D" parent="." unique_id=2098499394]
 transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, 1.8248631, 0.951776, 2.0457752)
 use_as_traction = true
+wheel_rest_length = 0.3
 wheel_friction_slip = 3.0
-suspension_travel = 0.3
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 suspension_max_force = 15000.0
-damping_compression = 2.5
-damping_relaxation = 4.0
+damping_compression = 5.0
+damping_relaxation = 5.0
 
-[node name="VehicleWheel3D4" type="VehicleWheel3D" parent="." unique_id=669555828]
+[node name="Front Right Wheel" type="VehicleWheel3D" parent="." unique_id=669555828]
 transform = Transform3D(1.55, 0, 0, 0, 1.55, 0, 0, 0, 1.55, 1.8248631, 0.951776, -1.9542248)
 use_as_steering = true
+wheel_rest_length = 0.3
 wheel_friction_slip = 3.0
-suspension_travel = 0.3
-suspension_stiffness = 50.0
+suspension_stiffness = 30.0
 suspension_max_force = 15000.0
-damping_compression = 2.5
-damping_relaxation = 4.0
+damping_compression = 5.0
+damping_relaxation = 5.0
+
+[node name="Body Detection" type="Area3D" parent="." unique_id=1584452925]
+
+[node name="Collision Shape" type="CollisionShape3D" parent="Body Detection" unique_id=1813198659]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, -0.048789978, 2.8700109, -0.0660944)
+shape = SubResource("BoxShape3D_bhim7")

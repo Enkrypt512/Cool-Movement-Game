@@ -25,8 +25,7 @@ ButtonClick="*uid://clnuj08yrwek0"
 
 window/hdr/request_hdr_output=true
 window/subwindows/embed_subwindows=false
-window/stretch/mode="canvas_items"
-window/stretch/aspect="ignore"
+window/stretch/mode="viewport"
 window/per_pixel_transparency/allowed=true
 mouse_cursor/custom_image="uid://dqvkgx7pnx4sb"
 
@@ -519,6 +518,12 @@ Interact={
 "script": null
 )]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Normal"
+3d_physics/layer_2="Vehicle Chassis"
+3d_physics/layer_3="Wheels"
 
 [physics]
 

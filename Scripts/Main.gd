@@ -7,7 +7,7 @@ extends Node3D
 @onready var Spawn_Locations: Node3D = $"Spawn Locations"
 @onready var Binds: Control = $"InGame Menu/Settings/Binds"
 @onready var Main_Settings: Control = $"InGame Menu/Settings/Main"
-@onready var Quit_Settings: Button = $"InGame Menu/Settings/Quit"
+@onready var Quit_Settings: Button = $"InGame Menu/Settings/Main/Quit"
 @onready var Resume: Button = $"InGame Menu/Main/Resume"
 @onready var Settings_Button: Button = $"InGame Menu/Main/Settings Button"
 @onready var Quit_Menu: Button = $"InGame Menu/Main/Quit"
@@ -50,12 +50,14 @@ extends Node3D
 ]
 @onready var Died: Control = $Died
 @onready var Died_Music: AudioStreamPlayer = $Music/Died
+@onready var Car: VehicleBody3D = $Car
 
 # Scenes
 var Health_Box: PackedScene = preload("res://Scenes/Health Box.tscn")
 var Enemey: PackedScene = preload("res://Scenes/Enemy.tscn")
 var Ram_Enemy: PackedScene = preload("res://Scenes/Ram Enemy.tscn")
 var Bow_Enemy: PackedScene = preload("res://Scenes/Bow Enemy.tscn")
+var Car_Scene: PackedScene = preload("res://Scenes/Car.tscn")
 
 # Misc Varibles
 var Last_Spawn_Time: float = 0.0
@@ -216,6 +218,8 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	InGame_Menu.Save_Game_Settings()
 	InGame_Menu.Apply_Loaded_Settings()
+	InGame_Menu.Change_Resolution(GameManager.Resolution)
+
 
 func Pause_Game() -> void:
 	InGame_Menu.visible = true
