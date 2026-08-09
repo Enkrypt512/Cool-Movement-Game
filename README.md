@@ -53,6 +53,10 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
 
 - Explosion VFX
 
+- Ledge Grabbing
+
+​- Peeking​
+
 And More Coming Soon! Like:
 
 - Peeking
@@ -102,6 +106,8 @@ And More Coming Soon! Like:
 - F: Enter The Car
 
 - W: Brake
+
+- A/R: Peek Left/Right
 
 # Credits:
 
