@@ -416,6 +416,8 @@ properties/31/replication_mode = 1
 
 [node name="Player" type="CharacterBody3D" unique_id=1454171372 groups=["Player"]]
 script = ExtResource("1_rpqav")
+Ledge_Climb_Up_Force = 7.0
+Ledge_Climb_Forward_Force = 0.0
 
 [node name="Neck" type="Node3D" parent="." unique_id=698647956]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -593,3 +595,11 @@ stream = ExtResource("21_x63xi")
 [node name="Interaction Ray" type="RayCast3D" parent="." unique_id=1437697624]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.70095086, -0.44518614)
 target_position = Vector3(0, 0, -3)
+
+[node name="Body Ray" type="RayCast3D" parent="." unique_id=1685838945]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.89237094, 0)
+target_position = Vector3(0, 0, -1.2)
+
+[node name="Head Ray" type="RayCast3D" parent="." unique_id=2126298838]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+target_position = Vector3(0, 0, -1.2)

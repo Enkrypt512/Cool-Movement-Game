@@ -7,21 +7,25 @@ extends VehicleBody3D
 
 @onready var Body_Detection: Area3D = $"Body Detection"
 
+var Player: CharacterBody3D = null
+
 func _ready() -> void:
 	Body_Detection.body_entered.connect(On_Body_Detected)
 
 func _physics_process(delta: float) -> void:
 	var Steer_Input: float = Input.get_axis("Left", "Right")
 	var Target_Steering: float = Steer_Input * Max_Steering
-	steering = move_toward(steering, Target_Steering, Steering_Speed * delta)
+	if Player:
+		steering = move_toward(steering, Target_Steering, Steering_Speed * delta)
 	var Acceleration_Input: float = Input.get_axis("Backward", "Forward")
 	var Braking: bool = Input.is_action_pressed("Brake") || Input.is_action_pressed("Crouch")
-	if Braking:
-		brake = Braking_Power
-		engine_force = 0.0
-	else:
-		brake = 0.0
-		engine_force = Acceleration_Input * Engine_Power
+	if Player:
+		if Braking:
+			brake = Braking_Power
+			engine_force = 0.0
+		else:
+			brake = 0.0
+			engine_force = Acceleration_Input * Engine_Power
 
 func On_Body_Detected(Body):
 	if Body.is_multiplayer_authority:

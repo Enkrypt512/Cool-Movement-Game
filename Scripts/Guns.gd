@@ -95,7 +95,8 @@ func _physics_process(delta: float) -> void:
 					var Bullet_Instance: Node3D = Bullet.instantiate()
 					var Active_Gun: Node3D = Guns[Current_Gun]
 					get_tree().current_scene.add_child(Bullet_Instance)
-					Bullet_Instance.global_transform = Active_Gun.global_transform
+					Bullet_Instance.global_position = Active_Gun.global_position
+					Bullet_Instance.global_transform.basis = Camera.global_transform.basis
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
 					Shoot_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)

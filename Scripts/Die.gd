@@ -40,7 +40,10 @@ enum Ranks {
 @export var Minimum_Time_For_Top_Ranks: float = 300.0
 
 func _ready() -> void:
-	Retry.pressed.connect(Retry_Game)
+	Retry.pressed.connect(func(): 
+		get_tree().reload_current_scene()
+		GameManager.Times_Hit = 0
+	)
 	Return_To_Menu.pressed.connect(func(): get_tree().change_scene_to_file("res://Scenes/Menu.tscn"))
 	Quit.pressed.connect(func(): get_tree().quit())
 	get_tree().node_added.connect(On_Node_Added)
@@ -167,31 +170,3 @@ func Update_Rank_UI(Rank_Data: Dictionary) -> void:
 			Rank_Label.add_theme_color_override("font_color", Color(1.0, 0.5, 0.0))
 		Ranks.S:
 			Rank_Label.add_theme_color_override("font_color", Color(0.85, 0.0, 0.0))
-
-func Retry_Game():
-	var Died_Music = Main.get_node_or_null("Died_Music")
-	if Died_Music && Died_Music is AudioStreamPlayer && Died_Music.playing:
-		Died_Music.stop()
-	if is_instance_valid(Player):
-		Player.queue_free()
-	Player = null
-	HUD = null
-	Crosshair = null
-	for Enemy in Enemies.get_children():
-		Enemy.queue_free()
-	for Health_Box in Health_Boxes.get_children():
-		Health_Box.queue_free()
-	var Player_Instance = Player_Scene.instantiate()
-	Player_Instance.global_position.y += 2
-	Main.add_child(Player_Instance)
-	GameManager.time = 0
-	GameManager.Enemies_Killed = 0
-	GameManager.Times_Hit = 0
-	GameManager.Max_Combo = 0
-	Main.Elapsed_Time = 0
-	Main.Play_Song_With_Fade(Main.Music.pick_random())
-	var Car_Instance: VehicleBody3D = Main.Car_Scene.instantiate()
-	Car_Instance.global_position = Vector3(-5.248,1.5,13.5)
-	Main.add_child(Car_Instance)
-	if is_instance_valid(Main.Car):
-		Main.Car.queue_free()

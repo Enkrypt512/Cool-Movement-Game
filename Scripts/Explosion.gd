@@ -14,7 +14,7 @@ var Shockwave_Material: StandardMaterial3D
 func _ready() -> void:
 	if is_instance_valid(Sparks):
 		Sparks.restart()
-	if is_instance_valid(Shockwave) and Shockwave.get_active_material(0):
+	if is_instance_valid(Shockwave) && Shockwave.get_active_material(0):
 		Shockwave_Material = Shockwave.get_active_material(0).duplicate() as StandardMaterial3D
 		Shockwave.set_surface_override_material(0, Shockwave_Material)
 
@@ -44,6 +44,6 @@ func Cleanup_Explosion() -> void:
 	set_physics_process(false)
 	if is_instance_valid(Push_Area):
 		Push_Area.queue_free()
-	if is_instance_valid(Sparks) and Sparks.emitting:
+	if is_instance_valid(Sparks) && Sparks.emitting:
 		await get_tree().create_timer(Sparks.lifetime).timeout
 	queue_free()

@@ -32,6 +32,8 @@ extends CharacterBody3D
 @onready var Change_Gun_SFX: AudioStreamPlayer3D = $"SFX/Change Gun"
 @onready var Flash_Overlay: ColorRect = $"HUD/Flash Overlay/Flashbang"
 @onready var Interaction_Ray: RayCast3D = $"Interaction Ray"
+@onready var Head_Ray: RayCast3D = $"Head Ray"
+@onready var Body_Ray: RayCast3D = $"Body Ray"
 
 # States
 var Walking: bool = false
@@ -45,6 +47,7 @@ var Wall_Gliding: bool = false
 var Slamming: bool = false
 var Just_Landed_From_Slam: bool = false
 var Driving: bool = false
+var Ledge_Grabbing: bool = false
 
 # Sliding Variables
 @export_group("Sliding Variables")
@@ -114,6 +117,17 @@ var Wall_Jump_Lock_Timer: float = 0.0
 @export var Throw_Force: float = 40.0
 @export var Grenade_Cooldown: float = 10.0
 @export var Grenades: int = 15
+
+# Peeking Variables
+@export_group("Peeking Variables")
+@export var Lean_Offset: float = 0.6
+@export var Lean_Angle: float = 12.0
+var Current_Lean: float = 0.0
+
+# Ledge Grab Variables
+@export_group("Ledge Grab Variables")
+@export var Ledge_Climb_Up_Force: float = 12.0
+@export var Ledge_Climb_Forward_Force: float = 9.0
 
 # Misc Variables
 @export_group("Misc Variables")
@@ -193,6 +207,7 @@ func _physics_process(delta: float) -> void:
 		if Driving:
 			Driving = false
 			visible = true
+			Current_Car.Player = null
 			if Current_Car:
 				global_position = Current_Car.global_position + Vector3(2.0, 1.0, 0.0)
 			Standing_Collision_Shape.disabled = false
@@ -214,6 +229,7 @@ func _physics_process(delta: float) -> void:
 			global_position = Current_Car.global_position
 			global_position.y = Current_Car.global_position.y + 6
 			velocity = Vector3.ZERO
+			Current_Car.Player = self
 	Just_Landed_From_Slam = false
 	var Current_Time: float = Time.get_ticks_msec() / 1000.0
 	if !is_multiplayer_authority():
@@ -257,6 +273,7 @@ func _physics_process(delta: float) -> void:
 	# State Flags
 	var Should_Crouch: bool = Is_Crouching_Toggled || Sliding
 	var Should_Sprint: bool = Is_Sprinting_Toggled && !Should_Crouch
+	var Peeking: bool = abs(Current_Lean) > 0.01
 	# Changes The State On What You're Holding/Toggling
 	if Should_Crouch:
 		Head.position.y = lerp(Head.position.y, Crouching_Depth, delta * Lerp_Speed)
@@ -264,7 +281,7 @@ func _physics_process(delta: float) -> void:
 		Standing_Collision_Shape.disabled = true
 		Crouching_Collision_Shape.disabled = false
 		Standing_Shape.visible = false
-		Crouching_Shape.visible = true
+		Crouching_Shape.visible = !Peeking
 		# Sliding
 		if is_on_floor() && !Sliding && (Crouch_Just_Pressed || Input.is_action_just_pressed("Sprint")):
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
@@ -286,7 +303,7 @@ func _physics_process(delta: float) -> void:
 		Head.position.y = lerp(Head.position.y, 0.0, delta * Lerp_Speed)
 		Standing_Collision_Shape.disabled = false
 		Crouching_Collision_Shape.disabled = true
-		Standing_Shape.visible = true
+		Standing_Shape.visible = !Peeking
 		Crouching_Shape.visible = false
 		if Should_Sprint:
 			Current_Speed = lerp(Current_Speed, Sprinting_Speed, delta * Lerp_Speed)
@@ -351,7 +368,7 @@ func _physics_process(delta: float) -> void:
 				Grenades -= 1
 	# Speed Lines
 	if Speed_Lines:
-		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0) || (Driving && Current_Car.linear_velocity != Vector3.ZERO) || velocity.y != 0
+		Speed_Lines.visible = Sliding || Dashing || Grappling || Wall_Gliding || (Sprinting && Input_Direction != Vector2.ZERO) || (Slamming && Last_Velocity.y != 0) || (Driving && Current_Car.linear_velocity.length() >= 20) || velocity.y != 0
 	# Freelooking Camera Tilt
 	if Input.is_action_pressed("Freelook") || Sliding:
 		Freelooking = true
@@ -362,14 +379,18 @@ func _physics_process(delta: float) -> void:
 		Freelooking = false
 		Neck.rotation.y = lerp(Neck.rotation.y, 0.0, delta * Lerp_Speed)
 		Camera.rotation.z = lerp(Camera.rotation.z, 0.0, delta * Lerp_Speed)
+	# Peeking
+	var Lean_Input: float = Input.get_action_strength("Peek Left") - Input.get_action_strength("Peek Right")
+	Current_Lean = move_toward(Current_Lean, Lean_Input, delta * Lerp_Speed)
+	var Target_Eye_X: float = Current_Lean * Lean_Offset
 	# Headbobbing
 	if is_on_floor() && !Sliding && !Dashing && Input_Direction != Vector2.ZERO:
-		var Current_Bob_Speed: float = Headbobbing_Walking_Speed
+		var Current_Headbobbing_Speed: float = Headbobbing_Walking_Speed
 		if Sprinting:
-			Current_Bob_Speed = Headbobbing_Sprinting_Speed
-		elif Crouching:
-			Current_Bob_Speed = Headbobbing_Crouching_Speed
-		Headbobbing_Index += Current_Bob_Speed * delta
+			Current_Headbobbing_Speed = Headbobbing_Sprinting_Speed
+		elif Current_Headbobbing_Speed:
+			Current_Headbobbing_Speed = Headbobbing_Crouching_Speed
+		Headbobbing_Index += Current_Headbobbing_Speed * delta
 		if !GameManager.No_Shake:
 			if Sprinting:
 				Headbobbing_Current_Intensity = Headbobbing_Sprinting_Intensity
@@ -380,7 +401,9 @@ func _physics_process(delta: float) -> void:
 			Headbobbing_Vector.y = sin(Headbobbing_Index)
 			Headbobbing_Vector.x = sin(Headbobbing_Index / 2.0) + 0.5
 			Eyes.position.y = lerp(Eyes.position.y, Headbobbing_Vector.y * (Headbobbing_Current_Intensity / 2.0), delta * Lerp_Speed)
-			Eyes.position.x = lerp(Eyes.position.x, Headbobbing_Vector.x * Headbobbing_Current_Intensity, delta * Lerp_Speed)
+			Eyes.position.x = lerp(Eyes.position.x, (Headbobbing_Vector.x * Headbobbing_Current_Intensity) + Target_Eye_X, delta * Lerp_Speed)
+		else:
+			Eyes.position.x = lerp(Eyes.position.x, Target_Eye_X, delta * Lerp_Speed)
 		var Is_Foot_Down: bool = sin(Headbobbing_Index) < -0.85
 		if Is_Foot_Down && !Was_Foot_Down:
 			var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
@@ -390,18 +413,21 @@ func _physics_process(delta: float) -> void:
 		Was_Foot_Down = Is_Foot_Down
 	else:
 		Eyes.position.y = lerp(Eyes.position.y, 0.0, delta * Lerp_Speed)
-		Eyes.position.x = lerp(Eyes.position.x, 0.0, delta * Lerp_Speed)
+		Eyes.position.x = lerp(Eyes.position.x, Target_Eye_X, delta * Lerp_Speed)
 		Was_Foot_Down = false
 	# Camera tilt
-	if !GameManager.No_Shake && !Wall_Gliding:
+	if !GameManager.No_Shake && !Wall_Gliding && !Freelooking:
+		var Target_Lean_Roll: float = -deg_to_rad(Current_Lean * Lean_Angle)
 		if Input.is_action_pressed("Left"):
-			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(Camera_Tilt), delta * Lerp_Speed)
+			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(Camera_Tilt) + Target_Lean_Roll, delta * Lerp_Speed)
 		elif Input.is_action_pressed("Right"):
-			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(-Camera_Tilt), delta * Lerp_Speed)
+			Camera.rotation.z = lerp(Camera.rotation.z, -deg_to_rad(Camera_Tilt) + Target_Lean_Roll, delta * Lerp_Speed)
 		else:
-			Camera.rotation.z = lerp(Camera.rotation.z, 0.0, delta * Lerp_Speed)
+			Camera.rotation.z = lerp(Camera.rotation.z, Target_Lean_Roll, delta * Lerp_Speed)
+	elif !Freelooking && !Wall_Gliding:
+		Camera.rotation.z = lerp(Camera.rotation.z, -deg_to_rad(Current_Lean * Lean_Angle), delta * Lerp_Speed)
 	# Apply Gravity & Ground Slam
-	if !is_on_floor():
+	if !is_on_floor() && !Ledge_Grabbing:
 		if Input.is_action_just_pressed("Crouch"):
 			Slamming = true
 			Is_Crouching_Toggled = false
@@ -409,7 +435,42 @@ func _physics_process(delta: float) -> void:
 			velocity.y = min(velocity.y, Air_Slam_Velocity)
 		else:
 			velocity += get_gravity() * delta
-	# Grapple
+	# Ledge Grabbing
+	if !is_on_floor() && velocity.y <= 1.0 && !Ledge_Grabbing:
+		var Body_Hit: bool = Body_Ray.is_colliding()
+		var Head_Hit: bool = Head_Ray.is_colliding()
+		if Body_Hit && !Head_Hit:
+			var Holding_Forward: bool = Input_Direction.y < -0.1
+			var Moving_Towards_Wall: bool = velocity.z != 0 || velocity.x != 0
+			if Holding_Forward || Moving_Towards_Wall:
+				Ledge_Grabbing = true
+				Jumps_Left = Max_Jumps
+				velocity = Vector3.ZERO
+				Direction = Vector3.ZERO
+				if is_on_wall():
+					global_position += get_wall_normal() * 0.05
+	if Ledge_Grabbing:
+		velocity = Vector3.ZERO
+		Direction = Vector3.ZERO
+		if Input.is_action_just_pressed("Jump"):
+			velocity.y = Ledge_Climb_Up_Force
+			velocity.x = 0.0
+			velocity.z = 0.0
+			Direction = Vector3.ZERO
+			Ledge_Grabbing = false
+		elif Input.is_action_pressed("Forward"):
+			var Forward_Direction: Vector3 = -transform.basis.z
+			Forward_Direction.y = 0
+			Forward_Direction = Forward_Direction.normalized()
+			velocity.y = Ledge_Climb_Up_Force
+			velocity.x = 0.0
+			velocity.z = 0.0
+			Direction = Vector3.ZERO
+			Wall_Jump_Lock_Timer = 0.0
+			Ledge_Grabbing = false
+		elif Input.is_action_just_pressed("Crouch"):
+			Ledge_Grabbing = false
+	# Grappling
 	if Input.is_action_just_pressed("Grapple") && !Grappling:
 		if Grapple_Ray && Grapple_Ray.is_colliding():
 			Grapple_Point = Grapple_Ray.get_collision_point()
@@ -470,8 +531,8 @@ func _physics_process(delta: float) -> void:
 				Immediate_Mesh.surface_end()
 	else:
 		# Jumping & Wall Jumping
-		if Input.is_action_just_pressed("Jump"):
-			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0:
+		if Input.is_action_just_pressed("Jump") && !Ledge_Grabbing:
+			if is_on_wall() && !is_on_floor() && Wall_Jumps_Left > 0 && !Ledge_Grabbing:
 				var Wall_Normal: Vector3 = get_wall_normal()
 				var Push_Direction: Vector3 = Vector3(Wall_Normal.x, 0.0, Wall_Normal.z).normalized()
 				velocity.y = Wall_Jump_Velocity
@@ -513,7 +574,7 @@ func _physics_process(delta: float) -> void:
 		Wall_Jump_Lock_Timer -= delta
 	# Wall Gliding
 	var Wall_Normal: Vector3 = get_wall_normal() if is_on_wall() else Vector3.ZERO
-	Wall_Gliding = is_on_wall() && !is_on_floor() && velocity.y < 0 && Input_Direction != Vector2.ZERO
+	Wall_Gliding = is_on_wall() && !is_on_floor() && velocity.y < 0 && Input_Direction != Vector2.ZERO && !Ledge_Grabbing
 	if is_on_floor():
 		Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Lerp_Speed)
 	elif Wall_Gliding:
@@ -530,9 +591,13 @@ func _physics_process(delta: float) -> void:
 		else:
 			Camera.rotation.z = lerp(Camera.rotation.z, deg_to_rad(Wall_Glide_Tilt_Angle), delta * 10.0)
 	else:
-		if Input_Direction != Vector2.ZERO && !Grappling && Wall_Jump_Lock_Timer <= 0:
+		if Input_Direction != Vector2.ZERO && !Grappling && !Ledge_Grabbing && Wall_Jump_Lock_Timer <= 0:
 			Direction = lerp(Direction, (transform.basis * Vector3(Input_Direction.x, 0, Input_Direction.y)).normalized(), delta * Air_Lerp_Speed)
-	if !Grappling:
+		elif Wall_Jump_Lock_Timer > 0:
+			var Forward_Dir: Vector3 = -transform.basis.z
+			Forward_Dir.y = 0
+			Direction = Forward_Dir.normalized()
+	if !Grappling && !Ledge_Grabbing:
 		if Sliding:
 			var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 			Horizontal_Velocity *= Speed_Preservation
@@ -560,14 +625,19 @@ func _physics_process(delta: float) -> void:
 					velocity.x = move_toward(velocity.x, 0, Current_Speed)
 					velocity.z = move_toward(velocity.z, 0, Current_Speed)
 			else:
-				if Direction != Vector3.ZERO:
+				if Direction != Vector3.ZERO && Wall_Jump_Lock_Timer <= 0:
 					var Target_Velocity: Vector3 = Direction * max(Horizontal_Speed, Current_Speed)
-					Horizontal_Velocity = Horizontal_Velocity.lerp(Target_Velocity, delta * Air_Lerp_Speed)
-					velocity.x = Horizontal_Velocity.x
-					velocity.z = Horizontal_Velocity.z
+					if Last_Velocity == Vector3.ZERO:
+						velocity.x = Target_Velocity.x
+						velocity.z = Target_Velocity.z
+					else:
+						Horizontal_Velocity = Horizontal_Velocity.lerp(Target_Velocity, delta * Air_Lerp_Speed)
+						velocity.x = Horizontal_Velocity.x
+						velocity.z = Horizontal_Velocity.z
 	var Was_In_Air: bool = !is_on_floor()
 	Last_Velocity = velocity
-	move_and_slide()
+	if !Ledge_Grabbing:
+		move_and_slide()
 	if !is_on_floor():
 		var Max_Upward_Velocity: float = max(Jump_Velocity, Wall_Jump_Velocity) * 1.5
 		if velocity.y > Max_Upward_Velocity:

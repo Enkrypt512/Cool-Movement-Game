@@ -198,17 +198,18 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Title" type="Label" parent="Keys" unique_id=1110542697]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 13.0
-theme_override_font_sizes/font_size = 128
+offset_top = -8.0
+offset_right = 96.0
+offset_bottom = 43.0
+theme_override_font_sizes/font_size = 64
 text = "Keys"
 
 [node name="Keys" type="Label" parent="Keys" unique_id=1844187327]
 layout_mode = 0
-offset_top = 120.0
-offset_right = 48.0
-offset_bottom = 146.0
-theme_override_font_sizes/font_size = 32
+offset_top = 48.0
+offset_right = 279.0
+offset_bottom = 441.0
+theme_override_font_sizes/font_size = 24
 text = "WASD/Arrow Keys:Move
 Mouse:Look Around
 LMB:Shoot
@@ -224,7 +225,10 @@ G:Throw Grenade
 B:Throw Smoke Grenade
 C:Throw Flashbomb
 Escape:Bring Up The InGame Menu
-F11:Toggle Fullscreen"
+F11:Toggle Fullscreen
+F:Enter The Car
+W:Brake
+A/R:Peek Left/Right"
 
 [node name="Quit" type="Button" parent="Keys" unique_id=164897926]
 layout_mode = 0

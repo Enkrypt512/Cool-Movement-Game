@@ -1,7 +1,7 @@
 extends Node3D
 
 @export var Speed: float = 80.0
-@export var Lifetime: float = 4.0
+@export var Lifetime: float = 30.0
 @export var Decal_Scene: PackedScene = preload("res://Scenes/Bullet Decal.tscn")
 @export var Explosion_VFX: PackedScene = preload("res://Scenes/Explosion.tscn")
 
