@@ -55,7 +55,7 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
 
 - Ledge Grabbing
 
-​- Peeking​
+- Peeking
 
 And More Coming Soon! Like:
 
