@@ -139,4 +139,6 @@ rem: For Playtesting
 
 [SeKa](https://opengameart.org/users/seka): For The [Dying Music](https://opengameart.org/content/sad-scene-music-what-is-left)
 
+[ambientCG](https://ambientcg.com)​: For The [Rope Texture](https://ambientcg.com/view?id=Rope001)​
+
 [teeeece](https://opengameart.org/users/teeeece): For The [Flashbang SFX](https://opengameart.org/content/flash-bang-sound)
