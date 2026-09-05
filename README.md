@@ -1,5 +1,5 @@
 # Cool-Movement-Game
-A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
+A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/1229490/ULTRAKILL) And [Half-Life](store.steampowered.com/app/70/HalfLife),Made In [Godot](godotengine.org)! With:
 
 - Sprinting
 
@@ -35,7 +35,7 @@ A WIP FPS Movement Game Inspired By ULTRAKILL And Half-Life,Made In Godot! With:
 
 - Super Jumping
 
-- Meele Weapon (Knife)
+- Melee Weapon (Knife)
 
 - Bullet Decals
 
@@ -111,34 +111,34 @@ rem: For Playtesting
 
 [Kenney](kenney.nl): For The Assets
 
-[Lukky](https://www.youtube.com/@lukky.): For The [Movement Code](https://youtu.be/xIKErMgJ1Yk?si=fFYfXaXCAu2n4H4i)
+[Lukky](youtube.com/@lukky.): For The [Movement Code](youtu.be/xIKErMgJ1Yk?si=fFYfXaXCAu2n4H4i)
 
-[Datagoblin](https://datagoblin.itch.io): For The [Monogram Font](https://datagoblin.itch.io/monogram)
+[Datagoblin](datagoblin.itch.io): For The [Monogram Font](datagoblin.itch.io/monogram)
 
-[Greg Zaal](https://polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](https://polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
+[Greg Zaal](polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
 
-[Pichuliru](https://pichuliru.itch.io): For The [Smoke Grenade Model](https://pichuliru.itch.io/cc0-flat-grenades)
+[Pichuliru](pichuliru.itch.io): For The [Smoke Grenade Model](pichuliru.itch.io/cc0-flat-grenades)
 
-​[JoyTree Studios](https://joytree-studios.itch.io)​:  For The [Grenade Texture](https://joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)
+​[JoyTree Studios](joytree-studios.itch.io)​:  For The [Grenade Texture](joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)
 
-[musdasch](https://opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](https://opengameart.org/content/bullet-decal)​
+[musdasch](opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](opengameart.org/content/bullet-decal)​
 
-[plaggy](https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL)​​ And The [Arrow Model](https://skfb.ly/oAMyn])
+[plaggy](sketchfab.com/plaggy): For The [Knife Model](skfb.ly/oIKQL)​​ And The [Arrow Model](skfb.ly/oAMyn])
 
-[LiamOsler](https://liamosler.itch.io)​: For The [Bow Model](https://liamosler.itch.io/traditional-bow)
+[LiamOsler](liamosler.itch.io)​: For The [Bow Model](liamosler.itch.io/traditional-bow)
 
-[Dragon Studio](https://pixabay.com/users/dragon-studio-38165424/): For The [Slamming SFX](https://pixabay.com/sound-effects/horror-boulder-impact-487673/)
+[Dragon Studio](pixabay.com/users/dragon-studio-38165424): For The [Slamming SFX](pixabay.com/sound-effects/horror-boulder-impact-487673)
 
-[rubberduck](https://opengameart.org/users/rubberduck): For The [Changing Gun SFX](https://opengameart.org/content/100-cc0-sfx-2)
+[rubberduck](opengameart.org/users/rubberduck): For The [Changing Gun SFX](opengameart.org/content/100-cc0-sfx-2)
 
-[kyles](https://freesound.org/people/kyles/): For The [Shooting SFX](https://freesound.org/people/kyles/sounds/450852/)
+[kyles](freesound.org/people/kyles): For The [Shooting SFX](freesound.org/people/kyles/sounds/450852)
 
-[thatguynm](https://thatguynm.itch.io/): For Most Of [The Music](https://thatguynm.itch.io/menumusic)
+[thatguynm](thatguynm.itch.io): For Most Of [The Music](thatguynm.itch.io/menumusic)
 
-[qubodup](https://freesound.org/people/qubodup/): For The [Explosion SFX](https://freesound.org/people/qubodup/sounds/741173/)
+[qubodup](freesound.org/people/qubodup): For The [Explosion SFX](freesound.org/people/qubodup/sounds/741173)
 
-[SeKa](https://opengameart.org/users/seka): For The [Dying Music](https://opengameart.org/content/sad-scene-music-what-is-left)
+[SeKa](opengameart.org/users/seka): For The [Dying Music](opengameart.org/content/sad-scene-music-what-is-left)
 
-[teeeece](https://opengameart.org/users/teeeece): For The [Flashbang SFX](https://opengameart.org/content/flash-bang-sound)
+[teeeece](opengameart.org/users/teeeece): For The [Flashbang SFX](opengameart.org/content/flash-bang-sound)
 
 [ambientCG](https://ambientcg.com)​: For The [Rope Texture](https://ambientcg.com/a/Rope001)​
