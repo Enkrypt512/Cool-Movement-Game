@@ -161,7 +161,7 @@ Check The [Contributing File](CONTRUBUTING.md) For More Info
 
 ## License
 
-This project is released under the **GNU General Public License v3.0 (GPLv3)**. See the [LICENSE](LICENSE) file for more information.
+This project is released under the **GNU General Public License v3.0 (GPLv3)**. See the [License file)(LICENSE) for more information.
 
 ## Credits
 
