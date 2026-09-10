@@ -1,0 +1,6 @@
+# Godot 4 specific ignores
+.godot/
+*.translation
+*.import
+.editorconfig
+.gitattributes
