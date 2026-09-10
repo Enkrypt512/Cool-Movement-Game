@@ -1,8 +1,8 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: ''
-labels: bug
+title: 'bug: Bug'
+labels: bug, enhancement
 assignees: ''
 
 ---
@@ -26,6 +26,17 @@ If applicable, add screenshots to help explain your problem.
 **Desktop (please complete the following information):**
 - OS: [e.g. Windows]
 - Version [e.g. 10]
+
+**Game Version**
+- Version / Commit: [e.g., v0.8.9 or commit hash]
+
+**System Specs (please complete the following information):**
+- OS: [e.g., Arch Linux, Windows 11]
+- CPU / GPU: [e.g., Intel i7-6700, AMD RX 6700]
+- RAM: [e.g., 16 GB]
+
+**Logs / Terminal Output**
+If the game crashed or threw console errors, paste the output here.
 
 **Additional context**
 Add any other context about the problem here.
