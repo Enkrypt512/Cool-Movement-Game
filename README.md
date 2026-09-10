@@ -135,7 +135,7 @@ A WIP FPS Movement Game Inspired By [ULTRAKILL](https://store.steampowered.com/a
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/YourUsername/Cool-Movement-Game.git
+   git clone https://github.com/Enkrypt512/Cool-Movement-Game.git
    ```
 
 2. Open **Godot Engine**, click **Import**, and navigate to the project folder.
