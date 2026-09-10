@@ -24,8 +24,8 @@ Please maintain a respectful, welcoming, and collaborative environment. Be const
 
 If you find a bug or unexpected behavior while playing or testing:
 
-1. Check the [Existing Issues](https://github.com/YourUsername/Cool-Movement-Game/issues) to ensure it hasn't already been reported.
-2. If it's a new bug, [Open a New Issue](https://github.com/YourUsername/Cool-Movement-Game/issues/new).
+1. Check the [Existing Issues](https://github.com/Enkrypt512/Cool-Movement-Game/issues) to ensure it hasn't already been reported.
+2. If it's a new bug, [Open a New Issue](https://github.com/Enkrypt512/Cool-Movement-Game/issues/new).
 3. Include the following details in your report:
    - **Game / Commit Version:** (e.g., `v0.8.9` or recent commit hash).
    - **System Specs:** OS, CPU, GPU, and RAM.
