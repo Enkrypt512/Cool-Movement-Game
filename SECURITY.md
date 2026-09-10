@@ -4,7 +4,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.8.x   | Supported          |
+| 0.8.9   | Supported          |
 | < 0.8.9 | Unsupported        |
 
 ## Reporting a Vulnerability
