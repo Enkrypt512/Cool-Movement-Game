@@ -6,7 +6,7 @@
 [![Open Issues](https://img.shields.io/github/issues/Enkrypt512/Cool-Movement-Game)](https://github.com/Enkrypt512/Cool-Movement-Game/issues)
 [![Open Pull Requests](https://img.shields.io/github/issues-pr/Enkrypt512/Cool-Movement-Game)](https://github.com/Enkrypt512/Cool-Movement-Game/pulls)
 [![Itch.io](https://img.shields.io/badge/Itch.io-Play_in_Browser-red?logo=itchdotio)](https://enkrypt225.itch.io/cool-movement-game)
-[![Stars](https://img.shields.io/github/stars/YourUsername/Cool-Movement-Game?style=social)](https://github.com/Enkrypt512/Cool-Movement-Game/stargazers)
+[![Stars](https://img.shields.io/github/stars/Enkrypt512/Cool-Movement-Game?style=social)](https://github.com/Enkrypt512/Cool-Movement-Game/stargazers)
 
 A WIP FPS Movement Game Inspired By [ULTRAKILL](https://store.steampowered.com/app/1229490/ULTRAKILL) And [Half-Life](https://store.steampowered.com/app/70/HalfLife), Made In [Godot](https://godotengine.org/)!
 
