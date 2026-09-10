@@ -134,7 +134,7 @@ A WIP FPS Movement Game Inspired By [ULTRAKILL](https://store.steampowered.com/a
 
 ### Prerequisites
 
-- [Godot Engine 4.8.x](https://godotengine.org/download)
+- [Godot Engine 4.8-dev4](https://godotengine.org/download/archive/4.8-dev4)
 
 ### Building / Running from Source
 
