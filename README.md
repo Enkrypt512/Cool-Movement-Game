@@ -1,5 +1,25 @@
 # Cool Movement Game
-A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/1229490/ULTRAKILL) And [Half-Life](store.steampowered.com/app/70/HalfLife),Made In [Godot](godotengine.org)! With:
+
+[![Engine](https://img.shields.io/badge/Engine-Godot_4-blue.svg)](https://godotengine.org/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+
+A WIP FPS Movement Game Inspired By [ULTRAKILL](https://store.steampowered.com/app/1229490/ULTRAKILL) And [Half-Life](https://store.steampowered.com/app/70/HalfLife), Made In [Godot](https://godotengine.org/)!
+
+## Table Of Contents
+
+- [Features](#features)
+
+- [Keys](#keys)
+
+- [Quick Start](#quick-start)
+
+- [Contributing And Bug Reports](#contributing-and-bug-reports)
+
+- [License](#license)
+
+- [Credits](#credits)
+
+## Features
 
 - Sprinting
 
@@ -19,13 +39,13 @@ A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/12294
 
 - Double Jump
 
-- Dashing 
+- Dashing
 
 - Grapple Hooks
 
 - Wall Gliding
 
-- Wall Jumping 
+- Wall Jumping
 
 - Grenades
 
@@ -47,7 +67,7 @@ A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/12294
 
 - Smoke Grenades
 
-- Flashbangs​
+- Flashbangs
 
 - Car
 
@@ -57,7 +77,7 @@ A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/12294
 
 - Peeking
 
-And More Coming Soon! Like:
+### Coming Soon:
 
 - Multiplayer
 
@@ -65,80 +85,111 @@ And More Coming Soon! Like:
 
 - Stages
 
-# Keys:
+## Keys
 
-- WASD/Arrow Keys:Move
+- **WASD / Arrow Keys**: Move
 
-- Mouse:Look Around
+- **Mouse**: Look Around
 
-- LMB:Shoot
+- **LMB**: Shoot
 
-- RMB:Aim Down Sight
+- **RMB**: Aim Down Sight
 
-- Space:Jump
+- **Space**: Jump
 
-- Shift:Sprint
+- **Shift**: Sprint
 
-- Control:Crouch
+- **Control**: Crouch
 
-- Alt:Freelook
+- **Alt**: Freelook
 
-- E:Change Gun
+- **E**: Change Gun
 
-- X:Dash
+- **X**: Dash
 
-- N:Grapple Hook
+- **N**: Grapple Hook
 
-- G:Throw Grenade
+- **G**: Throw Grenade
 
-- Escape:Bring Up The InGame Menu
+- **Escape**: Open In-Game Menu
 
-- F11:Toggle Fullscreen
+- **F11**: Toggle Fullscreen
 
-- B: Throw Smoke Grenade
+- **B**: Throw Smoke Grenade
 
-- C: Throw Flashbang
+- **C**: Throw Flashbang
 
-- F: Enter The Car
+- **F**: Enter Car
 
-- W: Brake
+- **W**: Brake
 
-- A/R: Peek Left/Right
+- **A / R**: Peek Left / Right
 
-# Credits:
+## Quick Start
 
-rem: For Playtesting
+### Prerequisites
 
-[Kenney](kenney.nl): For The Assets
+- [Godot Engine 4.x](https://godotengine.org/download)
 
-[Lukky](youtube.com/@lukky.): For The [Movement Code](youtu.be/xIKErMgJ1Yk?si=fFYfXaXCAu2n4H4i)
+### Building / Running from Source
 
-[Datagoblin](datagoblin.itch.io): For The [Monogram Font](datagoblin.itch.io/monogram)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YourUsername/Cool-Movement-Game.git
+   ```
 
-[Greg Zaal](polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
+2. Open **Godot Engine**, click **Import**, and navigate to the project folder.
 
-[Pichuliru](pichuliru.itch.io): For The [Smoke Grenade Model](pichuliru.itch.io/cc0-flat-grenades)
+3. Select the `project.godot` file.
 
-​[JoyTree Studios](joytree-studios.itch.io)​:  For The [Grenade Texture](joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)
+4. Press `F5` in Godot to run the game directly.
 
-[musdasch](opengameart.org/users/musdasch)​: For The [Bullet Decal Texture](opengameart.org/content/bullet-decal)​
+## Contributing And Bug Reports
 
-[plaggy](sketchfab.com/plaggy): For The [Knife Model](skfb.ly/oIKQL)​​ And The [Arrow Model](skfb.ly/oAMyn])
+Contributions, bug reports, and suggestions are welcome!
 
-[LiamOsler](liamosler.itch.io)​: For The [Bow Model](liamosler.itch.io/traditional-bow)
+1. **Bug Reports:** If you spot an issue, feel free to open a GitHub Issue with steps to reproduce it.
 
-[Dragon Studio](pixabay.com/users/dragon-studio-38165424): For The [Slamming SFX](pixabay.com/sound-effects/horror-boulder-impact-487673)
+2. **Pull Requests:** Feel free to fork the repository, make changes, and submit a PR.
 
-[rubberduck](opengameart.org/users/rubberduck): For The [Changing Gun SFX](opengameart.org/content/100-cc0-sfx-2)
+## License
 
-[kyles](freesound.org/people/kyles): For The [Shooting SFX](freesound.org/people/kyles/sounds/450852)
+This project is released under the **GNU General Public License v3.0 (GPLv3)**. See the [LICENSE](LICENSE) file for more information.
 
-[thatguynm](thatguynm.itch.io): For Most Of [The Music](thatguynm.itch.io/menumusic)
+## Credits
 
-[qubodup](freesound.org/people/qubodup): For The [Explosion SFX](freesound.org/people/qubodup/sounds/741173)
+- **rem**: For Playtesting
 
-[SeKa](opengameart.org/users/seka): For The [Dying Music](opengameart.org/content/sad-scene-music-what-is-left)
+- [Kenney](https://kenney.nl): For The Assets
 
-[teeeece](opengameart.org/users/teeeece): For The [Flashbang SFX](opengameart.org/content/flash-bang-sound)
+- [Lukky](https://youtube.com/@lukky.): For The [Movement Code](https://youtu.be/xIKErMgJ1Yk?si=fFYfXaXCAu2n4H4i)
 
-[ambientCG](https://ambientcg.com)​: For The [Rope Texture](https://ambientcg.com/a/Rope001)​
+- [Datagoblin](https://datagoblin.itch.io): For The [Monogram Font](https://datagoblin.itch.io/monogram)
+
+- [Greg Zaal](https://polyhaven.com/all?a=Greg%20Zaal) And [Jarod Guest](https://polyhaven.com/all?a=Jarod%20Guest): For The [Sky Texture](https://polyhaven.com/a/kloofendal_48d_partly_cloudy_puresky)
+
+- [Pichuliru](https://pichuliru.itch.io): For The [Smoke Grenade Model](https://pichuliru.itch.io/cc0-flat-grenades)
+
+- [JoyTree Studios](https://joytree-studios.itch.io): For The [Grenade Texture](https://joytree-studios.itch.io/2d-pixel-art-gun-asset-pack)
+
+- [musdasch](https://opengameart.org/users/musdasch): For The [Bullet Decal Texture](https://opengameart.org/content/bullet-decal)
+
+- [plaggy](https://sketchfab.com/plaggy): For The [Knife Model](https://skfb.ly/oIKQL) And The [Arrow Model](https://skfb.ly/oAMyn)
+
+- [LiamOsler](https://liamosler.itch.io): For The [Bow Model](https://liamosler.itch.io/traditional-bow)
+
+- [Dragon Studio](https://pixabay.com/users/dragon-studio-38165424): For The [Slamming SFX](https://pixabay.com/sound-effects/horror-boulder-impact-487673)
+
+- [rubberduck](https://opengameart.org/users/rubberduck): For The [Changing Gun SFX](https://opengameart.org/content/100-cc0-sfx-2)
+
+- [kyles](https://freesound.org/people/kyles): For The [Shooting SFX](https://freesound.org/people/kyles/sounds/450852)
+
+- [thatguynm](https://thatguynm.itch.io): For Most Of [The Music](https://thatguynm.itch.io/menumusic)
+
+- [qubodup](https://freesound.org/people/qubodup): For The [Explosion SFX](https://freesound.org/people/qubodup/sounds/741173)
+
+- [SeKa](https://opengameart.org/users/seka): For The [Dying Music](https://opengameart.org/content/sad-scene-music-what-is-left)
+
+- [teeeece](https://opengameart.org/users/teeeece): For The [Flashbang SFX](https://opengameart.org/content/flash-bang-sound)
+
+- [ambientCG](https://ambientcg.com): For The [Rope Texture](https://ambientcg.com/a/Rope001)
