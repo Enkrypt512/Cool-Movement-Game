@@ -1,4 +1,4 @@
-# Cool-Movement-Game
+# Cool Movement Game
 A WIP FPS Movement Game Inspired By [ULTRAKILL](store.steampowered.com/app/1229490/ULTRAKILL) And [Half-Life](store.steampowered.com/app/70/HalfLife),Made In [Godot](godotengine.org)! With:
 
 - Sprinting
