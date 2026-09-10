@@ -45,7 +45,7 @@ Feature requests and ideas for new mechanics or improvements are appreciated!
 1. **Fork the Repository:** Click the "Fork" button at the top right of this page.
 2. **Clone your Fork:**
    ```bash
-   git clone https://github.com/YourUsername/Cool-Movement-Game.git
+   git clone https://github.com/Enkrypt512/Cool-Movement-Game.git
    ```
 3. **Create a Feature Branch:**
    ```bash
