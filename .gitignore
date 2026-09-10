@@ -3,4 +3,9 @@
 *.translation
 *.import
 .editorconfig
+
+# General ignores
 .gitattributes
+.DS_Store
+Thumbs.db
+Builds
