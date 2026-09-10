@@ -49,7 +49,7 @@ Feature requests and ideas for new mechanics or improvements are appreciated!
    ```
 3. **Create a Feature Branch:**
    ```bash
-   git checkout -b feature/your-feature-name
+   git checkout -b feature/add-stages
    ```
 4. **Make and Test Your Changes:** Open the project in Godot Engine and verify that your changes run without console errors or breaking existing movement mechanics.
 5. **Commit Your Changes:** Write clear, descriptive commit messages.
