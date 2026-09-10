@@ -1,6 +1,6 @@
 # Cool Movement Game
 
-[![Engine](https://img.shields.io/badge/Engine-Godot_4-blue.svg)](https://godotengine.org/)
+[![Engine](https://img.shields.io/badge/Engine-Godot_4-blue.svg)](https://godotengine.org)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Latest Release](https://img.shields.io/github/v/release/Enkrypt512/Cool-Movement-Game)](https://github.com/Enkrypt512/Cool-Movement-Game/releases)
 [![Open Issues](https://img.shields.io/github/issues/Enkrypt512/Cool-Movement-Game)](https://github.com/Enkrypt512/Cool-Movement-Game/issues)
