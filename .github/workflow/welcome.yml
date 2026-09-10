@@ -1,0 +1,17 @@
+name: Welcome New Contributors Bot
+
+on:
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  welcome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-comment: "Thanks for opening an issue! Please make sure to check out our [CONTRIBUTING.md](CONTRUBUTING.md) guide."
+          pr-comment: "Thanks for submitting a pull request! The maintainer will (hopefully) review your changes shortly."
