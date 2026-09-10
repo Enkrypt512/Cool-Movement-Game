@@ -23,5 +23,5 @@ We take the security of **Cool Movement Game** seriously. If you discover a secu
 
 - **Acknowledgment:** (should be) Within 48 hours of receipt.
 - **Status Update:** (should be) Within 7 days with a plan for remediation.
-- **Fix & Public Disclosure:** (should be) A patch will be developed and released in the next patch version before public disclosure.
+- **Fix & Public Disclosure:** A patch should be developed and released in the next patch version before public disclosure.
 
