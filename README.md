@@ -157,6 +157,8 @@ Contributions, bug reports, and suggestions are welcome!
 
 2. **Pull Requests:** Feel free to fork the repository, make changes, and submit a PR.
 
+Check The [Contributing File](CONTRUBUTING.md) For More Info
+
 ## License
 
 This project is released under the **GNU General Public License v3.0 (GPLv3)**. See the [LICENSE](LICENSE) file for more information.
