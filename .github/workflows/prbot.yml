@@ -1,0 +1,109 @@
+name: Pull Request Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  handle-command:
+    name: Process Maintainer Command
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const comment = context.payload.comment.body.trim();
+            const commenter = context.actor;
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+            const issueNumber = context.issue.number;
+            const validCommands = ['/take', '/assign', '/lock', '/unlock', '/close', '/reopen'];
+            const firstWord = comment.split(/\s+/)[0].toLowerCase();
+
+            if (!validCommands.includes(firstWord)) {
+              return;
+            }
+            let permissionLevel = 'none';
+            try {
+              const permResponse = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: repoOwner,
+                repo: repoName,
+                username: commenter
+              });
+              permissionLevel = permResponse.data.permission;
+            } catch (err) {
+              console.log(`Error checking permission: ${err.message}`);
+            }
+            const allowedRoles = ['admin', 'write', 'triage'];
+            if (!allowedRoles.includes(permissionLevel)) {
+              await github.rest.issues.createComment({
+                owner: repoOwner,
+                repo: repoName,
+                issue_number: issueNumber,
+                body: `Only maintainers and collaborators with write/triage privileges can run \`${firstWord}\`.`
+              });
+              return;
+            }
+            const parts = comment.split(/\s+/);
+
+            switch (firstWord) {
+              case '/close':
+                await github.rest.issues.update({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueNumber,
+                  state: 'closed'
+                });
+                break;
+
+              case '/reopen':
+                await github.rest.issues.update({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueNumber,
+                  state: 'open'
+                });
+                break;
+
+              case '/lock':
+                await github.rest.issues.lock({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueNumber
+                });
+                break;
+
+              case '/unlock':
+                await github.rest.issues.unlock({
+                  owner: repoOwner,
+                  repo: repoName,
+                  issue_number: issueNumber
+                });
+                break;
+
+              case '/take':
+              case '/assign':
+                let targetUser = commenter;
+                if (parts.length > 1 && parts[1]) {
+                  targetUser = parts[1].replace('@', '');
+                }
+                try {
+                  await github.rest.issues.addAssignees({
+                    owner: repoOwner,
+                    repo: repoName,
+                    issue_number: issueNumber,
+                    assignees: [targetUser]
+                  });
+                } catch (error) {
+                  await github.rest.issues.createComment({
+                    owner: repoOwner,
+                    repo: repoName,
+                    issue_number: issueNumber,
+                    body: `Could not assign @${targetUser}. Make sure the username is spelled correctly.`
+                  });
+                }
+                break;
+            }
