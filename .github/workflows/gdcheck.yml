@@ -1,13 +1,17 @@
 name: Godot Check Bot
 
 on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
   issue_comment:
     types: [created]
 
 jobs:
   check-permissions:
     name: Check User Permissions
-    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
+    # Run permission check only if triggered via issue_comment
+    if: github.event_name == 'issue_comment' && github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
     runs-on: ubuntu-latest
     outputs:
       authorized: ${{ steps.perm-check.outputs.authorized }}
@@ -52,7 +56,12 @@ jobs:
   lint-and-format:
     name: GDScript Lint & Format
     needs: check-permissions
-    if: needs.check-permissions.outputs.authorized == 'true'
+    if: |
+      always() &&
+      (
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'issue_comment' && needs.check-permissions.outputs.authorized == 'true')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -74,7 +83,12 @@ jobs:
   build-check:
     name: Godot Export Check
     needs: check-permissions
-    if: needs.check-permissions.outputs.authorized == 'true'
+    if: |
+      always() &&
+      (
+        github.event_name == 'pull_request' ||
+        (github.event_name == 'issue_comment' && needs.check-permissions.outputs.authorized == 'true')
+      )
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
