@@ -5,9 +5,54 @@ on:
     types: [created]
 
 jobs:
+  check-permissions:
+    name: Check User Permissions
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.perm-check.outputs.authorized }}
+    steps:
+      - uses: actions/github-script@v6
+        id: perm-check
+        with:
+          script: |
+            const commenter = context.actor;
+            const repoOwner = context.repo.owner;
+            const repoName = context.repo.repo;
+            const issueNumber = context.issue.number;
+
+            let permissionLevel = 'none';
+            try {
+              const permResponse = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: repoOwner,
+                repo: repoName,
+                username: commenter
+              });
+              permissionLevel = permResponse.data.permission;
+            } catch (err) {
+              console.log(`Error checking permission: ${err.message}`);
+            }
+
+            const allowedRoles = ['admin', 'write', 'triage'];
+            const isAuthorized = allowedRoles.includes(permissionLevel);
+
+            if (!isAuthorized) {
+              await github.rest.issues.createComment({
+                owner: repoOwner,
+                repo: repoName,
+                issue_number: issueNumber,
+                body: `Only repository maintainers and collaborators with write/triage privileges can run the \`/gdcheck\` command.`
+              });
+              core.setOutput('authorized', 'false');
+              return;
+            }
+
+            core.setOutput('authorized', 'true');
+
   lint-and-format:
     name: GDScript Lint & Format
-    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
+    needs: check-permissions
+    if: needs.check-permissions.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -28,7 +73,8 @@ jobs:
 
   build-check:
     name: Godot Export Check
-    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
+    needs: check-permissions
+    if: needs.check-permissions.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
