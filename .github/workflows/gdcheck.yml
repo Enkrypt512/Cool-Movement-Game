@@ -8,91 +8,86 @@ on:
     types: [created]
 
 jobs:
-  check-permissions:
+  Check_Permissions:
     name: Check User Permissions
-    # Run permission check only if triggered via issue_comment
     if: github.event_name == 'issue_comment' && github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
     runs-on: ubuntu-latest
     outputs:
-      authorized: ${{ steps.perm-check.outputs.authorized }}
+      authorized: ${{ steps.Permission_Check.outputs.authorized}}
+      Pull_Request_Secure_Hash_Algorithm: ${{ steps.Permission_Check.outputs.Pull_Request_Secure_Hash_Algorithm}}
     steps:
       - uses: actions/github-script@v6
-        id: perm-check
+        id: Permission_Check
         with:
           script: |
-            const commenter = context.actor;
-            const repoOwner = context.repo.owner;
-            const repoName = context.repo.repo;
-            const issueNumber = context.issue.number;
-
+            const Commenter = context.actor;
+            const Repository_Owner = context.repo.owner;
+            const Repository_Name = context.repo.repo;
+            const Issue_Number = context.issue.number;
             let permissionLevel = 'none';
             try {
-              const permResponse = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner: repoOwner,
-                repo: repoName,
-                username: commenter
+              const Permission_Response = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner: Repository_Owner,
+                repo: Repository_Name,
+                username: Commenter
               });
-              permissionLevel = permResponse.data.permission;
-            } catch (err) {
-              console.log(`Error checking permission: ${err.message}`);
+              permissionLevel = Permission_Response.data.permission;
+            } catch (Error) {
+              console.log(`Error checking permission: ${Error.message}`);
             }
-
-            const allowedRoles = ['admin', 'write', 'triage'];
-            const isAuthorized = allowedRoles.includes(permissionLevel);
-
-            if (!isAuthorized) {
+            const Allowed_Roles = ['admin', 'write', 'triage'];
+            const Is_Authorized = Allowed_Roles.includes(permissionLevel);
+            if (!Is_Authorized) {
               await github.rest.issues.createComment({
-                owner: repoOwner,
-                repo: repoName,
-                issue_number: issueNumber,
+                owner: Repository_Owner,
+                repo: Repository_Name,
+                issue_number: Issue_Number,
                 body: `Only repository maintainers and collaborators with write/triage privileges can run the \`/gdcheck\` command.`
               });
               core.setOutput('authorized', 'false');
               return;
             }
-
+            const Pull_Request = await github.rest.pulls.get({
+              owner: Repository_Owner,
+              repo: Repository_Name,
+              pull_number: Issue_Number
+            });
             core.setOutput('authorized', 'true');
+            core.setOutput('Pull_Request_Secure_Hash_Algorithm',Pull_Request.data.head.sha);
 
-  lint-and-format:
-    name: GDScript Lint & Format
-    needs: check-permissions
+  Lint_And_Format_Check:
+    name: GDScript Lint & Format Check
+    needs: Check_Permissions
     if: |
-      always() &&
-      (
-        github.event_name == 'pull_request' ||
-        (github.event_name == 'issue_comment' && needs.check-permissions.outputs.authorized == 'true')
-      )
+      always() && (github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.authorized == 'true'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.Pull_Request_Secure_Hash_Algorithm || github.sha}}
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
       - name: Install gdtoolkit
         run: pip install gdtoolkit
-
       - name: Run gdlint
         run: gdlint .
-
       - name: Run gdformat check
         run: gdformat --check .
 
-  build-check:
+  Build_Check:
     name: Godot Export Check
-    needs: check-permissions
+    needs: Check_Permissions
     if: |
-      always() &&
-      (
-        github.event_name == 'pull_request' ||
-        (github.event_name == 'issue_comment' && needs.check-permissions.outputs.authorized == 'true')
-      )
+      always() && (github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.authorized == 'true'))
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.Pull_Request_Secure_Hash_Algorithm || github.sha }}
       - name: Godot Headless Export Test
         uses: firebelley/godot-export@v5.2.1
         with:
