@@ -3,9 +3,11 @@
 *.translation
 *.import
 .editorconfig
+*.uid
 
 # General ignores
 .gitattributes
 .DS_Store
 Thumbs.db
 Builds/
+*.tmp
