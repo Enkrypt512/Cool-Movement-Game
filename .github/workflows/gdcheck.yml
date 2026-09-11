@@ -1,21 +1,42 @@
-name: GDScript Check
+name: Godot Check Bot
 
 on:
-  pull_request:
-    branches: [ main ]
+  issue_comment:
+    types: [created]
 
 jobs:
-  lint:
+  lint-and-format:
+    name: GDScript Lint & Format
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
+
       - name: Install gdtoolkit
         run: pip install gdtoolkit
+
       - name: Run gdlint
         run: gdlint .
+
       - name: Run gdformat check
         run: gdformat --check .
+
+  build-check:
+    name: Godot Export Check
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/gdcheck')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Godot Headless Export Test
+        uses: firebelley/godot-export@v5.2.1
+        with:
+          godot_executable_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev4&slug=linux.x86_64.zip&platform=linux.64
+          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev4&slug=export_templates.tpz&platform=templates
+          relative_project_path: ./
+          archive_output: false
