@@ -16,7 +16,7 @@ Please take a moment to review these guidelines before getting started.
 
 ## Code of Conduct
 
-Please maintain a respectful, welcoming, and collaborative environment. Be constructive in code reviews and respectful when opening issues or discussing design decisions.
+Please maintain a respectful, welcoming, and collaborative environment. Be constructive in code reviews and respectful when opening issues or discussing design decisions. Check The [Code Of Conduct File](CODE_OF_CONDUCT.md) For More Information
 
 ## How Can I Contribute?
 
