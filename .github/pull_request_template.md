@@ -10,5 +10,5 @@ Provide a brief summary of the changes introduced in this Pull Request.
 ## Related Issue(s)
 Link the issue(s) resolved or impacted by this PR. E.g., "Fixes #12" or "Closes #45". -->
 
-## Screenshots / Videos (if applicable)
-Attach a screenshot showing off the change(s).
+## Screenshot(s)
+Attach a screenshot(s) showing off the change(s).
