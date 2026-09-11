@@ -157,7 +157,7 @@ Contributions, bug reports, and suggestions are welcome!
 
 2. **Pull Requests:** Feel free to fork the repository, make changes, and submit a PR.
 
-Check The [Contributing File](CONTRUBUTING.md) For More Info
+Check The [Contributing File](CONTRIBUTING.md) For More Info
 
 ## License
 
