@@ -23,10 +23,6 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
-**Desktop (please complete the following information):**
-- OS: [e.g. Windows]
-- Version [e.g. 10]
-
 **Game Version**
 - Version / Commit: [e.g., v0.8.9 or commit hash]
 
@@ -34,6 +30,10 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g., Arch Linux, Windows 11]
 - CPU / GPU: [e.g., Intel i7-6700, AMD RX 6700]
 - RAM: [e.g., 16 GB]
+
+**Web Version (if applicable)**
+- Web browser
+- Version of web browser
 
 **Logs / Terminal Output**
 If the game crashed or threw console errors, paste the output here.
