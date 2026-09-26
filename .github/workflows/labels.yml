@@ -12,10 +12,11 @@ jobs:
     permissions:
       issues: write
     steps:
-      # The Close Stale Issues workflow exempts the `pinned`, `roadmap` and
-      # `help wanted` labels, but a missing label silently matches nothing, so
-      # those exemptions would never apply. This job creates any label the
-      # repository is missing so the exemptions can never rot.
+      # The Close Stale Issues workflow exempts the `pinned`, `roadmap`,
+      # `help wanted` and `good first issue` labels, but a missing label silently
+      # matches nothing, so those exemptions would never apply. This job creates
+      # any label the repository is missing so the exemptions can never rot.
+      # Keep this in sync with the exempt-* settings in autoclose.yml.
       - name: Create Missing Labels
         uses: actions/github-script@v6
         with:
@@ -47,6 +48,11 @@ jobs:
                 name: 'help wanted',
                 color: '008672',
                 description: 'Extra help is welcome. Exempt from the stale bot.'
+              },
+              {
+                name: 'good first issue',
+                color: '7057ff',
+                description: 'Good for newcomers. Exempt from the stale bot.'
               }
             ];
 
