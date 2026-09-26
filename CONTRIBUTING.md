@@ -1,6 +1,6 @@
 # Contributing to Cool Movement Game
 
-Thank you for your interest in contributing to **Cool Movement Game**! As an open-source project, community contributions, bug reports, and code improvements are always welcome.
+Thank you for your interest in contributing to **Cool Movement Game**! As an open-source project, we welcome community contributions, bug reports, and code improvements.
 
 Please take a moment to review these guidelines before getting started.
 
@@ -13,7 +13,7 @@ Please take a moment to review these guidelines before getting started.
   - [Submitting Pull Requests](#submitting-pull-requests)
 - [Project Prerequisites & Setup](#project-prerequisites--setup)
 - [Code Style](#code-style)
-- [Assets Rights](#assets-rights)
+- [Asset Rights](#asset-rights)
 
 ## Code of Conduct
 
@@ -57,7 +57,7 @@ Feature requests and ideas for new mechanics or improvements are appreciated!
    ```bash
    git commit -m "Add Stages"
    ```
-6. **Push to Your Fork & Open a PR:**
+6. **Push to Your Fork and Open a PR:**
    ```bash
    git push origin feature/add-stages
    ```
@@ -85,7 +85,7 @@ Feature requests and ideas for new mechanics or improvements are appreciated!
 
 ## Code Style
 
-Variables, functions, signals and enum members use **PascalCase with underscores** between words,which is the style the official Godot documentation uses, plus no spaces between commas (like this: `Call_Function(Argument1,Argument2)`) and no abbreviations (like IP):
+Variables, functions, signals, and enum members use **PascalCase with underscores** between words, which is the style the official Godot documentation uses. Argument lists have no spaces after commas (like this: `Call_Function(Argument1,Argument2)`), and abbreviations are always spelled out (so `IP` is written `Internet_Protocol`):
 
 ```gdscript
 var This_Variable: int = 0
@@ -108,8 +108,7 @@ The only exception is Godot itself. **If capitalizing a name would shadow a buil
 | `tween` | `Tween` (type) |
 | `error` | `Error` (type) |
 
-Godot's overridable callbacks and their parameters are lowercase for the same reason — the engine
-looks them up by name, so they must not be renamed:
+Godot's overridable callbacks and their parameters are lowercase for the same reason — the engine looks them up by name, so they must not be renamed:
 
 | Kind | Names |
 | ---- | ----- |
@@ -117,8 +116,7 @@ looks them up by name, so they must not be renamed:
 | Signal handlers | `_on_<signal_name>` |
 | Their parameters | `delta`, `event` |
 
-If you add a variable whose capitalized form would shadow another Godot type, add that lowercase
-spelling to the patterns in [`.gdlintrc`](.gdlintrc).
+If you add a variable whose capitalized form would shadow another Godot type, add that lowercase spelling to the patterns in [`.gdlintrc`](.gdlintrc).
 
 Other notes:
 
@@ -130,9 +128,7 @@ Other notes:
 
 ### Linting and formatting
 
-Pull requests are checked by the **Godot Check Bot** workflow, which runs
-[gdtoolkit](https://github.com/gdtoolkit/gdtoolkit) on every PR. Run the same checks locally before
-pushing:
+Pull requests are checked by the **Godot Check Bot** workflow, which runs [gdtoolkit](https://github.com/gdtoolkit/gdtoolkit) on every PR. Run the same checks locally before pushing:
 
 ```bash
 pip install gdtoolkit
@@ -141,11 +137,9 @@ gdlint .        # must pass - blocks the pull request
 gdformat .      # optional - advisory, the bot only reports it
 ```
 
-The naming rules are configured in [`.gdlintrc`](.gdlintrc), which encodes this convention and the
-Godot exceptions above. If you need to change the conventions, update `.gdlintrc` rather than
-renaming code.
+The naming rules are configured in [`.gdlintrc`](.gdlintrc), which encodes this convention and the Godot exceptions above. If you need to change the conventions, update `.gdlintrc` rather than renaming code.
 
-## Assets Rights
+## Asset Rights
 
 By contributing to this repository:
 

@@ -227,8 +227,8 @@ C:Throw Flashbomb
 Escape:Bring Up The InGame Menu
 F11:Toggle Fullscreen
 F:Enter The Car
-W:Brake
-A/R:Peek Left/Right"
+Z:Brake
+Q/R:Peek Right/Left"
 
 [node name="Quit" type="Button" parent="Keys" unique_id=164897926]
 layout_mode = 0
