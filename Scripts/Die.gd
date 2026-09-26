@@ -8,7 +8,7 @@ var Player_Scene: PackedScene = preload("res://Scenes/Player.tscn")
 @onready var Quit: Button = $Quit
 @onready var InGame_Menu: Control = $"../InGame Menu"
 @onready var Crosshair: Sprite2D = null
-@onready var HUD: Control = null
+@onready var Heads_Up_Display: Control = null
 @onready var Enemies_Killed: Label = $"Enemies Killed"
 @onready var time: Label = $Time
 @onready var Score: Label = $Score
@@ -53,16 +53,16 @@ func On_Node_Added(node: Node) -> void:
 	if node.is_in_group("Player") && node.is_multiplayer_authority():
 		Set_Player(node)
 
-func Set_Player(player_node: Node) -> void:
-	Player = player_node
-	HUD = Player.get_node_or_null("HUD")
-	if HUD:
-		Crosshair = HUD.get_node_or_null("Crosshair")
+func Set_Player(Player_Node: Node) -> void:
+	Player = Player_Node
+	Heads_Up_Display = Player.get_node_or_null("HUD")
+	if Heads_Up_Display:
+		Crosshair = Heads_Up_Display.get_node_or_null("Crosshair")
 
 func Find_Local_Player() -> void:
-	for player in get_tree().get_nodes_in_group("Player"):
-		if player.is_multiplayer_authority():
-			Set_Player(player)
+	for Local_Player in get_tree().get_nodes_in_group("Player"):
+		if Local_Player.is_multiplayer_authority():
+			Set_Player(Local_Player)
 			break
 
 func _process(_delta: float) -> void:
@@ -72,7 +72,7 @@ func _process(_delta: float) -> void:
 		if !Died.visible: 
 			Died.visible = true
 			if is_instance_valid(Crosshair): Crosshair.visible = false
-			if is_instance_valid(HUD): HUD.visible = false
+			if is_instance_valid(Heads_Up_Display): Heads_Up_Display.visible = false
 			Menu.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			var Current_Score: int = GameManager.Enemies_Killed * 50
@@ -91,15 +91,15 @@ func _process(_delta: float) -> void:
 				var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
 				var Best_Minutues: int = Best_Microseconds / 60_000_000
 				var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
-				var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
-				Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Ms]
+				var Best_Milliseconds: int = (Best_Microseconds / 1_000) % 1_000
+				Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Milliseconds]
 			var Rank_Data: Dictionary = Calculate_Final_Rank(GameManager.Enemies_Killed, GameManager.time, Player)
-			Update_Rank_UI(Rank_Data)
+			Update_Rank_User_Interface(Rank_Data)
 	else:
 		if Died.visible:
 			Died.visible = false
 			if is_instance_valid(Crosshair): Crosshair.visible = true
-			if is_instance_valid(HUD): HUD.visible = true
+			if is_instance_valid(Heads_Up_Display): Heads_Up_Display.visible = true
 			if !InGame_Menu.visible:
 				Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Enemies_Killed.text = "Enemies Killed: " + str(GameManager.Enemies_Killed)
@@ -155,7 +155,7 @@ func Calculate_Final_Rank(Kills: int, Total_Seconds: float, Player_Node: Charact
 		Ranks.P: Rank_String = "P"
 	return {"Tier": Final_Tier, "String": Rank_String}
 
-func Update_Rank_UI(Rank_Data: Dictionary) -> void:
+func Update_Rank_User_Interface(Rank_Data: Dictionary) -> void:
 	if !Rank_Label:
 		return
 	Rank_Label.text = "RANK: " + Rank_Data["String"]

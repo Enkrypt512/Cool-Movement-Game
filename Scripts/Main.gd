@@ -1,7 +1,7 @@
 extends Node3D
 
 # Nodes
-@onready var FPS_Counter: Label = $"HUD/FPS Counter"
+@onready var Frames_Per_Second_Counter: Label = $"HUD/FPS Counter"
 @onready var InGame_Menu: Control = $"InGame Menu"
 @onready var Floor: CSGBox3D = $"Navigation Region/Floor"
 @onready var Spawn_Locations: Node3D = $"Spawn Locations"
@@ -59,7 +59,7 @@ var Ram_Enemy: PackedScene = preload("res://Scenes/Ram Enemy.tscn")
 var Bow_Enemy: PackedScene = preload("res://Scenes/Bow Enemy.tscn")
 var Car_Scene: PackedScene = preload("res://Scenes/Car.tscn")
 
-# Misc Varibles
+# Misc Variables
 var Last_Spawn_Time: float = 0.0
 var Last_Enemy_Spawn_Time: float = 0.0
 var Local_Player: CharacterBody3D = null
@@ -89,27 +89,27 @@ func Spawn_All_Players() -> void:
 	if !multiplayer.is_server():
 		return
 	Spawn_Player(1)
-	for Peer_ID in multiplayer.get_peers():
-		Spawn_Player(Peer_ID)
+	for Peer_Identifier in multiplayer.get_peers():
+		Spawn_Player(Peer_Identifier)
 
-func Spawn_Player(Peer_ID: int) -> void:
+func Spawn_Player(Peer_Identifier: int) -> void:
 	if !multiplayer.is_server():
 		return
-	if has_node(str(Peer_ID)):
+	if has_node(str(Peer_Identifier)):
 		return
 	var Player_Instance: CharacterBody3D = preload("res://Scenes/Player.tscn").instantiate()
-	Player_Instance.name = str(Peer_ID)
+	Player_Instance.name = str(Peer_Identifier)
 	var Spawn_Position: Vector3 = Vector3(0, 2, 0)
 	if Spawn_Locations && Spawn_Locations.get_child_count() > 0:
 		var Spawn_Point: Node3D = Spawn_Locations.get_children().pick_random()
 		Spawn_Position = Spawn_Point.global_position + Vector3(0, 1.5, 0)
 	add_child(Player_Instance, true)
-	Player_Instance.set_multiplayer_authority(Peer_ID)
+	Player_Instance.set_multiplayer_authority(Peer_Identifier)
 	Player_Instance.global_position = Spawn_Position
 
-func Despawn_Player(Peer_ID: int) -> void:
-	if has_node(str(Peer_ID)):
-		get_node(str(Peer_ID)).queue_free()
+func Despawn_Player(Peer_Identifier: int) -> void:
+	if has_node(str(Peer_Identifier)):
+		get_node(str(Peer_Identifier)).queue_free()
 
 func On_Node_Added(node: Node) -> void:
 	if node.is_in_group("Player"):
@@ -128,10 +128,10 @@ func _process(delta: float) -> void:
 	if !get_tree().paused:
 		Elapsed_Time += delta
 		GameManager.time = Elapsed_Time
-	if FPS_Counter:
-		FPS_Counter.visible = GameManager.FPS_Counter
-		if GameManager.FPS_Counter:
-			FPS_Counter.text = "FPS:" + str(int(Engine.get_frames_per_second()))
+	if Frames_Per_Second_Counter:
+		Frames_Per_Second_Counter.visible = GameManager.Frames_Per_Second_Counter
+		if GameManager.Frames_Per_Second_Counter:
+			Frames_Per_Second_Counter.text = "FPS:" + str(int(Engine.get_frames_per_second()))
 	if !get_tree().paused && multiplayer.is_server():
 		var Current_Time: float = Time.get_ticks_msec() / 1000.0
 		if Current_Time - Last_Spawn_Time >= 10.0:
@@ -157,8 +157,8 @@ func _process(delta: float) -> void:
 	var Best_Microseconds: int = int(GameManager.Best_Time * 1_000_000)
 	var Best_Minutes: int = Best_Microseconds / 60_000_000
 	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
-	var Best_Ms: int = (Best_Microseconds / 1_000) % 1_000
-	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes, Best_Seconds, Best_Ms]
+	var Best_Milliseconds: int = (Best_Microseconds / 1_000) % 1_000
+	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes, Best_Seconds, Best_Milliseconds]
 	for Song in Music:
 		Song.volume_db = linear_to_db(GameManager.Volume / 100.0)
 
@@ -188,13 +188,13 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 
-func Set_HUD_Visibility(Is_Visible: bool) -> void:
+func Set_Heads_Up_Display_Visibility(Is_Visible: bool) -> void:
 	if !is_instance_valid(Local_Player):
 		return    
-	var HUD_Node: Control = Local_Player.get_node_or_null("HUD")
+	var Heads_Up_Display_Node: Control = Local_Player.get_node_or_null("HUD")
 	var Crosshair_Node: Sprite2D = Local_Player.get_node_or_null("Crosshair")
-	if HUD_Node:
-		HUD_Node.visible = Is_Visible
+	if Heads_Up_Display_Node:
+		Heads_Up_Display_Node.visible = Is_Visible
 	if Crosshair_Node:
 		Crosshair_Node.visible = Is_Visible
 	if Most_Enemies_Killed:
@@ -231,7 +231,7 @@ func Pause_Game() -> void:
 	Quit_Menu.visible = true
 	Back_To_Menu.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	Set_HUD_Visibility(false)
+	Set_Heads_Up_Display_Visibility(false)
 	get_tree().paused = true
 
 func Resume_Game() -> void:
@@ -246,7 +246,7 @@ func Resume_Game() -> void:
 	Quit_Menu.visible = true
 	Back_To_Menu.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	Set_HUD_Visibility(true)
+	Set_Heads_Up_Display_Visibility(true)
 	get_tree().paused = false
 
 # Play Menu Music

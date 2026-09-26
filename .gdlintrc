@@ -1,0 +1,37 @@
+# gdlint configuration for Cool Movement Game
+#
+# Naming convention: This_Variable and This_Function(Argument: int)
+# (Godot's PascalCase-with-underscores style).
+#
+# Exception: if capitalizing a name would shadow a built-in Godot type, it
+# stays lowercase. `var time` must not become `Time`, because `Time` is
+# Godot's singleton (`Time.get_ticks_msec()`); the same applies to Node, Label,
+# Button, Timer, Tween and Error. Godot's own overridable callbacks
+# (`_ready`, `_process`, ...) and their `delta` / `event` parameters are
+# lowercase for the same reason - the engine looks them up by name.
+disable:
+  # Declaration order is not enforced here: `@export`, `@onready` and plain `var`
+  # blocks are deliberately interleaved per class for readability.
+  - class-definitions-order
+  # Whitespace-only. `gdformat` removes these; not worth blocking a PR over.
+  - trailing-whitespace
+  # Enable once the remaining call sites are cleaned up.
+  - unused-argument
+max-line-length: 240
+max-public-methods: 50
+
+# --- Lowercase names that must stay lowercase (see exception above) ---
+# engine_types: built-in Godot types, plus the engine's callback parameters.
+# own_name:     everything else uses This_Variable.
+
+class-variable-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+class-load-variable-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+function-variable-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+loop-variable-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+function-argument-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+signal-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+enum-element-name: '_?([A-Z][A-Za-z0-9]*|time|node|label|button|error|timer|tween|delta|event)(_[A-Za-z0-9]+)*'
+
+# Engine callbacks and `_on_<signal>` signal handlers keep their snake_case
+# names; every other function must use This_Function.
+function-name: '(_on_[a-z0-9_]+|_ready|_process|_physics_process|_input|_unhandled_input|_enter_tree|_exit_tree|_init|_draw|_notification|_integrate_forces|_get_property_list|_get_configuration_warnings|_to_string|_get|_set|_?([A-Z][A-Za-z0-9]*)(_[A-Za-z0-9]+)*)'

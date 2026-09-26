@@ -76,12 +76,12 @@ size = Vector3(968.392, 1, 1000)
 process_mode = 3
 script = ExtResource("1_rgh2o")
 
-[node name="Enviroment" type="Node3D" parent="." unique_id=2096580127]
+[node name="Environment" type="Node3D" parent="." unique_id=2096580127]
 
-[node name="Enviroment" type="WorldEnvironment" parent="Enviroment" unique_id=833949613]
+[node name="Environment" type="WorldEnvironment" parent="Environment" unique_id=833949613]
 environment = SubResource("Environment_pbw6q")
 
-[node name="Sun" type="DirectionalLight3D" parent="Enviroment" unique_id=1608038465]
+[node name="Sun" type="DirectionalLight3D" parent="Environment" unique_id=1608038465]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 121.50572, 0)
 shadow_enabled = true
 
@@ -448,7 +448,7 @@ offset_left = -1.0
 offset_top = 93.0
 offset_right = 149.0
 offset_bottom = 125.0
-tooltip_text = "Key To Go Forwards"
+tooltip_text = "Key To Go Forward"
 focus_mode = 0
 text = "Forward"
 
@@ -457,7 +457,7 @@ layout_mode = 0
 offset_top = 136.0
 offset_right = 145.0
 offset_bottom = 167.0
-tooltip_text = "Key To Go Backwards"
+tooltip_text = "Key To Go Backward"
 focus_mode = 0
 text = "Backward"
 
@@ -556,7 +556,7 @@ offset_left = 168.0
 offset_top = 96.0
 offset_right = 447.0
 offset_bottom = 128.0
-tooltip_text = "Binds Set To The Forwards Key"
+tooltip_text = "Binds Set To The Forward Key"
 mouse_filter = 0
 
 [node name="Backward Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=963075593]
@@ -565,7 +565,7 @@ offset_left = 168.0
 offset_top = 136.0
 offset_right = 408.0
 offset_bottom = 168.0
-tooltip_text = "Binds Set To The Backwards Key"
+tooltip_text = "Binds Set To The Backward Key"
 mouse_filter = 0
 
 [node name="Left Label" type="Label" parent="InGame Menu/Settings/Binds" unique_id=472044391]
@@ -659,9 +659,9 @@ offset_bottom = 636.0
 
 [node name="Label" type="Label" parent="InGame Menu/Settings/Binds/PanelContainer" unique_id=700790871]
 layout_mode = 2
-tooltip_text = "Enter a key......"
+tooltip_text = "Enter a key..."
 mouse_filter = 0
-text = "Enter a key......"
+text = "Enter a key..."
 
 [node name="Quit" type="Button" parent="InGame Menu/Settings/Binds" unique_id=784362349]
 layout_mode = 0
@@ -729,14 +729,14 @@ text = "SFX Volume:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Mouse Sentivity" type="Label" parent="InGame Menu/Settings/Main" unique_id=163813445]
+[node name="Mouse Sensitivity" type="Label" parent="InGame Menu/Settings/Main" unique_id=163813445]
 layout_mode = 0
 offset_top = 166.0
 offset_right = 200.0
 offset_bottom = 206.0
 tooltip_text = "Sensitivity For The Mouse"
 mouse_filter = 0
-text = "Mouse Sentivity:"
+text = "Mouse Sensitivity:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -745,7 +745,7 @@ layout_mode = 0
 offset_top = 214.0
 offset_right = 200.0
 offset_bottom = 254.0
-tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
+tooltip_text = "Toggle VSync Which Syncs Your FPS To Your Monitor's Refresh Rate To Prevent Screen Tearing"
 mouse_filter = 0
 text = "VSync:"
 horizontal_alignment = 1
@@ -756,7 +756,7 @@ layout_mode = 0
 offset_top = 262.0
 offset_right = 200.0
 offset_bottom = 302.0
-tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
+tooltip_text = "Limits Your FPS To A Number (Note: Put FPS Lock To 0 To Have No Limit)"
 mouse_filter = 0
 text = "FPS Lock:"
 horizontal_alignment = 1
@@ -767,7 +767,7 @@ layout_mode = 0
 offset_top = 302.0
 offset_right = 200.0
 offset_bottom = 342.0
-tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
+tooltip_text = "Lets You Use Either Hold For Sprinting Or Toggling"
 mouse_filter = 0
 text = "Toggle Sprint:"
 horizontal_alignment = 1
@@ -778,7 +778,7 @@ layout_mode = 0
 offset_top = 350.0
 offset_right = 200.0
 offset_bottom = 390.0
-tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
+tooltip_text = "Lets You Use Either Hold For Crouch Or Toggling"
 mouse_filter = 0
 text = "Toggle Crouch:"
 horizontal_alignment = 1
@@ -789,7 +789,7 @@ layout_mode = 0
 offset_top = 398.0
 offset_right = 200.0
 offset_bottom = 438.0
-tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
+tooltip_text = "Disables Any Kind Of Camera Movement, Such As Headbobbing"
 mouse_filter = 0
 text = "No Shake:"
 horizontal_alignment = 1
@@ -812,7 +812,7 @@ layout_mode = 0
 offset_top = 486.0
 offset_right = 200.0
 offset_bottom = 526.0
-tooltip_text = "Use Anti-Aliasing For Better Looking Worlds
+tooltip_text = "Use Anti-Aliasing For Better-Looking Worlds
 "
 mouse_filter = 0
 text = "Anti-Aliasing"
@@ -824,7 +824,7 @@ layout_mode = 0
 offset_top = 526.0
 offset_right = 200.0
 offset_bottom = 566.0
-tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)
+tooltip_text = "The Renderer For The Game, Vulkan Is Better For Modern Machines, OpenGL Is Better For Older Machines (Will Restart The Game)
 "
 mouse_filter = 0
 text = "Renderer:"
@@ -885,7 +885,7 @@ offset_left = 192.0
 offset_top = 222.0
 offset_right = 224.0
 offset_bottom = 254.0
-tooltip_text = "Toggle VSync Which Sync Your FPS To Your Monitors Refresh Rate To Prevent Screen Tearing"
+tooltip_text = "Toggle VSync Which Syncs Your FPS To Your Monitor's Refresh Rate To Prevent Screen Tearing"
 
 [node name="FPS Lock Number" type="SpinBox" parent="InGame Menu/Settings/Main" unique_id=842766843]
 layout_mode = 0
@@ -893,7 +893,7 @@ offset_left = 184.0
 offset_top = 264.0
 offset_right = 270.5
 offset_bottom = 295.0
-tooltip_text = "Limits Your FPS To  A Number (Note:Put FPS Lock To 0 To Have No Limit)"
+tooltip_text = "Limits Your FPS To A Number (Note: Put FPS Lock To 0 To Have No Limit)"
 max_value = 999.0
 rounded = true
 
@@ -903,7 +903,7 @@ offset_left = 192.0
 offset_top = 302.0
 offset_right = 224.0
 offset_bottom = 334.0
-tooltip_text = "Makes So You Can Use Either Hold For Sprinting Or Toggling"
+tooltip_text = "Lets You Use Either Hold For Sprinting Or Toggling"
 
 [node name="Toggle Crouch Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=1177342201]
 layout_mode = 0
@@ -911,7 +911,7 @@ offset_left = 192.0
 offset_top = 358.0
 offset_right = 224.0
 offset_bottom = 390.0
-tooltip_text = "Makes So You Can Use Either Hold For Crouch Or Toggling"
+tooltip_text = "Lets You Use Either Hold For Crouch Or Toggling"
 
 [node name="No Shake Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=443481279]
 layout_mode = 0
@@ -919,7 +919,7 @@ offset_left = 192.0
 offset_top = 398.0
 offset_right = 224.0
 offset_bottom = 430.0
-tooltip_text = "Disables Any Kind Of Camera Movement,Such As Headbobbing"
+tooltip_text = "Disables Any Kind Of Camera Movement, Such As Headbobbing"
 
 [node name="Speedometer Check" type="CheckBox" parent="InGame Menu/Settings/Main" unique_id=812076023]
 layout_mode = 0
@@ -935,7 +935,7 @@ offset_left = 192.0
 offset_top = 494.0
 offset_right = 232.0
 offset_bottom = 514.0
-tooltip_text = "Use Anti-Aliasing For Better Looking Worlds"
+tooltip_text = "Use Anti-Aliasing For Better-Looking Worlds"
 selected = 0
 item_count = 4
 popup/item_0/text = "Disabled"
@@ -953,7 +953,7 @@ offset_left = 192.0
 offset_top = 534.0
 offset_right = 280.0
 offset_bottom = 555.0
-tooltip_text = "The Renderer For The Game,Vulkan Is Better For Modern Machines,OpenGL Is Better For Older Machines (Will Restart The Game)"
+tooltip_text = "The Renderer For The Game, Vulkan Is Better For Modern Machines, OpenGL Is Better For Older Machines (Will Restart The Game)"
 selected = 0
 item_count = 2
 popup/item_0/text = "Vulkan"
@@ -1022,7 +1022,7 @@ layout_mode = 0
 offset_top = 283.0
 offset_right = 176.0
 offset_bottom = 331.0
-tooltip_text = "Return Back To The Main Menu"
+tooltip_text = "Return To The Main Menu"
 text = "Go Back To Menu"
 
 [node name="Music" type="Node" parent="." unique_id=674948551]

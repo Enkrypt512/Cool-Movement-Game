@@ -1,0 +1,22 @@
+# Code owners for Cool Movement Game.
+#
+# See https://docs.github.com/articles/about-code-owners
+#
+# A pull request that edits a file listed here cannot be merged without an
+# approving review from the owner. Game code, scenes, and assets are
+# deliberately NOT listed, so ordinary contributions are not blocked.
+
+# Workflows run with access to repository secrets and can write to issues and
+# pull requests, so a change here affects every other pull request.
+/.github/                       @Enkrypt512
+
+# Configuration that gates contribution. Changing the linter rules or the
+# project settings can break or block everyone's pull requests.
+/.gdlintrc                      @Enkrypt512
+/project.godot                  @Enkrypt512
+
+# Governance, licensing, and security policy.
+/CONTRIBUTING.md                @Enkrypt512
+/CODE_OF_CONDUCT.md             @Enkrypt512
+/SECURITY.md                    @Enkrypt512
+/LICENSE                        @Enkrypt512

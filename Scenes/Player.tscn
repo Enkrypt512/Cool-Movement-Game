@@ -135,13 +135,13 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_bhhdu"]
-resource_name = "Percision Recoil"
+resource_name = "Precision Recoil"
 length = 0.2
 step = 0.0333333
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Percision:position")
+tracks/0/path = NodePath("Precision:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -153,7 +153,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Percision:rotation")
+tracks/1/path = NodePath("Precision:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -168,7 +168,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Percision:position")
+tracks/0/path = NodePath("Precision:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -180,7 +180,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Percision:rotation")
+tracks/1/path = NodePath("Precision:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -292,7 +292,7 @@ _data = {
 &"Glock Recoil": SubResource("Animation_yoq75"),
 &"Knife Recoil": SubResource("Animation_o3h8g"),
 &"Minigun Recoil": SubResource("Animation_miouo"),
-&"Percision Recoil": SubResource("Animation_bhhdu"),
+&"Precision Recoil": SubResource("Animation_bhhdu"),
 &"RESET": SubResource("Animation_megsn")
 }
 
@@ -364,13 +364,13 @@ properties/15/replication_mode = 1
 properties/16/path = NodePath("Neck/Head/Eyes/Recoil:rotation")
 properties/16/spawn = true
 properties/16/replication_mode = 1
-properties/17/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:visible")
+properties/17/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Precision:visible")
 properties/17/spawn = true
 properties/17/replication_mode = 1
-properties/18/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:position")
+properties/18/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Precision:position")
 properties/18/spawn = true
 properties/18/replication_mode = 1
-properties/19/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Percision:rotation")
+properties/19/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Precision:rotation")
 properties/19/spawn = true
 properties/19/replication_mode = 1
 properties/20/path = NodePath("Neck/Head/Eyes/Recoil/Camera/Guns/Glock:visible")
@@ -435,7 +435,7 @@ script = ExtResource("2_megsn")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.70443773, -0.15963483, 0)
 script = ExtResource("2_nn08x")
 
-[node name="Percision" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=991091972 instance=ExtResource("2_5ixxa")]
+[node name="Precision" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=991091972 instance=ExtResource("2_5ixxa")]
 transform = Transform3D(1, 0, 0, 0, 0.9969055, -0.078607954, 0, 0.078607954, 0.9969055, 0.055000007, -0.0670473, -0.90075874)
 
 [node name="Glock" parent="Neck/Head/Eyes/Recoil/Camera/Weapons" unique_id=144215002 instance=ExtResource("5_ksbbd")]

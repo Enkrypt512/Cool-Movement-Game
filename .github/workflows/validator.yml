@@ -3,9 +3,10 @@ name: Validate PR Title
 on:
   pull_request:
     types: [opened, edited, synchronize]
+    branches: [ main ]
 
 jobs:
-  Valdiate_PR_Title:
+  Validate_PR_Title:
     runs-on: ubuntu-latest
     steps:
       - uses: amannn/action-semantic-pull-request@v5

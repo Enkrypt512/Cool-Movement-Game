@@ -3,7 +3,7 @@ extends Node3D
 @export var Speed: float = 80.0
 @export var Lifetime: float = 30.0
 @export var Decal_Scene: PackedScene = preload("res://Scenes/Bullet Decal.tscn")
-@export var Explosion_VFX: PackedScene = preload("res://Scenes/Explosion.tscn")
+@export var Explosion_Visual_Effect: PackedScene = preload("res://Scenes/Explosion.tscn")
 
 @onready var Collision_Detection: Area3D = $"Collision Detection"
 
@@ -35,9 +35,9 @@ func On_Bullet_Hit(Body: Node) -> void:
 	queue_free()
 
 func Spawn_Explosion() -> void:
-	if !Explosion_VFX:
+	if !Explosion_Visual_Effect:
 		return
-	var Explosion_Instance: Node3D = Explosion_VFX.instantiate()
+	var Explosion_Instance: Node3D = Explosion_Visual_Effect.instantiate()
 	get_tree().current_scene.add_child(Explosion_Instance)
 	Explosion_Instance.global_position = global_position
 	if "Max_Radius" in Explosion_Instance:
@@ -55,10 +55,10 @@ func Spawn_Decal(Target_Body: Node) -> void:
 	var Ray_Query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(Ray_Start, Ray_End)
 	var Result: Dictionary = Space_State.intersect_ray(Ray_Query)
 	if Result:
-		var decal_Instance: Node3D = Decal_Scene.instantiate()
-		Target_Body.add_child(decal_Instance)
+		var Decal_Instance: Node3D = Decal_Scene.instantiate()
+		Target_Body.add_child(Decal_Instance)
 		var Offset_Distance: float = 0.005
-		decal_Instance.global_position = Result.position + (Result.normal * Offset_Distance)
+		Decal_Instance.global_position = Result.position + (Result.normal * Offset_Distance)
 		var Normal: Vector3 = Result.normal
 		var Up_Vector: Vector3 = Vector3.UP if abs(Normal.dot(Vector3.UP)) < 0.99 else Vector3.FORWARD
-		decal_Instance.look_at(decal_Instance.global_position + Normal, Up_Vector)
+		Decal_Instance.look_at(Decal_Instance.global_position + Normal, Up_Vector)

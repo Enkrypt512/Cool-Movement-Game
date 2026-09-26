@@ -21,7 +21,7 @@ jobs:
             const Repository_Name = context.repo.repo;
             const Issue_Number = context.issue.number;
             const Valid_Commands = ['/take', '/assign', '/lock', '/unlock', '/close', '/reopen'];
-            const First_Word = comment.split(/\s+/)[0].toLowerCase();
+            const First_Word = Comment.split(/\s+/)[0].toLowerCase();
             if (!Valid_Commands.includes(First_Word)) {
               return;
             }
@@ -42,13 +42,13 @@ jobs:
                 owner: Repository_Owner,
                 repo: Repository_Name,
                 issue_number: Issue_Number,
-                body: `Only maintainers and collaborators with write/triage privileges can run \`${firstWord}\`.`
+                body: `Only maintainers and collaborators with write/triage privileges can run \`${First_Word}\`.`
               });
               return;
             }
-            const parts = comment.split(/\s+/);
+            const parts = Comment.split(/\s+/);
 
-            switch (firstWord) {
+            switch (First_Word) {
               case '/close':
                 await github.rest.issues.update({
                   owner: Repository_Owner,
@@ -85,7 +85,7 @@ jobs:
 
               case '/take':
               case '/assign':
-                let targetUser = commenter;
+                let targetUser = Commenter;
                 if (parts.length > 1 && parts[1]) {
                   targetUser = parts[1].replace('@', '');
                 }

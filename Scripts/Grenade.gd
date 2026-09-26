@@ -5,7 +5,7 @@ extends RigidBody3D
 @export var Blast_Force: float = 20.0
 @export var Max_Damage: float = 100.0
 @export var Weight: float = 1.4
-@export var Explosion_VFX: PackedScene = preload("res://Scenes/Explosion.tscn")
+@export var Explosion_Visual_Effect: PackedScene = preload("res://Scenes/Explosion.tscn")
 @onready var Blast_Area: Area3D = $"Blast Area"
 @onready var Blast_Area_Collision_Shape: CollisionShape3D = $"Blast Area/Collision Shape"
 @onready var Explosion: AudioStreamPlayer3D = $Explosion
@@ -44,8 +44,8 @@ func Explode() -> void:
 		$CollisionShape3D.set_deferred("disabled", true)
 	if is_instance_valid(Blast_Area_Collision_Shape):
 		Blast_Area_Collision_Shape.set_deferred("disabled", true)
-	if Explosion_VFX:
-		var Explosion_Instance = Explosion_VFX.instantiate()
+	if Explosion_Visual_Effect:
+		var Explosion_Instance = Explosion_Visual_Effect.instantiate()
 		get_tree().current_scene.add_child(Explosion_Instance)
 		Explosion_Instance.global_position = global_position
 		if "Max_Radius" in Explosion_Instance:

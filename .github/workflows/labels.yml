@@ -1,0 +1,73 @@
+name: Sync Labels
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  Sync_Labels:
+    name: Create Missing Labels
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      # The Close Stale Issues workflow exempts the `pinned`, `roadmap` and
+      # `help wanted` labels, but a missing label silently matches nothing, so
+      # those exemptions would never apply. This job creates any label the
+      # repository is missing so the exemptions can never rot.
+      - name: Create Missing Labels
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const Repository_Owner = context.repo.owner;
+            const Repository_Name = context.repo.repo;
+            const Required_Labels = [
+              {
+                name: 'bug',
+                color: 'd73a4a',
+                description: 'Something in the game does not work as intended.'
+              },
+              {
+                name: 'enhancement',
+                color: 'a2eeef',
+                description: 'A request for a new feature or improvement.'
+              },
+              {
+                name: 'pinned',
+                color: '0052cc',
+                description: 'Pinned to the top of the issue list. Exempt from the stale bot.'
+              },
+              {
+                name: 'roadmap',
+                color: '5319e7',
+                description: 'Planned work that is not ready to start. Exempt from the stale bot.'
+              },
+              {
+                name: 'help wanted',
+                color: '008672',
+                description: 'Extra help is welcome. Exempt from the stale bot.'
+              }
+            ];
+
+            const Existing_Response = await github.rest.issues.listLabelsForRepo({
+              owner: Repository_Owner,
+              repo: Repository_Name,
+              per_page: 100
+            });
+            const Existing_Names = Existing_Response.data.map((Label) => Label.name);
+
+            for (const Label of Required_Labels) {
+              if (Existing_Names.includes(Label.name)) {
+                console.log(`Label '${Label.name}' already exists, skipping.`);
+                continue;
+              }
+              await github.rest.issues.createLabel({
+                owner: Repository_Owner,
+                repo: Repository_Name,
+                name: Label.name,
+                color: Label.color,
+                description: Label.description
+              });
+              console.log(`Created label '${Label.name}'.`);
+            }

@@ -23,13 +23,13 @@ extends CharacterBody3D
 @onready var Grapple_Ray: RayCast3D = $"Neck/Head/Eyes/Recoil/Camera/Grappling/Grapple Ray"
 @onready var Grapple_Rope: MeshInstance3D = $"Rope Mesh"
 @onready var Grenades_Left: Label = $"HUD/Grenades Left"
-@onready var Walking_SFX_1: AudioStreamPlayer3D = $"SFX/Walking/1"
-@onready var Walking_SFX_2: AudioStreamPlayer3D = $"SFX/Walking/2"
-@onready var Walking_SFX_3: AudioStreamPlayer3D = $"SFX/Walking/3"
-@onready var Walking_SFX_4: AudioStreamPlayer3D = $"SFX/Walking/4"
-@onready var Slam_SFX: AudioStreamPlayer3D = $SFX/Slam
-@onready var Shoot_SFX: AudioStreamPlayer3D = $SFX/Shoot
-@onready var Change_Gun_SFX: AudioStreamPlayer3D = $"SFX/Change Gun"
+@onready var Walking_Sound_Effect_1: AudioStreamPlayer3D = $"SFX/Walking/1"
+@onready var Walking_Sound_Effect_2: AudioStreamPlayer3D = $"SFX/Walking/2"
+@onready var Walking_Sound_Effect_3: AudioStreamPlayer3D = $"SFX/Walking/3"
+@onready var Walking_Sound_Effect_4: AudioStreamPlayer3D = $"SFX/Walking/4"
+@onready var Slam_Sound_Effect: AudioStreamPlayer3D = $SFX/Slam
+@onready var Shoot_Sound_Effect: AudioStreamPlayer3D = $SFX/Shoot
+@onready var Change_Gun_Sound_Effect: AudioStreamPlayer3D = $"SFX/Change Gun"
 @onready var Flash_Overlay: ColorRect = $"HUD/Flash Overlay/Flashbang"
 @onready var Interaction_Ray: RayCast3D = $"Interaction Ray"
 @onready var Head_Ray: RayCast3D = $"Head Ray"
@@ -149,11 +149,11 @@ var Last_Grenade_Throw_Time: float
 @export var Minimum_Fall_Velocity: float = 20.0
 @export var Fall_Damage_Multiplier: float = 5.0
 @export var Slam_Fall_Damage_Reduction: float = 0.1
-@onready var Walking_SFXs: Array = [
-	Walking_SFX_1,
-	Walking_SFX_2,
-	Walking_SFX_3,
-	Walking_SFX_4
+@onready var Walking_Sound_Effects: Array = [
+	Walking_Sound_Effect_1,
+	Walking_Sound_Effect_2,
+	Walking_Sound_Effect_3,
+	Walking_Sound_Effect_4
 ]
 var Was_Foot_Down: bool = false
 var Flash_Tween: Tween
@@ -161,10 +161,10 @@ var Current_Car: VehicleBody3D = null
 
 func _ready() -> void:
 	if name.is_valid_int():
-		var Peer_ID: int = name.to_int()
-		set_multiplayer_authority(Peer_ID)
+		var Peer_Identifier: int = name.to_int()
+		set_multiplayer_authority(Peer_Identifier)
 		if has_node("Multiplayer Synchronizer"):
-			$"Multiplayer Synchronizer".set_multiplayer_authority(Peer_ID)
+			$"Multiplayer Synchronizer".set_multiplayer_authority(Peer_Identifier)
 	if Grapple_Rope:
 		var Rope_Mesh = ImmediateMesh.new()
 		Grapple_Rope.mesh = Rope_Mesh
@@ -406,10 +406,10 @@ func _physics_process(delta: float) -> void:
 			Eyes.position.x = lerp(Eyes.position.x, Target_Eye_X, delta * Lerp_Speed)
 		var Is_Foot_Down: bool = sin(Headbobbing_Index) < -0.85
 		if Is_Foot_Down && !Was_Foot_Down:
-			var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
-			Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
-			Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-			Random_Walking_SFX.play()
+			var Random_Walking_Sound_Effect: AudioStreamPlayer3D = Walking_Sound_Effects.pick_random()
+			Random_Walking_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+			Random_Walking_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Random_Walking_Sound_Effect.play()
 		Was_Foot_Down = Is_Foot_Down
 	else:
 		Eyes.position.y = lerp(Eyes.position.y, 0.0, delta * Lerp_Speed)
@@ -493,10 +493,10 @@ func _physics_process(delta: float) -> void:
 				(Grapple_Rope.mesh as ImmediateMesh).clear_surfaces()
 			if Input.is_action_just_pressed("Jump"):
 				velocity += Vector3.UP * (Jump_Velocity * 0.5)
-				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
-				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
-				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-				Random_Walking_SFX.play()
+				var Random_Walking_Sound_Effect: AudioStreamPlayer3D = Walking_Sound_Effects.pick_random()
+				Random_Walking_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_Sound_Effect.play()
 		else:
 			var Current_Distance: float = global_position.distance_to(Grapple_Point)
 			var Rope_Direction: Vector3 = (Grapple_Point - global_position).normalized()
@@ -542,10 +542,10 @@ func _physics_process(delta: float) -> void:
 				Direction = Push_Direction
 				Wall_Jumps_Left -= 1
 				Jumps_Left = Max_Jumps - 1
-				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
-				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
-				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-				Random_Walking_SFX.play()
+				var Random_Walking_Sound_Effect: AudioStreamPlayer3D = Walking_Sound_Effects.pick_random()
+				Random_Walking_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_Sound_Effect.play()
 				if GameManager.Toggle_Crouch && Sliding:
 					Crouching = false
 					Sliding = false
@@ -553,10 +553,10 @@ func _physics_process(delta: float) -> void:
 			elif Jumps_Left > 0:
 				velocity.y = Jump_Velocity
 				Jumps_Left -= 1
-				var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
-				Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
-				Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-				Random_Walking_SFX.play()
+				var Random_Walking_Sound_Effect: AudioStreamPlayer3D = Walking_Sound_Effects.pick_random()
+				Random_Walking_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Random_Walking_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Random_Walking_Sound_Effect.play()
 				# Bunnyslide Chaining & Super Jumping
 				if Sliding:
 					var Forward_Direction: Vector3 = -transform.basis.z
@@ -647,9 +647,9 @@ func _physics_process(delta: float) -> void:
 		if Slamming:
 			Just_Landed_From_Slam = true
 			Slamming = false
-			Slam_SFX.pitch_scale = randf_range(0.95, 1.05)
-			Slam_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-			Slam_SFX.play()
+			Slam_Sound_Effect.pitch_scale = randf_range(0.95, 1.05)
+			Slam_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Slam_Sound_Effect.play()
 			if Input.is_action_just_pressed("Crouch"):
 				var Horizontal_Velocity: Vector3 = Vector3(velocity.x, 0, velocity.z)
 				Sliding = true
@@ -663,10 +663,10 @@ func _physics_process(delta: float) -> void:
 			else:
 				Is_Crouching_Toggled = false
 		else:
-			var Random_Walking_SFX: AudioStreamPlayer3D = Walking_SFXs.pick_random()
-			Random_Walking_SFX.pitch_scale = randf_range(0.9, 1.1)
-			Random_Walking_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-			Random_Walking_SFX.play()
+			var Random_Walking_Sound_Effect: AudioStreamPlayer3D = Walking_Sound_Effects.pick_random()
+			Random_Walking_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+			Random_Walking_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+			Random_Walking_Sound_Effect.play()
 			if !Grappling && Last_Velocity.y < -Minimum_Fall_Velocity:
 				var Excess_Speed: float = abs(Last_Velocity.y) - Minimum_Fall_Velocity
 				var Calculated_Damage: float = Excess_Speed * Fall_Damage_Multiplier

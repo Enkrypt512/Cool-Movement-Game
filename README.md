@@ -8,7 +8,7 @@
 [![Itch.io](https://img.shields.io/badge/Itch.io-Play_in_Browser-red?logo=itchdotio)](https://enkrypt225.itch.io/cool-movement-game)
 [![Stars](https://img.shields.io/github/stars/Enkrypt512/Cool-Movement-Game?style=social)](https://github.com/Enkrypt512/Cool-Movement-Game/stargazers)
 
-A WIP FPS movement game inspired by [ULTRAKILL](https://store.steampowered.com/app/1229490/ULTRAKILL) and [Half-Life](https://store.steampowered.com/app/70/HalfLife),made in [Godot](https://godotengine.org/)!
+A WIP FPS movement game inspired by [ULTRAKILL](https://store.steampowered.com/app/1229490/ULTRAKILL) and [Half-Life](https://store.steampowered.com/app/70/Half-Life/), made in [Godot](https://godotengine.org/)!
 
 ## Table of contents
 
@@ -157,7 +157,7 @@ Contributions, bug reports, and suggestions are welcome!
 
 2. **Pull Requests:** Feel free to fork the repository, make changes, and submit a PR.
 
-Check the [Contributing File](CONTRIBUTING.md) for more info
+Check the [Contributing file](CONTRIBUTING.md) for more info.
 
 ## License
 
@@ -199,4 +199,4 @@ This project is released under the **GNU General Public License v3.0 (GPLv3)**. 
 
 - [teeeece](https://opengameart.org/users/teeeece): For the [flashbang SFX](https://opengameart.org/content/flash-bang-sound)
 
-- [ambientCG](https://ambientcg.com): For The [Rope Texture](https://ambientcg.com/a/Rope001)
+- [ambientCG](https://ambientcg.com): For the [Rope Texture](https://ambientcg.com/a/Rope001)

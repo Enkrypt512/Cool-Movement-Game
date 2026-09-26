@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var Percision: Node3D = $Percision
+@onready var Precision: Node3D = $Precision
 @onready var Glock: Node3D = $Glock
 @onready var Minigun: Node3D = $Minigun
 @onready var Blaster: Node3D = $Blaster
@@ -10,10 +10,10 @@ extends Node3D
 @onready var Recoil: Node3D = $"../.."
 @onready var Camera: Camera3D = $".."
 @onready var Aim_Down_Sight: CanvasLayer = $"../../../../../../Aim Down Sight"
-@onready var Shoot_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Shoot"
-@onready var Change_Gun_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change Gun"
-@onready var Stab_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Stab"
-@onready var Change_To_Knife_SFX: AudioStreamPlayer3D = $"../../../../../../SFX/Change To Knife"
+@onready var Shoot_Sound_Effect: AudioStreamPlayer3D = $"../../../../../../SFX/Shoot"
+@onready var Change_Gun_Sound_Effect: AudioStreamPlayer3D = $"../../../../../../SFX/Change Gun"
+@onready var Stab_Sound_Effect: AudioStreamPlayer3D = $"../../../../../../SFX/Stab"
+@onready var Change_To_Knife_Sound_Effect: AudioStreamPlayer3D = $"../../../../../../SFX/Change To Knife"
 
 var Shoot_Playback: AudioStreamPlaybackPolyphonic
 @export var Shoot_Sound: AudioStream = preload("res://Assets/SFX/Shoot.wav")
@@ -26,7 +26,7 @@ var Last_Shot_Time: float = 0.0
 var Continuous_Fire_Time: float = 0.0
 
 @export var Gun_Cooldowns: Dictionary = {
-	"Percision": 0.3,
+	"Precision": 0.3,
 	"Glock": 0.25,
 	"Minigun": 0.05,
 	"Blaster": 3.0,
@@ -34,7 +34,7 @@ var Continuous_Fire_Time: float = 0.0
 }
 
 @export var Gun_Damages: Dictionary = {
-	"Percision": 50,
+	"Precision": 50,
 	"Glock": 20,
 	"Minigun": 10,
 	"Blaster": 70,
@@ -42,23 +42,23 @@ var Continuous_Fire_Time: float = 0.0
 }
 
 @export var Gun_Recoils: Dictionary = {
-	"Percision": Vector3(12.0, 0.5, 0.5),
+	"Precision": Vector3(12.0, 0.5, 0.5),
 	"Glock": Vector3(3.5, 1.5, 1.0),
 	"Minigun": Vector3(5.0, 3.0, 2.0),
 	"Blaster": Vector3(80.0, 0.2, 3.0)
 }
 
 @export var Gun_Recoil_Speeds: Dictionary = {
-	"Percision": Vector2(20.0, 3.0),
+	"Precision": Vector2(20.0, 3.0),
 	"Glock":     Vector2(18.0, 4.0),
 	"Minigun":   Vector2(20.0, 2.0),
 	"Blaster":   Vector2(12.0, 2.5)
 }
 
 func _ready() -> void:
-	Guns = [Percision, Glock, Minigun, Blaster, Knife]
-	Shoot_SFX.play()
-	Shoot_Playback = Shoot_SFX.get_stream_playback()
+	Guns = [Precision, Glock, Minigun, Blaster, Knife]
+	Shoot_Sound_Effect.play()
+	Shoot_Playback = Shoot_Sound_Effect.get_stream_playback()
 
 func _process(delta: float) -> void:
 	if !Input.is_action_pressed("Shoot"):
@@ -73,13 +73,13 @@ func _input(event: InputEvent) -> void:
 			Guns[Current_Gun].visible = true
 			Continuous_Fire_Time = 0.0
 			if Guns[Current_Gun].name != "Knife":
-				Change_Gun_SFX.pitch_scale = randf_range(0.9, 1.1)
-				Change_Gun_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-				Change_Gun_SFX.play()
+				Change_Gun_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Change_Gun_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Change_Gun_Sound_Effect.play()
 			else:
-				Change_To_Knife_SFX.pitch_scale = randf_range(0.9, 1.1)
-				Change_To_Knife_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-				Change_To_Knife_SFX.play()
+				Change_To_Knife_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Change_To_Knife_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+				Change_To_Knife_Sound_Effect.play()
 
 func _physics_process(delta: float) -> void:
 	if Player.is_multiplayer_authority():
@@ -99,7 +99,7 @@ func _physics_process(delta: float) -> void:
 					Bullet_Instance.global_transform.basis = Camera.global_transform.basis
 					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
-					Shoot_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
+					Shoot_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
 					if Shoot_Playback:
 						Shoot_Playback.play_stream(Shoot_Sound, 0.0, 0.0, randf_range(0.9, 1.1))
 					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
@@ -107,9 +107,9 @@ func _physics_process(delta: float) -> void:
 					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
 				Gun_Animations.play(str(Current_Gun_Name) + " Recoil")
 				if Current_Gun_Name == "Knife":
-					Stab_SFX.pitch_scale = randf_range(0.9, 1.1)
-					Stab_SFX.volume_db = linear_to_db(GameManager.Volume / 100.0)
-					Stab_SFX.play()
+					Stab_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+					Stab_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
+					Stab_Sound_Effect.play()
 		# Aim Down Sight (ADS)
 		if is_multiplayer_authority():
 			var Current_Gun_Name: String = Guns[Current_Gun].name

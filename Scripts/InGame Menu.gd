@@ -52,11 +52,11 @@ var Resolutions: Dictionary = {
 @onready var Quit: Button = $Main/Quit
 @onready var Bindings: Button = $Settings/Main/Bindings
 @onready var Fullscreen_Check: CheckBox = $"Settings/Main/Fullscreen Check"
-@onready var FPS_Check: CheckBox = $"Settings/Main/FPS Check"
+@onready var Frames_Per_Second_Check: CheckBox = $"Settings/Main/FPS Check"
 @onready var Volume_Slider: HSlider = $"Settings/Main/Volume Slider"
 @onready var Mouse_Sensitivity_Number: SpinBox = $"Settings/Main/Mouse Sensitivity Number"
-@onready var VSync_Check: CheckBox = $"Settings/Main/VSync Check"
-@onready var FPS_Lock_Number: SpinBox = $"Settings/Main/FPS Lock Number"
+@onready var Vertical_Sync_Check: CheckBox = $"Settings/Main/VSync Check"
+@onready var Frames_Per_Second_Lock_Number: SpinBox = $"Settings/Main/FPS Lock Number"
 @onready var Toggle_Sprint_Check: CheckBox = $"Settings/Main/Toggle Sprint Check"
 @onready var Toggle_Crouch_Check: CheckBox = $"Settings/Main/Toggle Crouch Check"
 @onready var No_Shake_Check: CheckBox = $"Settings/Main/No Shake Check"
@@ -92,7 +92,7 @@ func _ready() -> void:
 	Settings_Button.pressed.connect(Change_To_Settings)
 	Settings_Quit.pressed.connect(Quit_From_Settings)
 	Fullscreen_Check.toggled.connect(On_Fullscreen_Toggled)
-	VSync_Check.toggled.connect(On_VSync_Toggled)
+	Vertical_Sync_Check.toggled.connect(On_Vertical_Sync_Toggled)
 	Bindings.pressed.connect(Change_To_Bindings)
 	Bindings_Quit.pressed.connect(Quit_From_Bindings)
 	Quit.pressed.connect(func(): get_tree().quit())
@@ -101,7 +101,7 @@ func _ready() -> void:
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
 	)
-	FPS_Lock_Number.value_changed.connect(On_Max_FPS_Changed)
+	Frames_Per_Second_Lock_Number.value_changed.connect(On_Max_Frames_Per_Second_Changed)
 	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Renderer_Drop_Down.item_selected.connect(Change_Renderer_Mode)
 	Resolution_Drop_Down.item_selected.connect(On_Resolution_Selected)
@@ -121,8 +121,8 @@ func Pause_Game() -> void:
 	visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	var Main_Node: Node3D = get_tree().current_scene
-	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
-		Main_Node.Set_HUD_Visibility(false)
+	if Main_Node && Main_Node.has_method("Set_Heads_Up_Display_Visibility"):
+		Main_Node.Set_Heads_Up_Display_Visibility(false)
 	Binds.visible = false
 	Settings.visible = false
 	Main_Settings.visible = true
@@ -138,8 +138,8 @@ func Resume_Game() -> void:
 	visible = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	var Main_Node: Node3D = get_tree().current_scene
-	if Main_Node && Main_Node.has_method("Set_HUD_Visibility"):
-		Main_Node.Set_HUD_Visibility(true)
+	if Main_Node && Main_Node.has_method("Set_Heads_Up_Display_Visibility"):
+		Main_Node.Set_Heads_Up_Display_Visibility(true)
 	Binds.visible = false
 	Settings.visible = false
 	Main_Settings.visible = true
@@ -155,12 +155,12 @@ func On_Button_Pressed(button: Button) -> void:
 	Info_Panel.show()
 
 func _process(_delta: float) -> void:
-	GameManager.FPS_Counter = FPS_Check.button_pressed
+	GameManager.Frames_Per_Second_Counter = Frames_Per_Second_Check.button_pressed
 	GameManager.Fullscreen = Fullscreen_Check.button_pressed
 	GameManager.Volume = Volume_Slider.value  
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
-	GameManager.VSync = VSync_Check.button_pressed
-	GameManager.Max_FPS = int(FPS_Lock_Number.value)
+	GameManager.Vertical_Sync = Vertical_Sync_Check.button_pressed
+	GameManager.Max_Frames_Per_Second = int(Frames_Per_Second_Lock_Number.value)
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
@@ -228,10 +228,10 @@ func Reset_To_Defaults() -> void:
 func Reset_Settings_To_Default() -> void:
 	GameManager.Volume = 100.0
 	GameManager.Fullscreen = false
-	GameManager.FPS_Counter = false
-	GameManager.VSync = true
+	GameManager.Frames_Per_Second_Counter = false
+	GameManager.Vertical_Sync = true
 	GameManager.Mouse_Sensitivity = 0.5
-	GameManager.Max_FPS = 0
+	GameManager.Max_Frames_Per_Second = 0
 	GameManager.Toggle_Sprint = false
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
@@ -276,16 +276,16 @@ func Quit_From_Bindings():
 	Quit.visible = false
 	Settings_Button.visible = false
 	Settings_Quit.visible = true
-	Engine.max_fps = FPS_Lock_Number.value
+	Engine.max_fps = Frames_Per_Second_Lock_Number.value
 
 func Save_Game_Settings() -> void:
 	var Config: ConfigFile = ConfigFile.new()
 	Config.set_value("Settings", "Volume", GameManager.Volume)
 	Config.set_value("Settings", "Fullscreen", GameManager.Fullscreen)
-	Config.set_value("Settings", "FPS Counter", GameManager.FPS_Counter)
-	Config.set_value("Settings", "Mouse Senstivity", GameManager.Mouse_Sensitivity)
-	Config.set_value("Settings", "VSync", GameManager.VSync)
-	Config.set_value("Settings", "Max FPS", GameManager.Max_FPS)
+	Config.set_value("Settings", "FPS Counter", GameManager.Frames_Per_Second_Counter)
+	Config.set_value("Settings", "Mouse Sensitivity", GameManager.Mouse_Sensitivity)
+	Config.set_value("Settings", "VSync", GameManager.Vertical_Sync)
+	Config.set_value("Settings", "Max FPS", GameManager.Max_Frames_Per_Second)
 	Config.set_value("Settings", "Toggle Sprint", GameManager.Toggle_Sprint)
 	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
 	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
@@ -311,10 +311,10 @@ func Load_Game_Settings() -> void:
 		print("No save file found. Using default values.")
 		GameManager.Volume = 100.0
 		GameManager.Fullscreen = false
-		GameManager.FPS_Counter = false
-		GameManager.VSync = true
+		GameManager.Frames_Per_Second_Counter = false
+		GameManager.Vertical_Sync = true
 		GameManager.Mouse_Sensitivity = 0.5
-		GameManager.Max_FPS = 0
+		GameManager.Max_Frames_Per_Second = 0
 		GameManager.Toggle_Sprint = false
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
@@ -325,9 +325,9 @@ func Load_Game_Settings() -> void:
 	else:
 		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
 		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
-		GameManager.FPS_Counter = Config.get_value("Settings", "FPS Counter", false)
-		GameManager.VSync = Config.get_value("Settings", "VSync", true)
-		GameManager.Max_FPS = Config.get_value("Settings","Max FPS",0)
+		GameManager.Frames_Per_Second_Counter = Config.get_value("Settings", "FPS Counter", false)
+		GameManager.Vertical_Sync = Config.get_value("Settings", "VSync", true)
+		GameManager.Max_Frames_Per_Second = Config.get_value("Settings","Max FPS",0)
 		GameManager.Toggle_Sprint = Config.get_value("Settings","Toggle Sprint",false)
 		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
 		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
@@ -335,7 +335,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
 		GameManager.Renderer = Config.get_value("Settings","Renderer",0)
 		GameManager.Resolution = Config.get_value("Settings", "Resolution", 3)
-		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Senstivity", 0.5)
+		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Sensitivity", 0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
 		else:
@@ -359,10 +359,10 @@ func Load_Game_Settings() -> void:
 func Apply_Loaded_Settings() -> void:
 	Volume_Slider.value = GameManager.Volume
 	Fullscreen_Check.button_pressed = GameManager.Fullscreen
-	FPS_Check.button_pressed = GameManager.FPS_Counter
+	Frames_Per_Second_Check.button_pressed = GameManager.Frames_Per_Second_Counter
 	Mouse_Sensitivity_Number.value = GameManager.Mouse_Sensitivity
-	VSync_Check.button_pressed = GameManager.VSync
-	FPS_Lock_Number.value = GameManager.Max_FPS
+	Vertical_Sync_Check.button_pressed = GameManager.Vertical_Sync
+	Frames_Per_Second_Lock_Number.value = GameManager.Max_Frames_Per_Second
 	Toggle_Sprint_Check.button_pressed = GameManager.Toggle_Sprint
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
@@ -377,12 +377,12 @@ func Apply_Loaded_Settings() -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 	Update_Labels()
-	if GameManager.VSync:
+	if GameManager.Vertical_Sync:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-	VSync_Check.button_pressed = GameManager.VSync
-	Engine.max_fps = GameManager.Max_FPS
+	Vertical_Sync_Check.button_pressed = GameManager.Vertical_Sync
+	Engine.max_fps = GameManager.Max_Frames_Per_Second
 	Change_Anti_Aliasing_Mode(GameManager.Anti_Aliasing_Mode)
 	Change_Resolution(GameManager.Resolution)
 
@@ -393,17 +393,17 @@ func On_Fullscreen_Toggled(Is_Checked: bool) -> void:
 	else:
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
-func On_VSync_Toggled(Is_Checked: bool) -> void:
-	GameManager.VSync = Is_Checked
+func On_Vertical_Sync_Toggled(Is_Checked: bool) -> void:
+	GameManager.Vertical_Sync = Is_Checked
 	if Is_Checked:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_ENABLED)
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Save_Game_Settings()
 
-func On_Max_FPS_Changed(value: float) -> void:
-	GameManager.Max_FPS = int(value)
-	Engine.max_fps = int(value)
+func On_Max_Frames_Per_Second_Changed(New_Value: float) -> void:
+	GameManager.Max_Frames_Per_Second = int(New_Value)
+	Engine.max_fps = int(New_Value)
 
 # Change Anti-Aliasing Mode
 func Change_Anti_Aliasing_Mode(Selected: int):

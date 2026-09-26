@@ -78,9 +78,9 @@ func Stop_Horizontal_Movement() -> void:
 	velocity.z = move_toward(velocity.z, 0, Speed)
 
 func Find_Local_Player():
-	for target in get_tree().get_nodes_in_group("Player"):
-		if target.is_multiplayer_authority():
-			Target = target
+	for Local_Player in get_tree().get_nodes_in_group("Player"):
+		if Local_Player.is_multiplayer_authority():
+			Target = Local_Player
 			break
 
 func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:

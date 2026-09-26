@@ -1,6 +1,6 @@
 extends Control
 
-@export var IP_Address: String = "127.0.0.1"
+@export var Internet_Protocol_Address: String = "127.0.0.1"
 @export var Port: int = 8789
 
 @onready var Host: Button = $Host
@@ -9,7 +9,7 @@ extends Control
 @onready var Start: Button = $"../Main/Start"
 @onready var Settings_Button: Button = $"../Main/Settings Button"
 @onready var Quit: Button = $"../Main/Quit"
-@onready var Start_Game: Button = $"Start Game"
+@onready var Start_Button: Button = $"Start Game"
 var Peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 
 func _ready() -> void:
@@ -19,13 +19,13 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(Connection_To_Server_Failed)
 	Host.pressed.connect(On_Host_Pressed)
 	Join.pressed.connect(On_Join_Pressed)
-	Start_Game.pressed.connect(func(): StartGame.rpc())
+	Start_Button.pressed.connect(func(): Start_Game.rpc())
 
-func Player_Connected(ID: int) -> void:
-	print("Player Connected To Server Successfully!: ", ID)
+func Player_Connected(Identifier: int) -> void:
+	print("Player Connected To Server Successfully!: ", Identifier)
 
-func Player_Disconnected(ID: int) -> void:
-	print("Player Disconnected From Server: ", ID)
+func Player_Disconnected(Identifier: int) -> void:
+	print("Player Disconnected From Server: ", Identifier)
 
 func Connected_To_Server() -> void:
 	print("Connected To Server Successfully!")
@@ -43,7 +43,7 @@ func On_Host_Pressed() -> void:
 	print("Server hosted on port ", Port)
 
 func On_Join_Pressed() -> void:
-	var error = Peer.create_client(IP_Address, Port)
+	var error = Peer.create_client(Internet_Protocol_Address, Port)
 	if error != OK:
 		print("Failed to join: ", error)
 		return
@@ -51,7 +51,7 @@ func On_Join_Pressed() -> void:
 	multiplayer.set_multiplayer_peer(Peer)
 
 @rpc("call_local", "authority", "reliable")
-func StartGame() -> void:
+func Start_Game() -> void:
 	Main.hide()
 	Start.hide()
 	Quit.hide()
@@ -69,7 +69,7 @@ func StartGame() -> void:
 @rpc("any_peer", "call_local", "reliable")
 func Client_Ready() -> void:
 	if multiplayer.is_server():
-		var sender_id = multiplayer.get_remote_sender_id()
-		var main_node = get_tree().root.get_node_or_null("Main")
-		if main_node:
-			main_node.Spawn_Player(sender_id)
+		var Sender_Identifier = multiplayer.get_remote_sender_id()
+		var Main_Node = get_tree().root.get_node_or_null("Main")
+		if Main_Node:
+			Main_Node.Spawn_Player(Sender_Identifier)

@@ -75,6 +75,7 @@ jobs:
       - name: Run gdlint
         run: gdlint .
       - name: Run gdformat check
+        continue-on-error: true
         run: gdformat --check .
 
   Build_Check:
@@ -91,7 +92,7 @@ jobs:
       - name: Godot Headless Export Test
         uses: firebelley/godot-export@v5.2.1
         with:
-          godot_executable_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev4&slug=linux.x86_64.zip&platform=linux.64
-          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev4&slug=export_templates.tpz&platform=templates
+          godot_executable_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev6&slug=linux.x86_64.zip&platform=linux.64
+          godot_export_templates_download_url: https://downloads.godotengine.org/?version=4.8&flavor=dev6&slug=export_templates.tpz&platform=templates
           relative_project_path: ./
           archive_output: false

@@ -1,0 +1,14 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a bug
+    url: https://github.com/Enkrypt512/Cool-Movement-Game/issues/new?assignees=&labels=bug&template=bug_report.md
+    about: Report a problem with the game that you can reproduce.
+  - name: Suggest a feature
+    url: https://github.com/Enkrypt512/Cool-Movement-Game/issues/new?assignees=&labels=enhancement&template=feature_request.md
+    about: Propose a new mechanic, movement or improvement.
+  - name: Report a security issue
+    url: https://github.com/Enkrypt512/Cool-Movement-Game/security/advisories/new
+    about: Report a vulnerability privately. Please do not open a public issue.
+  - name: Contributing and setup questions
+    url: https://github.com/Enkrypt512/Cool-Movement-Game/blob/main/CONTRIBUTING.md
+    about: Read the contributing guide, code style and Godot setup instructions.

@@ -2,7 +2,7 @@ extends Node
 
 var Player: AudioStreamPlayer
 var Playback: AudioStreamPlaybackPolyphonic
-var Button_SFX = preload("res://Assets/SFX/Button Click.ogg")
+var Button_Sound_Effect = preload("res://Assets/SFX/Button Click.ogg")
 
 func _enter_tree() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -18,14 +18,14 @@ func _enter_tree() -> void:
 
 func _on_node_added(node: Node) -> void:
 	if node is Button:
-		if !node.mouse_entered.is_connected(Play_SFX):
-			node.mouse_entered.connect(Play_SFX)
-		if !node.pressed.is_connected(Play_SFX):
-			node.pressed.connect(Play_SFX)
+		if !node.mouse_entered.is_connected(Play_Sound_Effect):
+			node.mouse_entered.connect(Play_Sound_Effect)
+		if !node.pressed.is_connected(Play_Sound_Effect):
+			node.pressed.connect(Play_Sound_Effect)
 
-func Play_SFX() -> void:
+func Play_Sound_Effect() -> void:
 	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		return
 	if Playback:
 		Player.volume_db = linear_to_db(GameManager.Volume / 100.0)
-		Playback.play_stream(Button_SFX, 0, 0, randf_range(0.9, 1.1))
+		Playback.play_stream(Button_Sound_Effect, 0, 0, randf_range(0.9, 1.1))
