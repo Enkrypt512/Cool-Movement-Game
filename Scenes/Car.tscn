@@ -14,7 +14,7 @@ mass = 2000.0
 center_of_mass_mode = 1
 continuous_cd = true
 script = ExtResource("1_8tfcp")
-Max_Steering = 0.25
+Maximum_Steering = 0.25
 Steering_Speed = 0.25
 
 [node name="Collision Shape" type="CollisionShape3D" parent="." unique_id=1462795738]

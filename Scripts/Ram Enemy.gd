@@ -59,7 +59,7 @@ func Circling_Around_Player(delta: float) -> void:
 	var Target_X: float = Cached_Player_Position.x + cos(Circle_Angle) * Circle_Radius
 	var Target_Z: float = Cached_Player_Position.z + sin(Circle_Angle) * Circle_Radius
 	var Target_Y: float = Cached_Player_Position.y + Hover_Altitude
-	var Target_Position: Vector3 = Vector3(Target_X, Target_Y, Target_Z)
+	var Target_Position: Vector3 = Vector3(Target_X,Target_Y,Target_Z)
 	var Direction: Vector3 = (Target_Position - global_position).normalized()
 	velocity = Direction * Speed
 	Smooth_Look_At(global_position + velocity)
@@ -99,7 +99,7 @@ func Swooping_Up(_delta: float) -> void:
 
 func Smooth_Look_At(Target: Vector3) -> void:
 	if global_position.distance_to(Target) > 0.1:
-		look_at(Target, Vector3.UP)
+		look_at(Target,Vector3.UP)
 
 func On_Body_Detected(Node_Hit: Node) -> void:
 	if !Can_Damage:
@@ -108,7 +108,7 @@ func On_Body_Detected(Node_Hit: Node) -> void:
 	while Hit_Target && !Hit_Target.is_in_group("Player"):
 		Hit_Target = Hit_Target.get_parent()
 	if Hit_Target:
-		Hit_Target.Take_Damage(Damage, -global_transform.basis.z * 5.0)
+		Hit_Target.Take_Damage(Damage,-global_transform.basis.z * 5.0)
 		GameManager.Times_Hit += 1
 		GameManager.Current_Combo = 0
 		Start_Cooldown()

@@ -3,7 +3,7 @@ extends RigidBody3D
 @export_group("Grenade Parameters")
 @export var Fuse_Time: float = 2.5
 @export var Blast_Force: float = 20.0
-@export var Max_Damage: float = 100.0
+@export var Maximum_Damage: float = 100.0
 @export var Weight: float = 1.4
 @export var Explosion_Visual_Effect: PackedScene = preload("res://Scenes/Explosion.tscn")
 @onready var Blast_Area: Area3D = $"Blast Area"
@@ -25,15 +25,15 @@ func Explode() -> void:
 		if Body == self:
 			continue
 		var Distance: float = global_position.distance_to(Body.global_position)
-		var Damage_Factor: float = clampf(1.0 - (Distance / Blast_Radius), 0.1, 1.0)
-		var Damage_To_Apply: int = int(Max_Damage * Damage_Factor)
+		var Damage_Factor: float = clampf(1.0 - (Distance / Blast_Radius),0.1,1.0)
+		var Damage_To_Apply: int = int(Maximum_Damage * Damage_Factor)
 		var Direction: Vector3 = (Body.global_position - global_position).normalized()
 		Direction.y += 0.3
 		if Body is RigidBody3D:
 			Body.apply_central_impulse(Direction * Blast_Force * Damage_Factor)
 		if Body.has_method("Take_Damage"):
 			var Knockback_Impulse: Vector3 = Direction * (Blast_Force * Damage_Factor)
-			Body.Take_Damage(Damage_To_Apply, Knockback_Impulse)
+			Body.Take_Damage(Damage_To_Apply,Knockback_Impulse)
 	if Explosion && Explosion.stream:
 		Explosion.pitch_scale = randf_range(0.9,1.1)
 		Explosion.volume_db = linear_to_db(GameManager.Volume / 100.0)
@@ -41,15 +41,15 @@ func Explode() -> void:
 	visible = false
 	freeze = true
 	if has_node("CollisionShape3D"):
-		$CollisionShape3D.set_deferred("disabled", true)
+		$CollisionShape3D.set_deferred("disabled",true)
 	if is_instance_valid(Blast_Area_Collision_Shape):
-		Blast_Area_Collision_Shape.set_deferred("disabled", true)
+		Blast_Area_Collision_Shape.set_deferred("disabled",true)
 	if Explosion_Visual_Effect:
 		var Explosion_Instance = Explosion_Visual_Effect.instantiate()
 		get_tree().current_scene.add_child(Explosion_Instance)
 		Explosion_Instance.global_position = global_position
-		if "Max_Radius" in Explosion_Instance:
-			Explosion_Instance.Max_Radius = Blast_Radius
+		if "Maximum_Radius" in Explosion_Instance:
+			Explosion_Instance.Maximum_Radius = Blast_Radius
 	if Explosion && Explosion.playing:
 		await Explosion.finished
 	queue_free()

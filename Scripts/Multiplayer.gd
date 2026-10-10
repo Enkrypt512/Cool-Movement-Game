@@ -22,10 +22,10 @@ func _ready() -> void:
 	Start_Button.pressed.connect(func(): Start_Game.rpc())
 
 func Player_Connected(Identifier: int) -> void:
-	print("Player Connected To Server Successfully!: ", Identifier)
+	print("Player Connected To Server Successfully!: ",Identifier)
 
 func Player_Disconnected(Identifier: int) -> void:
-	print("Player Disconnected From Server: ", Identifier)
+	print("Player Disconnected From Server: ",Identifier)
 
 func Connected_To_Server() -> void:
 	print("Connected To Server Successfully!")
@@ -36,21 +36,21 @@ func Connection_To_Server_Failed() -> void:
 func On_Host_Pressed() -> void:
 	var error = Peer.create_server(Port)
 	if error != OK:
-		print("Failed to host: ", error)
+		print("Failed to host: ",error)
 		return
 	Peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(Peer)
-	print("Server hosted on port ", Port)
+	print("Server hosted on port ",Port)
 
 func On_Join_Pressed() -> void:
-	var error = Peer.create_client(Internet_Protocol_Address, Port)
+	var error = Peer.create_client(Internet_Protocol_Address,Port)
 	if error != OK:
-		print("Failed to join: ", error)
+		print("Failed to join: ",error)
 		return
 	Peer.get_host().compress(ENetConnection.COMPRESS_RANGE_CODER)
 	multiplayer.set_multiplayer_peer(Peer)
 
-@rpc("call_local", "authority", "reliable")
+@rpc("call_local","authority","reliable")
 func Start_Game() -> void:
 	Main.hide()
 	Start.hide()
@@ -66,7 +66,7 @@ func Start_Game() -> void:
 	else:
 		Scene_Instance.Spawn_All_Players()
 
-@rpc("any_peer", "call_local", "reliable")
+@rpc("any_peer","call_local","reliable")
 func Client_Ready() -> void:
 	if multiplayer.is_server():
 		var Sender_Identifier = multiplayer.get_remote_sender_id()

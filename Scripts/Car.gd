@@ -1,6 +1,6 @@
 extends VehicleBody3D
 
-@export var Max_Steering: float = 0.65
+@export var Maximum_Steering: float = 0.65
 @export var Steering_Speed: float = 3.0
 @export var Engine_Power: float = 5000.0
 @export var Braking_Power: float = 150.0
@@ -13,11 +13,11 @@ func _ready() -> void:
 	Body_Detection.body_entered.connect(On_Body_Detected)
 
 func _physics_process(delta: float) -> void:
-	var Steer_Input: float = Input.get_axis("Left", "Right")
-	var Target_Steering: float = Steer_Input * Max_Steering
+	var Steer_Input: float = Input.get_axis("Left","Right")
+	var Target_Steering: float = Steer_Input * Maximum_Steering
 	if Player:
-		steering = move_toward(steering, Target_Steering, Steering_Speed * delta)
-	var Acceleration_Input: float = Input.get_axis("Backward", "Forward")
+		steering = move_toward(steering,Target_Steering,Steering_Speed * delta)
+	var Acceleration_Input: float = Input.get_axis("Backward","Forward")
 	var Braking: bool = Input.is_action_pressed("Brake") || Input.is_action_pressed("Crouch")
 	if Player:
 		if Braking:

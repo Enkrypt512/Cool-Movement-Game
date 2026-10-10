@@ -124,7 +124,9 @@ Other notes:
 - Line length: up to **240** characters, matching the existing scripts.
 - `var`, `@export var` and `@onready var` blocks may be interleaved; declaration order is not enforced.
 - Add `@export` to any variable that might be useful to have exported in the inspector.
-- No underscore prefix on variables or functions (unless they are a native Godot function).
+- No underscore prefix on variables or functions (unless they are a native Godot function,and for variables,only if they're arguments for a function and they're unused).
+- No `const` variables
+- (preferably) no warnings in scripts
 
 ### Linting and formatting
 

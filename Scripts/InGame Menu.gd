@@ -4,18 +4,18 @@ var Current_Button : Button
 @export var Save_Path:String = "user://Settings.cfg"
 var Local_Player: CharacterBody3D = null
 var Resolutions: Dictionary = {
-	"7680x4320 (8K)": Vector2i(7680, 4320),
-	"3840x2160 (4K)": Vector2i(3840, 2160),
-	"2560x1440 (1440p)": Vector2i(2560, 1440),
-	"1920x1080 (1080p)": Vector2i(1920, 1080),
-	"1600x900 (900p)": Vector2i(1600, 900),
-	"1366x768 (768p)": Vector2i(1366, 768),
-	"1280x720 (720p)": Vector2i(1280, 720),
-	"960x540 (540p)": Vector2i(960, 540),
-	"854x480 (480p)": Vector2i(854, 480),
-	"640x360 (360p)": Vector2i(640, 360),
-	"426x240 (240p)": Vector2i(426, 240),
-	"284x160 (160p)": Vector2i(284, 160)
+	"7680x4320 (8K)": Vector2i(7680,4320),
+	"3840x2160 (4K)": Vector2i(3840,2160),
+	"2560x1440 (1440p)": Vector2i(2560,1440),
+	"1920x1080 (1080p)": Vector2i(1920,1080),
+	"1600x900 (900p)": Vector2i(1600,900),
+	"1366x768 (768p)": Vector2i(1366,768),
+	"1280x720 (720p)": Vector2i(1280,720),
+	"960x540 (540p)": Vector2i(960,540),
+	"854x480 (480p)": Vector2i(854,480),
+	"640x360 (360p)": Vector2i(640,360),
+	"426x240 (240p)": Vector2i(426,240),
+	"284x160 (160p)": Vector2i(284,160)
 }
 
 @onready var Forward: Button = $Settings/Binds/Forward
@@ -101,7 +101,7 @@ func _ready() -> void:
 		get_tree().paused = false
 		get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
 	)
-	Frames_Per_Second_Lock_Number.value_changed.connect(On_Max_Frames_Per_Second_Changed)
+	Frames_Per_Second_Lock_Number.value_changed.connect(On_Maximum_Frames_Per_Second_Changed)
 	Anti_Aliasing_Drop_Down.item_selected.connect(Change_Anti_Aliasing_Mode)
 	Renderer_Drop_Down.item_selected.connect(Change_Renderer_Mode)
 	Resolution_Drop_Down.item_selected.connect(On_Resolution_Selected)
@@ -160,7 +160,7 @@ func _process(_delta: float) -> void:
 	GameManager.Volume = Volume_Slider.value  
 	GameManager.Mouse_Sensitivity = Mouse_Sensitivity_Number.value
 	GameManager.Vertical_Sync = Vertical_Sync_Check.button_pressed
-	GameManager.Max_Frames_Per_Second = int(Frames_Per_Second_Lock_Number.value)
+	GameManager.Maximum_Frames_Per_Second = int(Frames_Per_Second_Lock_Number.value)
 	GameManager.Toggle_Sprint = Toggle_Sprint_Check.button_pressed
 	GameManager.Toggle_Crouch = Toggle_Crouch_Check.button_pressed
 	GameManager.No_Shake = No_Shake_Check.button_pressed
@@ -186,8 +186,8 @@ func _input(Event: InputEvent) -> void:
 		if Action != Target_Action:
 			for Action_Event in InputMap.action_get_events(Action):
 				if Action_Event.is_match(Event):
-					InputMap.action_erase_event(Action, Action_Event)
-	InputMap.action_add_event(Target_Action, Event)
+					InputMap.action_erase_event(Action,Action_Event)
+	InputMap.action_add_event(Target_Action,Event)
 	Finish_Remapping()
 
 func Finish_Remapping() -> void:
@@ -196,10 +196,10 @@ func Finish_Remapping() -> void:
 	Update_Labels()
 
 func Update_Labels() -> void:
-	Set_Label_Text(Forward_Label, "Forward")
-	Set_Label_Text(Backward_Label, "Backward")
-	Set_Label_Text(Left_Label, "Left")
-	Set_Label_Text(Right_Label, "Right")
+	Set_Label_Text(Forward_Label,"Forward")
+	Set_Label_Text(Backward_Label,"Backward")
+	Set_Label_Text(Left_Label,"Left")
+	Set_Label_Text(Right_Label,"Right")
 	Set_Label_Text(Sprint_Label,"Sprint")
 	Set_Label_Text(Crouch_Label,"Crouch")
 	Set_Label_Text(Freelook_Label,"Freelook")
@@ -208,7 +208,7 @@ func Update_Labels() -> void:
 	Set_Label_Text(Shoot_Label,"Shoot")
 	Set_Label_Text(Exit_Label,"Exit")
 
-func Set_Label_Text(label: Label, Action_Name: String) -> void:
+func Set_Label_Text(label: Label,Action_Name: String) -> void:
 	var Actual_Action: String = Action_Name
 	if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action_Name.to_lower()):
 		Actual_Action = Action_Name.to_lower()
@@ -231,7 +231,7 @@ func Reset_Settings_To_Default() -> void:
 	GameManager.Frames_Per_Second_Counter = false
 	GameManager.Vertical_Sync = true
 	GameManager.Mouse_Sensitivity = 0.5
-	GameManager.Max_Frames_Per_Second = 0
+	GameManager.Maximum_Frames_Per_Second = 0
 	GameManager.Toggle_Sprint = false
 	GameManager.Toggle_Crouch = false
 	GameManager.No_Shake = false
@@ -279,34 +279,34 @@ func Quit_From_Bindings():
 	Engine.max_fps = Frames_Per_Second_Lock_Number.value
 
 func Save_Game_Settings() -> void:
-	var Config: ConfigFile = ConfigFile.new()
-	Config.set_value("Settings", "Volume", GameManager.Volume)
-	Config.set_value("Settings", "Fullscreen", GameManager.Fullscreen)
-	Config.set_value("Settings", "FPS Counter", GameManager.Frames_Per_Second_Counter)
-	Config.set_value("Settings", "Mouse Sensitivity", GameManager.Mouse_Sensitivity)
-	Config.set_value("Settings", "VSync", GameManager.Vertical_Sync)
-	Config.set_value("Settings", "Max FPS", GameManager.Max_Frames_Per_Second)
-	Config.set_value("Settings", "Toggle Sprint", GameManager.Toggle_Sprint)
-	Config.set_value("Settings", "Toggle Crouch", GameManager.Toggle_Crouch)
-	Config.set_value("Settings", "No Shake", GameManager.No_Shake)
-	Config.set_value("Settings", "Speedometer", GameManager.Speedometer)
-	Config.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
-	Config.set_value("Settings","Renderer",GameManager.Renderer)
-	Config.set_value("Settings", "Resolution", GameManager.Resolution)
-	var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
+	var Configuration: ConfigFile = ConfigFile.new()
+	Configuration.set_value("Settings","Volume",GameManager.Volume)
+	Configuration.set_value("Settings","Fullscreen",GameManager.Fullscreen)
+	Configuration.set_value("Settings","FPS Counter",GameManager.Frames_Per_Second_Counter)
+	Configuration.set_value("Settings","Mouse Sensitivity",GameManager.Mouse_Sensitivity)
+	Configuration.set_value("Settings","VSync",GameManager.Vertical_Sync)
+	Configuration.set_value("Settings","Max FPS",GameManager.Maximum_Frames_Per_Second)
+	Configuration.set_value("Settings","Toggle Sprint",GameManager.Toggle_Sprint)
+	Configuration.set_value("Settings","Toggle Crouch",GameManager.Toggle_Crouch)
+	Configuration.set_value("Settings","No Shake",GameManager.No_Shake)
+	Configuration.set_value("Settings","Speedometer",GameManager.Speedometer)
+	Configuration.set_value("Settings","Anti-Aliasing Mode",GameManager.Anti_Aliasing_Mode)
+	Configuration.set_value("Settings","Renderer",GameManager.Renderer)
+	Configuration.set_value("Settings","Resolution",GameManager.Resolution)
+	var Actions: Array = ["Forward","Backward","Left","Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 	for Action in Actions:
 		var Actual_Action: String = Action
 		if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 			Actual_Action = Action.to_lower()
 		var Events: Array = InputMap.action_get_events(Actual_Action)
-		Config.set_value("Binds", Action, Events)
-	var error: Error = Config.save(Save_Path)
+		Configuration.set_value("Binds",Action,Events)
+	var error: Error = Configuration.save(Save_Path)
 	if error != OK:
-		print("Failed to save settings. Error code: ", error)
+		print("Failed to save settings. Error code: ",error)
 
 func Load_Game_Settings() -> void:
-	var Config: ConfigFile = ConfigFile.new()
-	var error: Error = Config.load(Save_Path)
+	var Configuration: ConfigFile = ConfigFile.new()
+	var error: Error = Configuration.load(Save_Path)
 	if error != OK:
 		print("No save file found. Using default values.")
 		GameManager.Volume = 100.0
@@ -314,7 +314,7 @@ func Load_Game_Settings() -> void:
 		GameManager.Frames_Per_Second_Counter = false
 		GameManager.Vertical_Sync = true
 		GameManager.Mouse_Sensitivity = 0.5
-		GameManager.Max_Frames_Per_Second = 0
+		GameManager.Maximum_Frames_Per_Second = 0
 		GameManager.Toggle_Sprint = false
 		GameManager.Toggle_Crouch = false
 		GameManager.No_Shake = false
@@ -323,27 +323,27 @@ func Load_Game_Settings() -> void:
 		GameManager.Renderer = 0
 		GameManager.Resolution = 3
 	else:
-		GameManager.Volume = Config.get_value("Settings", "Volume", 100.0)
-		GameManager.Fullscreen = Config.get_value("Settings", "Fullscreen", false)
-		GameManager.Frames_Per_Second_Counter = Config.get_value("Settings", "FPS Counter", false)
-		GameManager.Vertical_Sync = Config.get_value("Settings", "VSync", true)
-		GameManager.Max_Frames_Per_Second = Config.get_value("Settings","Max FPS",0)
-		GameManager.Toggle_Sprint = Config.get_value("Settings","Toggle Sprint",false)
-		GameManager.Toggle_Crouch = Config.get_value("Settings","Toggle Crouch",false)
-		GameManager.No_Shake = Config.get_value("Settings","No Shake",false)
-		GameManager.Speedometer = Config.get_value("Settings","Speedometer",false)
-		GameManager.Anti_Aliasing_Mode = Config.get_value("Settings","Anti-Aliasing Mode",0)
-		GameManager.Renderer = Config.get_value("Settings","Renderer",0)
-		GameManager.Resolution = Config.get_value("Settings", "Resolution", 3)
-		var Loaded_Mouse_Sensitivity: float = Config.get_value("Settings", "Mouse Sensitivity", 0.5)
+		GameManager.Volume = Configuration.get_value("Settings","Volume",100.0)
+		GameManager.Fullscreen = Configuration.get_value("Settings","Fullscreen",false)
+		GameManager.Frames_Per_Second_Counter = Configuration.get_value("Settings","FPS Counter",false)
+		GameManager.Vertical_Sync = Configuration.get_value("Settings","VSync",true)
+		GameManager.Maximum_Frames_Per_Second = Configuration.get_value("Settings","Max FPS",0)
+		GameManager.Toggle_Sprint = Configuration.get_value("Settings","Toggle Sprint",false)
+		GameManager.Toggle_Crouch = Configuration.get_value("Settings","Toggle Crouch",false)
+		GameManager.No_Shake = Configuration.get_value("Settings","No Shake",false)
+		GameManager.Speedometer = Configuration.get_value("Settings","Speedometer",false)
+		GameManager.Anti_Aliasing_Mode = Configuration.get_value("Settings","Anti-Aliasing Mode",0)
+		GameManager.Renderer = Configuration.get_value("Settings","Renderer",0)
+		GameManager.Resolution = Configuration.get_value("Settings","Resolution",3)
+		var Loaded_Mouse_Sensitivity: float = Configuration.get_value("Settings","Mouse Sensitivity",0.5)
 		if Loaded_Mouse_Sensitivity == null:
 			GameManager.Mouse_Sensitivity = 0.5
 		else:
 			GameManager.Mouse_Sensitivity = Loaded_Mouse_Sensitivity
-		var Actions: Array = ["Forward", "Backward", "Left", "Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
+		var Actions: Array = ["Forward","Backward","Left","Right","Sprint","Crouch","Freelook","Jump","Exit","Shoot","Change Gun"]
 		for Action in Actions:
-			if Config.has_section_key("Binds", Action):
-				var Raw_Data = Config.get_value("Binds", Action)
+			if Configuration.has_section_key("Binds",Action):
+				var Raw_Data = Configuration.get_value("Binds",Action)
 				var Actual_Action: String = Action
 				if !InputMap.has_action(Actual_Action) && InputMap.has_action(Action.to_lower()):
 					Actual_Action = Action.to_lower()
@@ -351,9 +351,9 @@ func Load_Game_Settings() -> void:
 				if Raw_Data is Array:
 					for Event in Raw_Data:
 						if Event is InputEvent:
-							InputMap.action_add_event(Actual_Action, Event)
+							InputMap.action_add_event(Actual_Action,Event)
 				elif Raw_Data is InputEvent:
-					InputMap.action_add_event(Actual_Action, Raw_Data)
+					InputMap.action_add_event(Actual_Action,Raw_Data)
 	Apply_Loaded_Settings()
 
 func Apply_Loaded_Settings() -> void:
@@ -362,7 +362,7 @@ func Apply_Loaded_Settings() -> void:
 	Frames_Per_Second_Check.button_pressed = GameManager.Frames_Per_Second_Counter
 	Mouse_Sensitivity_Number.value = GameManager.Mouse_Sensitivity
 	Vertical_Sync_Check.button_pressed = GameManager.Vertical_Sync
-	Frames_Per_Second_Lock_Number.value = GameManager.Max_Frames_Per_Second
+	Frames_Per_Second_Lock_Number.value = GameManager.Maximum_Frames_Per_Second
 	Toggle_Sprint_Check.button_pressed = GameManager.Toggle_Sprint
 	Toggle_Crouch_Check.button_pressed = GameManager.Toggle_Crouch
 	No_Shake_Check.button_pressed = GameManager.No_Shake
@@ -382,7 +382,7 @@ func Apply_Loaded_Settings() -> void:
 	else:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Vertical_Sync_Check.button_pressed = GameManager.Vertical_Sync
-	Engine.max_fps = GameManager.Max_Frames_Per_Second
+	Engine.max_fps = GameManager.Maximum_Frames_Per_Second
 	Change_Anti_Aliasing_Mode(GameManager.Anti_Aliasing_Mode)
 	Change_Resolution(GameManager.Resolution)
 
@@ -401,8 +401,8 @@ func On_Vertical_Sync_Toggled(Is_Checked: bool) -> void:
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 	Save_Game_Settings()
 
-func On_Max_Frames_Per_Second_Changed(New_Value: float) -> void:
-	GameManager.Max_Frames_Per_Second = int(New_Value)
+func On_Maximum_Frames_Per_Second_Changed(New_Value: float) -> void:
+	GameManager.Maximum_Frames_Per_Second = int(New_Value)
 	Engine.max_fps = int(New_Value)
 
 # Change Anti-Aliasing Mode
@@ -426,19 +426,19 @@ func Change_Renderer_Mode(Index: int) -> void:
 	var Rendering_Method = "forward_plus"
 	if Index == 1:
 		Rendering_Method = "gl_compatibility"
-	ProjectSettings.set_setting("rendering/renderer/rendering_method", Rendering_Method)
-	ProjectSettings.set_setting("rendering/renderer/rendering_method.mobile", Rendering_Method)
+	ProjectSettings.set_setting("rendering/renderer/rendering_method",Rendering_Method)
+	ProjectSettings.set_setting("rendering/renderer/rendering_method.mobile",Rendering_Method)
 	Save_Game_Settings()
 	if OS.has_feature("editor"):
 		print("Renderer changes require an exported build to restart automatically.")
 		return
 	var Arguments = OS.get_cmdline_args()
-	for Argument in range(Arguments.size() - 1, -1, -1):
+	for Argument in range(Arguments.size() - 1,-1,-1):
 		if Arguments[Argument].begins_with("--rendering-method"):
 			Arguments.remove_at(Argument)
 	Arguments.append("--rendering-method")
 	Arguments.append(Rendering_Method)
-	OS.set_restart_on_exit(true, Arguments)
+	OS.set_restart_on_exit(true,Arguments)
 	get_tree().quit()
 
 func On_Resolution_Selected(Index: int) -> void:

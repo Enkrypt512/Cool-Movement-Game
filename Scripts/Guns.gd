@@ -42,27 +42,27 @@ var Continuous_Fire_Time: float = 0.0
 }
 
 @export var Gun_Recoils: Dictionary = {
-	"Precision": Vector3(12.0, 0.5, 0.5),
-	"Glock": Vector3(3.5, 1.5, 1.0),
-	"Minigun": Vector3(5.0, 3.0, 2.0),
-	"Blaster": Vector3(80.0, 0.2, 3.0)
+	"Precision": Vector3(12.0,0.5,0.5),
+	"Glock": Vector3(3.5,1.5,1.0),
+	"Minigun": Vector3(5.0,3.0,2.0),
+	"Blaster": Vector3(80.0,0.2,3.0)
 }
 
 @export var Gun_Recoil_Speeds: Dictionary = {
-	"Precision": Vector2(20.0, 3.0),
-	"Glock":     Vector2(18.0, 4.0),
-	"Minigun":   Vector2(20.0, 2.0),
-	"Blaster":   Vector2(12.0, 2.5)
+	"Precision": Vector2(20.0,3.0),
+	"Glock":     Vector2(18.0,4.0),
+	"Minigun":   Vector2(20.0,2.0),
+	"Blaster":   Vector2(12.0,2.5)
 }
 
 func _ready() -> void:
-	Guns = [Precision, Glock, Minigun, Blaster, Knife]
+	Guns = [Precision,Glock,Minigun,Blaster,Knife]
 	Shoot_Sound_Effect.play()
 	Shoot_Playback = Shoot_Sound_Effect.get_stream_playback()
 
 func _process(delta: float) -> void:
 	if !Input.is_action_pressed("Shoot"):
-		Continuous_Fire_Time = move_toward(Continuous_Fire_Time, 0.0, delta * 4.0)
+		Continuous_Fire_Time = move_toward(Continuous_Fire_Time,0.0,delta * 4.0)
 
 func _input(event: InputEvent) -> void:
 	if is_multiplayer_authority() && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -73,11 +73,11 @@ func _input(event: InputEvent) -> void:
 			Guns[Current_Gun].visible = true
 			Continuous_Fire_Time = 0.0
 			if Guns[Current_Gun].name != "Knife":
-				Change_Gun_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Change_Gun_Sound_Effect.pitch_scale = randf_range(0.9,1.1)
 				Change_Gun_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
 				Change_Gun_Sound_Effect.play()
 			else:
-				Change_To_Knife_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+				Change_To_Knife_Sound_Effect.pitch_scale = randf_range(0.9,1.1)
 				Change_To_Knife_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
 				Change_To_Knife_Sound_Effect.play()
 
@@ -86,7 +86,7 @@ func _physics_process(delta: float) -> void:
 		# Shooting
 		if Input.is_action_pressed("Shoot") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 			var Current_Gun_Name: String = Guns[Current_Gun].name
-			var Shoot_Cooldown: float = Gun_Cooldowns.get(Current_Gun_Name, 0.1)
+			var Shoot_Cooldown: float = Gun_Cooldowns.get(Current_Gun_Name,0.1)
 			var Current_Time: float = Time.get_ticks_msec() / 1000.0
 			if Current_Time - Last_Shot_Time >= Shoot_Cooldown:
 				Last_Shot_Time = Current_Time
@@ -97,28 +97,28 @@ func _physics_process(delta: float) -> void:
 					get_tree().current_scene.add_child(Bullet_Instance)
 					Bullet_Instance.global_position = Active_Gun.global_position
 					Bullet_Instance.global_transform.basis = Camera.global_transform.basis
-					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name, 10)
+					Bullet_Instance.Damage = Gun_Damages.get(Current_Gun_Name,10)
 					Bullet_Instance.Gun_Type = Current_Gun_Name
 					Shoot_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
 					if Shoot_Playback:
-						Shoot_Playback.play_stream(Shoot_Sound, 0.0, 0.0, randf_range(0.9, 1.1))
-					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name, Vector3(2.0, 1.0, 0.5))
-					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name, Vector2(15.0, 8.0))
-					Recoil.Add_Recoil(Current_Recoil, Current_Speeds.x, Current_Speeds.y)
+						Shoot_Playback.play_stream(Shoot_Sound,0.0,0.0,randf_range(0.9,1.1))
+					var Current_Recoil: Vector3 = Gun_Recoils.get(Current_Gun_Name,Vector3(2.0,1.0,0.5))
+					var Current_Speeds: Vector2 = Gun_Recoil_Speeds.get(Current_Gun_Name,Vector2(15.0,8.0))
+					Recoil.Add_Recoil(Current_Recoil,Current_Speeds.x,Current_Speeds.y)
 				Gun_Animations.play(str(Current_Gun_Name) + " Recoil")
 				if Current_Gun_Name == "Knife":
-					Stab_Sound_Effect.pitch_scale = randf_range(0.9, 1.1)
+					Stab_Sound_Effect.pitch_scale = randf_range(0.9,1.1)
 					Stab_Sound_Effect.volume_db = linear_to_db(GameManager.Volume / 100.0)
 					Stab_Sound_Effect.play()
 		# Aim Down Sight (ADS)
 		if is_multiplayer_authority():
 			var Current_Gun_Name: String = Guns[Current_Gun].name
 			if Input.is_action_pressed("Aim Down Sight") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED && Current_Gun_Name != "Knife":
-				Camera.fov = lerp(int(Camera.fov), 20, delta * Lerp_Speed)
+				Camera.fov = lerp(int(Camera.fov),20,delta * Lerp_Speed)
 				Aim_Down_Sight.visible = true
 				Previous_Mouse_Sensitivity = GameManager.Mouse_Sensitivity
 				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity / 6
 			else:
-				Camera.fov = lerp(int(Camera.fov), 75, delta * Lerp_Speed)
+				Camera.fov = lerp(int(Camera.fov),75,delta * Lerp_Speed)
 				Aim_Down_Sight.visible = false
 				GameManager.Mouse_Sensitivity = Previous_Mouse_Sensitivity

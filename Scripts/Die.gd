@@ -76,12 +76,12 @@ func _process(_delta: float) -> void:
 			Menu.visible = false
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			var Current_Score: int = GameManager.Enemies_Killed * 50
-			var Record_Results: Dictionary = GameManager.Submit_Score(Current_Score, GameManager.Enemies_Killed, GameManager.time)
-			if Record_Results.get("Is_New_Score", false):
+			var Record_Results: Dictionary = GameManager.Submit_Score(Current_Score,GameManager.Enemies_Killed,GameManager.time)
+			if Record_Results.get("Is_New_Score",false):
 				Highscore.text = "New Highscore!"
 			else:
 				Highscore.text = "Highscore: " + str(GameManager.Highscore)
-			if Record_Results.get("Is_New_Kills", false):
+			if Record_Results.get("Is_New_Kills",false):
 				Most_Enemies_Killed.text = "New Enemies Record!"
 			else:
 				Most_Enemies_Killed.text = "Most Enemies Killed:" + str(GameManager.Most_Enemies_Killed)
@@ -92,8 +92,8 @@ func _process(_delta: float) -> void:
 				var Best_Minutues: int = Best_Microseconds / 60_000_000
 				var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 				var Best_Milliseconds: int = (Best_Microseconds / 1_000) % 1_000
-				Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues, Best_Seconds, Best_Milliseconds]
-			var Rank_Data: Dictionary = Calculate_Final_Rank(GameManager.Enemies_Killed, GameManager.time, Player)
+				Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutues,Best_Seconds,Best_Milliseconds]
+			var Rank_Data: Dictionary = Calculate_Final_Rank(GameManager.Enemies_Killed,GameManager.time,Player)
 			Update_Rank_User_Interface(Rank_Data)
 	else:
 		if Died.visible:
@@ -108,12 +108,12 @@ func _process(_delta: float) -> void:
 	var Minutes: int = Total_Microseconds / 60_000_000
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
-	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
+	time.text = "Time: %02dm %02ds %03dms" % [Minutes,Seconds,Milliseconds]
 	Hits.text = "Hits:" + str(GameManager.Times_Hit)
 
-func Calculate_Final_Rank(Kills: int, Total_Seconds: float, Player_Node: CharacterBody3D) -> Dictionary:
+func Calculate_Final_Rank(Kills: int,Total_Seconds: float,Player_Node: CharacterBody3D) -> Dictionary:
 	if Total_Seconds <= 0:
-		return {"Tier": Ranks.D, "String": "D"}
+		return {"Tier": Ranks.D,"String": "D"}
 	var Minutes: float = Total_Seconds / 60.0
 	var Kills_Per_Minute: float = float(Kills) / Minutes
 	var Final_Tier: Ranks = Ranks.D
@@ -153,7 +153,7 @@ func Calculate_Final_Rank(Kills: int, Total_Seconds: float, Player_Node: Charact
 		Ranks.SS_Plus: Rank_String = "SS+"
 		Ranks.SS_Double_Plus: Rank_String = "SS++"
 		Ranks.P: Rank_String = "P"
-	return {"Tier": Final_Tier, "String": Rank_String}
+	return {"Tier": Final_Tier,"String": Rank_String}
 
 func Update_Rank_User_Interface(Rank_Data: Dictionary) -> void:
 	if !Rank_Label:
@@ -161,12 +161,12 @@ func Update_Rank_User_Interface(Rank_Data: Dictionary) -> void:
 	Rank_Label.text = "RANK: " + Rank_Data["String"]
 	match Rank_Data["Tier"]:
 		Ranks.P:
-			Rank_Label.add_theme_color_override("font_color", Color(0.915, 0.6, 0.0, 1.0))
+			Rank_Label.add_theme_color_override("font_color",Color(0.915,0.6,0.0,1.0))
 		Ranks.SS_Double_Plus:
-			Rank_Label.add_theme_color_override("font_color", Color(0.0, 1.0, 1.0))
+			Rank_Label.add_theme_color_override("font_color",Color(0.0,1.0,1.0))
 		Ranks.SS_Plus:
-			Rank_Label.add_theme_color_override("font_color", Color(1.0, 0.84, 0.0))
+			Rank_Label.add_theme_color_override("font_color",Color(1.0,0.84,0.0))
 		Ranks.SS:
-			Rank_Label.add_theme_color_override("font_color", Color(1.0, 0.5, 0.0))
+			Rank_Label.add_theme_color_override("font_color",Color(1.0,0.5,0.0))
 		Ranks.S:
-			Rank_Label.add_theme_color_override("font_color", Color(0.85, 0.0, 0.0))
+			Rank_Label.add_theme_color_override("font_color",Color(0.85,0.0,0.0))

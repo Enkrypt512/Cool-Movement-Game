@@ -40,8 +40,8 @@ func Spawn_Explosion() -> void:
 	var Explosion_Instance: Node3D = Explosion_Visual_Effect.instantiate()
 	get_tree().current_scene.add_child(Explosion_Instance)
 	Explosion_Instance.global_position = global_position
-	if "Max_Radius" in Explosion_Instance:
-		Explosion_Instance.Max_Radius = 15.0
+	if "Maximum_Radius" in Explosion_Instance:
+		Explosion_Instance.Maximum_Radius = 15.0
 	if "Expansion_Speed" in Explosion_Instance:
 		Explosion_Instance.Expansion_Speed = 75.0
 
@@ -49,10 +49,10 @@ func Spawn_Decal(Target_Body: Node) -> void:
 	if !Decal_Scene || Target_Body.is_in_group("Enemy") || Target_Body.is_in_group("Player"):
 		return
 	var Space_State: PhysicsDirectSpaceState3D = get_world_3d().direct_space_state
-	var Travel_Dir: Vector3 = -global_transform.basis.z
-	var Ray_Start: Vector3 = global_position - Travel_Dir * 2.0
-	var Ray_End: Vector3 = global_position + Travel_Dir * 2.0
-	var Ray_Query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(Ray_Start, Ray_End)
+	var Travel_Direction: Vector3 = -global_transform.basis.z
+	var Ray_Start: Vector3 = global_position - Travel_Direction * 2.0
+	var Ray_End: Vector3 = global_position + Travel_Direction * 2.0
+	var Ray_Query: PhysicsRayQueryParameters3D = PhysicsRayQueryParameters3D.create(Ray_Start,Ray_End)
 	var Result: Dictionary = Space_State.intersect_ray(Ray_Query)
 	if Result:
 		var Decal_Instance: Node3D = Decal_Scene.instantiate()
@@ -61,4 +61,4 @@ func Spawn_Decal(Target_Body: Node) -> void:
 		Decal_Instance.global_position = Result.position + (Result.normal * Offset_Distance)
 		var Normal: Vector3 = Result.normal
 		var Up_Vector: Vector3 = Vector3.UP if abs(Normal.dot(Vector3.UP)) < 0.99 else Vector3.FORWARD
-		Decal_Instance.look_at(Decal_Instance.global_position + Normal, Up_Vector)
+		Decal_Instance.look_at(Decal_Instance.global_position + Normal,Up_Vector)

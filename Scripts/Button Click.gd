@@ -28,4 +28,4 @@ func Play_Sound_Effect() -> void:
 		return
 	if Playback:
 		Player.volume_db = linear_to_db(GameManager.Volume / 100.0)
-		Playback.play_stream(Button_Sound_Effect, 0, 0, randf_range(0.9, 1.1))
+		Playback.play_stream(Button_Sound_Effect,0,0,randf_range(0.9,1.1))

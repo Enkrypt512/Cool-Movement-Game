@@ -1,6 +1,6 @@
 extends Node3D
 
-@export var Max_Radius: float = 300.0
+@export var Maximum_Radius: float = 300.0
 @export var Expansion_Speed: float = 25.0
 @export var Push_Force: float = 500.0
 
@@ -16,15 +16,15 @@ func _ready() -> void:
 		Sparks.restart()
 	if is_instance_valid(Shockwave) && Shockwave.get_active_material(0):
 		Shockwave_Material = Shockwave.get_active_material(0).duplicate() as StandardMaterial3D
-		Shockwave.set_surface_override_material(0, Shockwave_Material)
+		Shockwave.set_surface_override_material(0,Shockwave_Material)
 
 func _physics_process(delta: float) -> void:
-	if Current_Scale < Max_Radius:
-		Current_Scale = move_toward(Current_Scale, Max_Radius, Expansion_Speed * delta)
+	if Current_Scale < Maximum_Radius:
+		Current_Scale = move_toward(Current_Scale,Maximum_Radius,Expansion_Speed * delta)
 		Shockwave.scale = Vector3.ONE * Current_Scale
 		if is_instance_valid(Push_Area):
 			Push_Area.scale = Vector3.ONE * Current_Scale
-		var Progress: float = Current_Scale / Max_Radius
+		var Progress: float = Current_Scale / Maximum_Radius
 		var Current_Alpha: float = 1.0 - Progress
 		if Shockwave_Material:
 			Shockwave_Material.albedo_color.a = Current_Alpha

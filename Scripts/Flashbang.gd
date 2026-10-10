@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 @export var Fuse_Time: float = 1.5
-@export var Max_Range: float = 70.0
+@export var Maximum_Range: float = 70.0
 @onready var Sound_Effect: AudioStreamPlayer3D = $SFX
 @onready var Blast_Radius: Area3D = $"Blast Radius"
 
@@ -23,11 +23,11 @@ func Explode() -> void:
 
 func Calculate_Flash_Intensity(Player: CharacterBody3D) -> void:
 	var Distance = global_position.distance_to(Player.global_position)
-	if Distance > Max_Range:
+	if Distance > Maximum_Range:
 		return
-	var Distance_Factor = clamp(1.0 - (Distance / Max_Range), 0.0, 1.0)
+	var Distance_Factor = clamp(1.0 - (Distance / Maximum_Range),0.0,1.0)
 	var Space_State = get_world_3d().direct_space_state
-	var Query = PhysicsRayQueryParameters3D.create(global_position, Player.global_position)
+	var Query = PhysicsRayQueryParameters3D.create(global_position,Player.global_position)
 	Query.exclude = [self]
 	var Result = Space_State.intersect_ray(Query)
 	if Result && Result.collider != Player:

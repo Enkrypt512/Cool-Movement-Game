@@ -62,20 +62,20 @@ func Shoot_Arrow() -> void:
 	Target_Aim_Position.y += 1.0 
 	get_tree().current_scene.add_child(Arrow_Instance)
 	Arrow_Instance.global_position = Bow.global_position
-	Arrow_Instance.look_at(Target_Aim_Position, Vector3.UP)
+	Arrow_Instance.look_at(Target_Aim_Position,Vector3.UP)
 
 func Look_At_Target(Target_Position: Vector3) -> void:
-	var Look_Position: Vector3 = Vector3(Target_Position.x, global_position.y, Target_Position.z)
+	var Look_Position: Vector3 = Vector3(Target_Position.x,global_position.y,Target_Position.z)
 	if global_position.distance_squared_to(Look_Position) > 0.001:
-		look_at(Look_Position, Vector3.UP)
+		look_at(Look_Position,Vector3.UP)
 
 func Set_Movement_Target() -> void:
 	if is_instance_valid(Target):
 		Pathfinding.target_position = Target.global_position
 
 func Stop_Horizontal_Movement() -> void:
-	velocity.x = move_toward(velocity.x, 0, Speed)
-	velocity.z = move_toward(velocity.z, 0, Speed)
+	velocity.x = move_toward(velocity.x,0,Speed)
+	velocity.z = move_toward(velocity.z,0,Speed)
 
 func Find_Local_Player():
 	for Local_Player in get_tree().get_nodes_in_group("Player"):
@@ -83,7 +83,7 @@ func Find_Local_Player():
 			Target = Local_Player
 			break
 
-func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:
+func Take_Damage(Amount: int,Knockback: Vector3 = Vector3.ZERO) -> void:
 	Health -= Amount
 	if Knockback != Vector3.ZERO:
 		velocity += Knockback

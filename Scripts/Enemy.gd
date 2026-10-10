@@ -57,17 +57,17 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func Look_At_Target(Target_Position: Vector3) -> void:
-	var Look_Position: Vector3 = Vector3(Target_Position.x, global_position.y, Target_Position.z)
+	var Look_Position: Vector3 = Vector3(Target_Position.x,global_position.y,Target_Position.z)
 	if global_position.distance_squared_to(Look_Position) > 0.001:
-		look_at(Look_Position, Vector3.UP)
+		look_at(Look_Position,Vector3.UP)
 
 func Set_Movement_Target() -> void:
 	if is_instance_valid(Target):
 		Pathfinding.target_position = Target.global_position
 
 func Stop_Horizontal_Movement() -> void:
-	velocity.x = move_toward(velocity.x, 0, Speed)
-	velocity.z = move_toward(velocity.z, 0, Speed)
+	velocity.x = move_toward(velocity.x,0,Speed)
+	velocity.z = move_toward(velocity.z,0,Speed)
 
 func Find_Local_Player():
 	for Local_Player in get_tree().get_nodes_in_group("Player"):
@@ -82,7 +82,7 @@ func Body_Detected(Node_Hit):
 	while Hit_Target && !Hit_Target.is_in_group("Player") && Hit_Target.name != "Player":
 		Hit_Target = Hit_Target.get_parent()
 	if Hit_Target:
-		Hit_Target.Take_Damage(Damage, -global_transform.basis.z * 5.0)
+		Hit_Target.Take_Damage(Damage,-global_transform.basis.z * 5.0)
 		GameManager.Times_Hit += 1
 		GameManager.Current_Combo = 0
 		Start_Cooldown()
@@ -92,7 +92,7 @@ func Start_Cooldown() -> void:
 	await get_tree().create_timer(Attack_Cooldown).timeout
 	Can_Damage = true
 
-func Take_Damage(Amount: int, Knockback: Vector3 = Vector3.ZERO) -> void:
+func Take_Damage(Amount: int,Knockback: Vector3 = Vector3.ZERO) -> void:
 	Health -= Amount
 	if Knockback != Vector3.ZERO:
 		velocity += Knockback

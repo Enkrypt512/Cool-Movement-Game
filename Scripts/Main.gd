@@ -75,13 +75,13 @@ func _ready() -> void:
 	if multiplayer.is_server():
 		multiplayer.peer_disconnected.connect(Despawn_Player)
 	var Random_Song: AudioStreamPlayer = Music.pick_random()
-	Play_Song_With_Fade(Random_Song, 2.0)
+	Play_Song_With_Fade(Random_Song,2.0)
 	for Song in Music:
 		Song.finished.connect(func():
 			var Next_Song: AudioStreamPlayer = Music.pick_random()
 			while Next_Song == Current_Song && Music.size() > 1:
 				Next_Song = Music.pick_random()
-			Play_Song_With_Fade(Next_Song, 2.0)
+			Play_Song_With_Fade(Next_Song,2.0)
 		)
 	Died.visibility_changed.connect(On_Died)
 
@@ -99,11 +99,11 @@ func Spawn_Player(Peer_Identifier: int) -> void:
 		return
 	var Player_Instance: CharacterBody3D = preload("res://Scenes/Player.tscn").instantiate()
 	Player_Instance.name = str(Peer_Identifier)
-	var Spawn_Position: Vector3 = Vector3(0, 2, 0)
+	var Spawn_Position: Vector3 = Vector3(0,2,0)
 	if Spawn_Locations && Spawn_Locations.get_child_count() > 0:
 		var Spawn_Point: Node3D = Spawn_Locations.get_children().pick_random()
-		Spawn_Position = Spawn_Point.global_position + Vector3(0, 1.5, 0)
-	add_child(Player_Instance, true)
+		Spawn_Position = Spawn_Point.global_position + Vector3(0,1.5,0)
+	add_child(Player_Instance,true)
 	Player_Instance.set_multiplayer_authority(Peer_Identifier)
 	Player_Instance.global_position = Spawn_Position
 
@@ -147,10 +147,10 @@ func _process(delta: float) -> void:
 	var Minutes: int = Total_Microseconds / 60_000_000
 	var Seconds: int = (Total_Microseconds / 1_000_000) % 60
 	var Milliseconds: int = (Total_Microseconds / 1_000) % 1_000
-	time.text = "Time: %02dm %02ds %03dms" % [Minutes, Seconds, Milliseconds]
+	time.text = "Time: %02dm %02ds %03dms" % [Minutes,Seconds,Milliseconds]
 	Hits.text = "Hits: " + str(GameManager.Times_Hit)
 	Combo.text = "Combo: " + str(GameManager.Current_Combo) + "x"
-	Best_Run_Combo.text = "Best Run Combo: " + str(GameManager.Max_Combo) + "x"
+	Best_Run_Combo.text = "Best Run Combo: " + str(GameManager.Maximum_Combo) + "x"
 	Best_Lifetime_Combo.text = "Best Lifetime Combo: " + str(GameManager.Highest_Lifetime_Combo) + "x"
 	Highscore.text = "Highscore: " + str(GameManager.Highscore)
 	Most_Enemies_Killed.text = "Most Kills: " + str(GameManager.Most_Enemies_Killed)
@@ -158,17 +158,17 @@ func _process(delta: float) -> void:
 	var Best_Minutes: int = Best_Microseconds / 60_000_000
 	var Best_Seconds: int = (Best_Microseconds / 1_000_000) % 60
 	var Best_Milliseconds: int = (Best_Microseconds / 1_000) % 1_000
-	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes, Best_Seconds, Best_Milliseconds]
+	Best_Time.text = "Best Time: %02dm %02ds %03dms" % [Best_Minutes,Best_Seconds,Best_Milliseconds]
 	for Song in Music:
 		Song.volume_db = linear_to_db(GameManager.Volume / 100.0)
 
 func Spawn_Health_Box() -> void:
 	var Health_Box_Instance: Node3D = Health_Box.instantiate()
 	var Margin: float = 1.0
-	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin, Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
-	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin, Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
-	Health_Boxes.add_child(Health_Box_Instance, true)
-	Health_Box_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
+	var Random_X_Position: float = randf_range(Floor.global_position.x - (Floor.size.x / 2.0) + Margin,Floor.global_position.x + (Floor.size.x / 2.0) - Margin)
+	var Random_Z_Position: float = randf_range(Floor.global_position.z - (Floor.size.z / 2.0) + Margin,Floor.global_position.z + (Floor.size.z / 2.0) - Margin)
+	Health_Boxes.add_child(Health_Box_Instance,true)
+	Health_Box_Instance.global_position = Vector3(Random_X_Position,20.0,Random_Z_Position)
 
 func Spawn_Enemy() -> void:
 	var Selected_Enemy_Scene: PackedScene = [Enemey,Ram_Enemy,Bow_Enemy].pick_random()
@@ -176,10 +176,10 @@ func Spawn_Enemy() -> void:
 	var Margin: float = 1.0
 	var Half_X: float = Floor.size.x / 2.0
 	var Half_Z: float = Floor.size.z / 2.0
-	var Random_X_Position: float = randf_range(Floor.global_position.x - Half_X + Margin, Floor.global_position.x + Half_X - Margin)
-	var Random_Z_Position: float = randf_range(Floor.global_position.z - Half_Z + Margin, Floor.global_position.z + Half_Z - Margin)
-	Enemies.add_child(Enemy_Instance, true)
-	Enemy_Instance.global_position = Vector3(Random_X_Position, 20.0, Random_Z_Position)
+	var Random_X_Position: float = randf_range(Floor.global_position.x - Half_X + Margin,Floor.global_position.x + Half_X - Margin)
+	var Random_Z_Position: float = randf_range(Floor.global_position.z - Half_Z + Margin,Floor.global_position.z + Half_Z - Margin)
+	Enemies.add_child(Enemy_Instance,true)
+	Enemy_Instance.global_position = Vector3(Random_X_Position,20.0,Random_Z_Position)
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey && event.keycode == KEY_F11 && event.pressed:
@@ -250,19 +250,19 @@ func Resume_Game() -> void:
 	get_tree().paused = false
 
 # Play Menu Music
-func Play_Song_With_Fade(Next_Song: AudioStreamPlayer, Fade_Duration: float = 1.5) -> void:
+func Play_Song_With_Fade(Next_Song: AudioStreamPlayer,Fade_Duration: float = 1.5) -> void:
 	if Died_Music && Died_Music.playing:
 		Died_Music.stop()
 	var Target_Decibels: float = linear_to_db(GameManager.Volume / 100.0)
 	if Current_Song && Current_Song != Next_Song && Current_Song.playing:
 		var Fade_Out_Tween: Tween = create_tween()
-		Fade_Out_Tween.tween_property(Current_Song, "volume_db", -80.0, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+		Fade_Out_Tween.tween_property(Current_Song,"volume_db",-80.0,Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 		Fade_Out_Tween.twen_callback(Current_Song.stop)
 	Current_Song = Next_Song
 	Current_Song.volume_db = -80.0
 	Current_Song.play()
 	var Fade_In_Tween: Tween = create_tween()
-	Fade_In_Tween.tween_property(Current_Song, "volume_db", Target_Decibels, Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	Fade_In_Tween.tween_property(Current_Song,"volume_db",Target_Decibels,Fade_Duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 func On_Died():
 	if Died.visible:
