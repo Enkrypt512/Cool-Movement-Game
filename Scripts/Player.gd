@@ -36,7 +36,7 @@ extends CharacterBody3D
 @onready var Body_Ray: RayCast3D = $"Body Ray"
 
 # States
-var Walking = false
+var Walking: bool = false
 var Sprinting: bool = false
 var Crouching: bool = false
 var Freelooking: bool = false
