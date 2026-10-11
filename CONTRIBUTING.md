@@ -130,14 +130,15 @@ Other notes:
 
 ### Linting and formatting
 
-Pull requests are checked by the **Godot Check Bot** workflow, which runs [gdtoolkit](https://github.com/gdtoolkit/gdtoolkit) on every PR. Run the same checks locally before pushing:
+Pull requests are checked by the **Godot Check Bot** workflow, which runs [gdtoolkit](https://github.com/gdtoolkit/gdtoolkit) on every PR; the Godot Export Check also runs on every push that changes code or scenes. Run the same checks locally before pushing:
 
 ```bash
 pip install gdtoolkit
 
 gdlint .        # must pass - blocks the pull request
-gdformat .      # optional - advisory, the bot only reports it
 ```
+
+`gdformat` is intentionally **not** used: it always inserts a space after commas (`Call_Function(Argument1, Argument2)`), which contradicts the code style above, and that behaviour cannot be configured away.
 
 The naming rules are configured in [`.gdlintrc`](.gdlintrc), which encodes this convention and the Godot exceptions above. If you need to change the conventions, update `.gdlintrc` rather than renaming code.
 

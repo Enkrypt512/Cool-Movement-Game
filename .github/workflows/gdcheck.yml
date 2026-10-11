@@ -4,6 +4,12 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     branches: [ main ]
+  push:
+    paths:
+      - '**.gd'
+      - '**.tscn'
+      - '**.tres'
+      - 'project.godot'
   issue_comment:
     types: [created]
 
@@ -55,8 +61,8 @@ jobs:
             core.setOutput('authorized', 'true');
             core.setOutput('Pull_Request_Secure_Hash_Algorithm',Pull_Request.data.head.sha);
 
-  Lint_And_Format_Check:
-    name: GDScript Lint & Format Check
+  Lint_Check:
+    name: GDScript Lint Check
     needs: Check_Permissions
     if: |
       always() && (github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.authorized == 'true'))
@@ -74,15 +80,12 @@ jobs:
         run: pip install gdtoolkit
       - name: Run gdlint
         run: gdlint .
-      - name: Run gdformat check
-        continue-on-error: true
-        run: gdformat --check .
 
   Build_Check:
     name: Godot Export Check
     needs: Check_Permissions
     if: |
-      always() && (github.event_name == 'pull_request' || (github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.authorized == 'true'))
+      always() && (github.event_name == 'pull_request' || github.event_name == 'push' || (github.event_name == 'issue_comment' && needs.Check_Permissions.outputs.authorized == 'true'))
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
