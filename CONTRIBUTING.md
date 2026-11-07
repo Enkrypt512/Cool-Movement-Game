@@ -79,7 +79,7 @@ Feature requests and ideas for new mechanics or improvements are appreciated!
 
 ## Project Prerequisites & Setup
 
-- **Engine Version:** [Godot Engine 4.8-dev6](https://godotengine.org/download/archive/4.8-dev6)
+- **Engine Version:** [Godot Engine 4.8-beta2](https://godotengine.org/download/archive/4.8-beta2)
 - **Importing:** Open Godot 4, click **Import**, select `project.godot`, and launch the project.
 - **Testing:** Press `F5` inside Godot to run and test the game directly.
 
